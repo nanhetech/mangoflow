@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react"
-import "../style.css"
 import Chat from "~components/chat";
+import "../style.css"
 
 export default function RegisterIndex() {
   const chatListRef = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ export default function RegisterIndex() {
         )) : (
           <div className="flex flex-col justify-center items-center h-full w-full space-y-1">
             <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] text-5xl" />
-            <p>Ribbon AI</p>
+            <p>Mango Chat</p>
           </div>
         )}
         <div

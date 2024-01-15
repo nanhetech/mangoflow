@@ -1,5 +1,5 @@
 {
-  "name": "ribbon",
+  "name": "mangochat",
   "displayName": "__MSG_extensionName__",
   "version": "0.0.1",
   "description": "__MSG_extensionDescription__",
@@ -39,6 +39,8 @@
     "typescript": "5.2.2"
   },
   "manifest": {
+    "name": "__MSG_extensionName__",
+    "description": "__MSG_extensionDescription__",
     "host_permissions": [
       "https://*/*"
     ],
@@ -48,20 +50,12 @@
       "storage"
     ],
     "default_locale": "en",
-    "name": "__MSG_extensionName__",
-    "description": "__MSG_extensionDescription__",
     "commands": {
-      "add": {
+      "open": {
         "suggested_key": {
-          "default": "Alt+Shift+A"
+          "default": "Alt+Shift+M"
         },
-        "description": "Add to Ribbon from current tab"
-      },
-      "openRibbonAi": {
-        "suggested_key": {
-          "default": "Alt+Shift+R"
-        },
-        "description": "Open Ribbon AI"
+        "description": "Open Mango Chat"
       }
     }
   }
