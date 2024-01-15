@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Ribbon",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
+    "message": "The easy way to save articles for later reading.",
+    "description": "Description of the extension."
+  },
+  "popup": {
+    "message": "Logic is the beginning of wisdom, not the end.",
+    "description": "Popup message."
+  },
+  "textareaPlaceholder": {
+    "message": "Please enter your message and press Enter to send"
+  }
+}
