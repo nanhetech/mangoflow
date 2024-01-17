@@ -1,0 +1,11 @@
+{
+  "extensionName": {
+    "message": "芒果對話"
+  },
+  "extensionDescription": {
+    "message": "AI 對話側邊欄"
+  },
+  "textareaPlaceholder": {
+    "message": "請輸入你的消息，按回車鍵發送"
+  }
+}

@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+import { addDynamicIconSelectors } from "@iconify/tailwind";
+
 module.exports = {
-  darkMode: ["class"],
+  mode: "jit",
+  darkMode: ["media"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
   prefix: "",
@@ -73,5 +73,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    addDynamicIconSelectors(),
+    addDynamicIconSelectors({
+      prefix: "icon-hover",
+      overrideOnly: true,
+    })],
 }

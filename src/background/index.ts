@@ -14,11 +14,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 })
 
 chrome.commands.onCommand.addListener(async (command, tab) => {
-  console.info("command", command)
-  if (command === "add") {
-    chrome.tabs.create({ url: "https://zhanghe.dev" })
-  }
-  if (command === "openRibbonAi") {
+  if (command === "open") {
     if (!chrome.sidePanel) {
       chrome.runtime.openOptionsPage();
       return;
