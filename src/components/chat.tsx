@@ -23,12 +23,23 @@ const Chat = ({
     if (!message || !Ref.current) return;
 
     if (loading) return;
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = 'zh-CN';
-    utterance.rate = 1;
-    utterance.pitch = 1;
-    utterance.volume = 1;
-    speechSynthesis.speak(utterance);
+    // const utterance = new SpeechSynthesisUtterance(message);
+    // utterance.lang = 'zh-CN';
+    // utterance.rate = 1;
+    // utterance.pitch = 1;
+    // utterance.volume = 1;
+    // speechSynthesis.speak(utterance);
+    chrome.tts.speak(message, {
+      lang: 'zh-CN',
+      rate: 1,
+      pitch: 1,
+      volume: 1,
+      onEvent: (event) => {
+        if (event.type === 'end') {
+          // Ref.current = false;
+        }
+      }
+    });
   }, [message, loading])
   const handleFetchData = useCallback(async () => {
     if (!question || Ref.current) return;
