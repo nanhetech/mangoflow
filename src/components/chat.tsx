@@ -19,28 +19,17 @@ const Chat = ({
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const handleSpeechSynthesis = useCallback(() => {
-    if (!message || !Ref.current) return;
+  // const handleSpeechSynthesis = useCallback(() => {
+  //   if (!message || !Ref.current) return;
 
-    if (loading) return;
-    // const utterance = new SpeechSynthesisUtterance(message);
-    // utterance.lang = 'zh-CN';
-    // utterance.rate = 1;
-    // utterance.pitch = 1;
-    // utterance.volume = 1;
-    // speechSynthesis.speak(utterance);
-    chrome.tts.speak(message, {
-      lang: 'zh-CN',
-      rate: 1,
-      pitch: 1,
-      volume: 1,
-      onEvent: (event) => {
-        if (event.type === 'end') {
-          // Ref.current = false;
-        }
-      }
-    });
-  }, [message, loading])
+  //   if (loading) return;
+  //   const utterance = new SpeechSynthesisUtterance(message);
+  //   utterance.lang = 'zh-CN';
+  //   utterance.rate = 1;
+  //   utterance.pitch = 1;
+  //   utterance.volume = 1;
+  //   speechSynthesis.speak(utterance);
+  // }, [message, loading])
   const handleFetchData = useCallback(async () => {
     if (!question || Ref.current) return;
     Ref.current = true;
@@ -55,12 +44,12 @@ const Chat = ({
         method: 'POST',
         body: JSON.stringify({
           "messages": [
-            //             {
-            //               "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Bear. You are talking to a human User.
-            // Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
-            // If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
-            // You like to use emojis. You can speak fluently in many languages.`},
-            { "role": "system", "content": "你是一位乐于助人、尊重他人并且诚实的 AI 助手，名字叫 Ribbon AI。你正在与一位人类用户交流。" },
+            {
+              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+            Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+            If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+            You like to use emojis.`},
+            // { "role": "system", "content": "你是一位乐于助人、尊重他人并且诚实的 AI 助手，名字叫 Ribbon AI。你正在与一位人类用户交流。" },
             { "role": "user", "content": question }
           ],
           "temperature": 0.7,
@@ -105,9 +94,9 @@ const Chat = ({
   useEffect(() => {
     handleFetchData()
   }, [handleFetchData])
-  useEffect(() => {
-    handleSpeechSynthesis()
-  }, [handleSpeechSynthesis])
+  // useEffect(() => {
+  //   handleSpeechSynthesis()
+  // }, [handleSpeechSynthesis])
   useThrottleEffect(() => {
     onMessageChange();
   }, [
