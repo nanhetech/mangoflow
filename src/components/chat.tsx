@@ -87,7 +87,7 @@ const Chat = ({
       }
     } catch (error) {
       setLoading(false);
-      setErrorMessage(JSON.stringify(error));
+      setErrorMessage("服务器出错了，请稍后重试");
     }
   }, [question])
   useEffect(() => {
