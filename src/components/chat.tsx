@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useThrottleEffect } from "ahooks";
+import { marked } from "marked";
+import { useStorage } from "@plasmohq/storage/hook"
 // import { ChatOllama } from "@langchain/community/chat_models/ollama";
 
 type ChatProps = {
@@ -16,6 +18,7 @@ const Chat = ({
   //   model: 'mistral',
   // });
   const Ref = useRef(false);
+  const [config] = useStorage("config");
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -37,17 +40,17 @@ const Chat = ({
     try {
       // const dd = await chatModel.invoke("what is LangSmith?");
       // console.info("dd: ", dd);
-      const stream = await fetch('http://localhost:1234/v1/chat/completions', {
+      const stream = await fetch(`${config.domain}/v1/chat/completions`, {
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
           "messages": [
-            {
-              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
-            Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
-            If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.`},
+            // {
+            //   "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+            // Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+            // If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.`},
             // { "role": "system", "content": "你是一位乐于助人、尊重他人并且诚实的 AI 助手，名字叫 Ribbon AI。你正在与一位人类用户交流。" },
             { "role": "user", "content": question }
           ],
@@ -105,29 +108,28 @@ const Chat = ({
   ], {
     wait: 300
   });
+  const html = useMemo(() => ({ __html: marked(message) }), [message])
 
   return (
     <div className="space-y-2">
       <div className="flex flex-col items-end md:flex-row-reverse md:items-start space-y-2 md:space-y-0">
-        <div className="md:ml-2 rounded-md bg-zinc-700 p-2 flex justify-center items-center">
+        <div className="md:ml-2 rounded-md bg-muted p-2 flex justify-center items-center">
           {/* <i className="inline-block icon-[ri--bear-smile-line] text-2xl" /> */}
           <i className="inline-block icon-[fluent-emoji--beaming-face-with-smiling-eyes] text-2xl" />
         </div>
-        <div className="bg-zinc-700 rounded py-2 px-4 md:!ml-12">
-          <p>
+        <div className="bg-muted rounded-md py-2 px-4 md:!ml-12">
+          <p className="prose-sm">
             {question}
           </p>
         </div>
       </div>
       <div className="flex space-x-0 md:space-x-2 items-start flex-col md:flex-row space-y-2 md:space-y-0">
-        <div className="rounded-md bg-zinc-700 p-2 flex justify-center items-center">
+        <div className="rounded-md bg-muted p-2 flex justify-center items-center">
           <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] text-2xl" />
         </div>
-        <div className="bg-zinc-700 rounded py-2 px-4 md:!mr-12">
-          <p>
-            {message || errorMessage}
-            {loading && <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] align-text-bottom animate-pulse text-lg" />}
-          </p>
+        <div className="bg-muted max-w-full rounded-md py-2 px-4 md:!mr-12">
+          {message ? <article dangerouslySetInnerHTML={html} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : errorMessage}
+          {loading && !(message || errorMessage) ? <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] align-text-bottom animate-pulse text-lg" /> : null}
         </div>
       </div>
     </div>

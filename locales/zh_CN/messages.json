@@ -7,5 +7,23 @@
   },
   "textareaPlaceholder": {
     "message": "请输入你的消息，按回车键发送"
+  },
+  "settingsTitle": {
+    "message": "设置"
+  },
+  "settingsDescription": {
+    "message": "管理您的插件配置"
+  },
+  "settingsDomain": {
+    "message": "域名"
+  },
+  "settingsDomainDescription": {
+    "message": "这是后台服务的请求域名，例如：https://api.openai.com，不需要携带主域名后面的路径信息"
+  },
+  "settingsApikey": {
+    "message": "密钥"
+  },
+  "settingsApikeyDescription": {
+    "message": "这是后台服务的请求密钥，例如：sk-xxxxxx，需要在后台服务中获取"
   }
 }

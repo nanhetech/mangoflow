@@ -6,6 +6,24 @@
     "message": "AI 對話側邊欄"
   },
   "textareaPlaceholder": {
-    "message": "請輸入你的消息，按回車鍵發送"
+    "message": "請輸入你的訊息，按回車鍵發送"
+  },
+  "settingsTitle": {
+    "message": "設定"
+  },
+  "settingsDescription": {
+    "message": "管理您的外掛程式配置"
+  },
+  "settingsDomain": {
+    "message": "網域"
+  },
+  "settingsDomainDescription": {
+    "message": "這是後台服務的請求域名，例如：https://api.openai.com，不需要攜帶主域名後面的路徑訊息"
+  },
+  "settingsApikey": {
+    "message": "金鑰"
+  },
+  "settingsApikeyDescription": {
+    "message": "這是後台服務的請求金鑰，例如：sk-xxxxxx，需要在後台服務中取得"
   }
 }

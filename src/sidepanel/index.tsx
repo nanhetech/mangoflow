@@ -1,13 +1,29 @@
 import { useCallback, useRef, useState } from "react"
 import Chat from "~components/chat";
+import { Button } from "~components/ui/button";
 import "../style.css"
+import { useStorage } from "@plasmohq/storage/hook";
+import { toast } from "~components/ui/use-toast";
 
 export default function RegisterIndex() {
+  const [config] = useStorage("config");
   const chatListRef = useRef<HTMLDivElement>(null);
   const [questions, setQuestions] = useState<string[]>([]);
   const [question, setQuestion] = useState<string>('');
   const handleSubmit = useCallback((q: typeof questions[number]) => {
-    if (!q) return;
+    console.info("q: ", q, config);
+    if (!config) {
+      toast({
+        title: "Profile updated",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+      return
+    };
+    if (!q || !config) return;
     setQuestions(o => [...o, q]);
     setQuestion('');
   }, [])
@@ -16,7 +32,18 @@ export default function RegisterIndex() {
   }
 
   return (
-    <div className="flex flex-col overflow-hidden h-full">
+    <div className="flex flex-col overflow-hidden h-full relative">
+      <Button
+        className="absolute left-4 top-4 z-20"
+        size="icon"
+        variant="ghost"
+        title="设置"
+        onClick={() => {
+          chrome.runtime.openOptionsPage();
+        }}
+      >
+        <i className="inline-block icon-[ri--settings-fill]" />
+      </Button>
       <div
         className={`flex-1 p-4 md:p-6 overflow-hidden overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
       >
@@ -40,7 +67,7 @@ export default function RegisterIndex() {
       <div className="border-t relative">
         <div className="w-full p-4 md:p-6 flex items-center">
           <textarea
-            className="block w-full focus:outline-none focus:ring-0 bg-transparent border-0"
+            className="block w-full focus:outline-none focus:ring-0 bg-transparent border-0 prose-sm"
             name="prompt"
             placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
             autoFocus

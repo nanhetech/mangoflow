@@ -7,5 +7,23 @@
   },
   "textareaPlaceholder": {
     "message": "Please enter your message and press Enter to send"
+  },
+  "settingsTitle": {
+    "message": "Settings"
+  },
+  "settingsDescription": {
+    "message": "Manage your plugin configuration"
+  },
+  "settingsDomain": {
+    "message": "Domain"
+  },
+  "settingsDomainDescription": {
+    "message": "This is the request domain name of the background service, for example: https://api.openai.com. There is no need to carry the path information behind the main domain name."
+  },
+  "settingsApikey": {
+    "message": "Api Key"
+  },
+  "settingsApikeyDescription": {
+    "message": "This is the request secret key of the background service, for example: sk-xxxxxx, which needs to be obtained from the background service."
   }
 }
