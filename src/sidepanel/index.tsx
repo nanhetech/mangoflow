@@ -14,16 +14,22 @@ export default function RegisterIndex() {
     console.info("q: ", q, config);
     if (!config) {
       toast({
-        title: "Profile updated",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
+        title: "Profile not set",
+        description: "Please set the profile first.",
       })
+      chrome.runtime.openOptionsPage();
+
       return
     };
-    if (!q || !config) return;
+
+    if (!q) {
+      toast({
+        title: "Question is empty",
+        description: "Please enter the question.",
+      })
+
+      return
+    };
     setQuestions(o => [...o, q]);
     setQuestion('');
   }, [])
