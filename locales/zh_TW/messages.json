@@ -25,5 +25,17 @@
   },
   "settingsApikeyDescription": {
     "message": "這是後台服務的請求金鑰，例如：sk-xxxxxx，需要在後台服務中取得"
+  },
+  "settingsDomainError": {
+    "message": "請輸入正確的 URL"
+  },
+  "settingsApikeyError": {
+    "message": "請輸入正確的 Api Key"
+  },
+  "settingsProfileTitle": {
+    "message": "個人資料"
+  },
+  "settingsProfileDescription": {
+    "message": "管理您的個人資料資訊"
   }
 }
