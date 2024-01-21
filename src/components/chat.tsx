@@ -1,24 +1,21 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
-import { useStorage } from "@plasmohq/storage/hook"
-// import { ChatOllama } from "@langchain/community/chat_models/ollama";
 
 type ChatProps = {
   question: string;
+  domain: string;
+  apikey?: string;
   onMessageChange?: () => void;
 }
 
 const Chat = ({
   question,
+  domain,
+  apikey,
   onMessageChange = () => { }
 }: ChatProps) => {
-  // const chatModel = new ChatOllama({
-  //   baseUrl: 'http://localhost:1234/v1/chat/completions',
-  //   model: 'mistral',
-  // });
   const Ref = useRef(false);
-  const [config] = useStorage("config");
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -40,9 +37,10 @@ const Chat = ({
     try {
       // const dd = await chatModel.invoke("what is LangSmith?");
       // console.info("dd: ", dd);
-      const stream = await fetch(`${config.domain}/v1/chat/completions`, {
+      const stream = await fetch(`${domain}/v1/chat/completions`, {
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': apikey ? `Bearer ${apikey}` : '',
         },
         method: 'POST',
         body: JSON.stringify({
@@ -92,7 +90,7 @@ const Chat = ({
       setLoading(false);
       setErrorMessage("服务器出错了，请稍后重试");
     }
-  }, [question])
+  }, [question, domain, apikey, Ref])
   useEffect(() => {
     handleFetchData()
   }, [handleFetchData])

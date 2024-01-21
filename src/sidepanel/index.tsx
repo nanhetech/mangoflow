@@ -1,9 +1,9 @@
 import { useCallback, useRef, useState } from "react"
 import Chat from "~components/chat";
 import { Button } from "~components/ui/button";
-import "../style.css"
 import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
+import "../style.css"
 
 export default function RegisterIndex() {
   const [config] = useStorage("config");
@@ -11,7 +11,6 @@ export default function RegisterIndex() {
   const [questions, setQuestions] = useState<string[]>([]);
   const [question, setQuestion] = useState<string>('');
   const handleSubmit = useCallback((q: typeof questions[number]) => {
-    console.info("q: ", q, config);
     if (!config) {
       toast({
         title: "Profile not set",
@@ -32,7 +31,7 @@ export default function RegisterIndex() {
     };
     setQuestions(o => [...o, q]);
     setQuestion('');
-  }, [])
+  }, [config])
   const scrollToBottom = () => {
     chatListRef.current?.scrollIntoView(false);
   }
@@ -43,7 +42,7 @@ export default function RegisterIndex() {
         className="absolute left-4 top-4 z-20"
         size="icon"
         variant="ghost"
-        title="设置"
+        title={chrome.i18n.getMessage("settingsTitle")}
         onClick={() => {
           chrome.runtime.openOptionsPage();
         }}
@@ -55,6 +54,8 @@ export default function RegisterIndex() {
       >
         {questions.length ? questions.map((question, index) => (
           <Chat
+            domain={config.domain}
+            apikey={config.apikey}
             key={index}
             question={question}
             onMessageChange={scrollToBottom}

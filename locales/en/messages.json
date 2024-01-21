@@ -25,5 +25,17 @@
   },
   "settingsApikeyDescription": {
     "message": "This is the request secret key of the background service, for example: sk-xxxxxx, which needs to be obtained from the background service."
+  },
+  "settingsDomainError": {
+    "message": "Please enter a valid URL."
+  },
+  "settingsApikeyError": {
+    "message": "Please enter a valid API Key."
+  },
+  "settingsProfileTitle": {
+    "message": "Profile"
+  },
+  "settingsProfileDescription": {
+    "message": "Manage your profile information"
   }
 }

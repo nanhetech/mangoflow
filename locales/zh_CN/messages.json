@@ -25,5 +25,17 @@
   },
   "settingsApikeyDescription": {
     "message": "这是后台服务的请求密钥，例如：sk-xxxxxx，需要在后台服务中获取"
+  },
+  "settingsDomainError": {
+    "message": "请输入正确的 URL"
+  },
+  "settingsApikeyError": {
+    "message": "请输入正确的 Api Key"
+  },
+  "settingsProfileTitle": {
+    "message": "个人资料"
+  },
+  "settingsProfileDescription": {
+    "message": "管理您的个人资料信息"
   }
 }

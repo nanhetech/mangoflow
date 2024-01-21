@@ -1,5 +1,4 @@
-import { useState } from "react"
-import "./style.css"
+import { useEffect, useState } from "react"
 import { Separator } from "~components/ui/separator"
 import { SidebarNav } from "~components/sidebar-nav"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form"
@@ -11,30 +10,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "~components/ui/use-toast"
 import { Toaster } from "~components/ui/toaster"
 import { useStorage } from "@plasmohq/storage/hook"
+import "./style.css"
 
 const profileFormSchema = z.object({
   domain: z
     .string()
-    .url({ message: "Please enter a valid URL." }),
+    .url({ message: chrome.i18n.getMessage("settingsDomainError") }),
   apikey: z
     .string()
-    .min(32, { message: "Please enter a valid API key." })
+    // .min(32, { message: chrome.i18n.getMessage("settingsApikeyError") })
     .optional()
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  domain: "http://localhost:1234",
-}
-
 function SettingsProfilePage() {
-  const [config, setConfig, {
-    setRenderValue,
-    setStoreValue,
-    remove
-  }] = useStorage("config");
+  const [config, setConfig] = useStorage("config");
+  const defaultValues: Partial<ProfileFormValues> = config
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -53,12 +45,16 @@ function SettingsProfilePage() {
     })
   }
 
+  useEffect(() => {
+    form.reset(defaultValues)
+  }, [config])
+
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Profile</h3>
+        <h3 className="text-lg font-medium">{chrome.i18n.getMessage("settingsProfileTitle")}</h3>
         <p className="text-sm text-muted-foreground">
-          This is how others will see you on the site.
+          {chrome.i18n.getMessage("settingsProfileDescription")}
         </p>
       </div>
       <Separator />
