@@ -18,7 +18,7 @@
     "message": "網域"
   },
   "settingsDomainDescription": {
-    "message": "這是後台服務的請求域名，例如：https://api.openai.com，不需要攜帶主域名後面的路徑訊息"
+    "message": "這是後台服務的完整請求位址，例如：https://api.openai.com/v1/chat/completions"
   },
   "settingsApikey": {
     "message": "金鑰"
@@ -37,5 +37,14 @@
   },
   "settingsProfileDescription": {
     "message": "管理您的個人資料資訊"
+  },
+  "settingsUpdateBtn": {
+    "message": "更新"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "網域為空"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "請輸入一個正確的請求網域"
   }
 }

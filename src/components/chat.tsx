@@ -37,13 +37,14 @@ const Chat = ({
     try {
       // const dd = await chatModel.invoke("what is LangSmith?");
       // console.info("dd: ", dd);
-      const stream = await fetch(`${domain}/v1/chat/completions`, {
+      const stream = await fetch(`${domain}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': apikey ? `Bearer ${apikey}` : '',
         },
         method: 'POST',
         body: JSON.stringify({
+          "model": "gpt-3.5-turbo",
           "messages": [
             // {
             //   "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.

@@ -18,7 +18,7 @@
     "message": "域名"
   },
   "settingsDomainDescription": {
-    "message": "这是后台服务的请求域名，例如：https://api.openai.com，不需要携带主域名后面的路径信息"
+    "message": "这是后台服务的完整请求地址，例如：https://api.openai.com/v1/chat/completions"
   },
   "settingsApikey": {
     "message": "密钥"
@@ -37,5 +37,14 @@
   },
   "settingsProfileDescription": {
     "message": "管理您的个人资料信息"
+  },
+  "settingsUpdateBtn": {
+    "message": "更新"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "域名为空"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "请输入一个正确的请求域名"
   }
 }

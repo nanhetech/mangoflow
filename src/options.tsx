@@ -25,7 +25,10 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 function SettingsProfilePage() {
-  const [config, setConfig] = useStorage("config");
+  const [config, setConfig] = useStorage("config", {
+    domain: "http://localhost:1234/v1/chat/completions",
+    apikey: "",
+  });
   const defaultValues: Partial<ProfileFormValues> = config
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -34,7 +37,10 @@ function SettingsProfilePage() {
   })
 
   function onSubmit(data: ProfileFormValues) {
-    setConfig(data);
+    setConfig({
+      domain: data.domain || "",
+      apikey: data.apikey || "",
+    });
     toast({
       title: "Profile updated",
       description: (
@@ -92,7 +98,7 @@ function SettingsProfilePage() {
               </FormItem>
             )}
           />
-          <Button type="submit">Update profile</Button>
+          <Button type="submit">{chrome.i18n.getMessage("settingsUpdateBtn")}</Button>
         </form>
       </Form>
     </div>

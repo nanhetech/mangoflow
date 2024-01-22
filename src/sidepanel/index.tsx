@@ -3,6 +3,7 @@ import Chat from "~components/chat";
 import { Button } from "~components/ui/button";
 import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
+import { Toaster } from "~components/ui/toaster";
 import "../style.css"
 
 export default function RegisterIndex() {
@@ -13,18 +14,20 @@ export default function RegisterIndex() {
   const handleSubmit = useCallback((q: typeof questions[number]) => {
     if (!config) {
       toast({
-        title: "Profile not set",
-        description: "Please set the profile first.",
+        title: chrome.i18n.getMessage("sidepanelDomainErrorTitle"),
+        description: chrome.i18n.getMessage("sidepanelDomainErrorDescription"),
+        variant: "destructive"
       })
       chrome.runtime.openOptionsPage();
-
+      
       return
     };
-
+    
     if (!q) {
       toast({
         title: "Question is empty",
         description: "Please enter the question.",
+        variant: "destructive"
       })
 
       return
@@ -96,6 +99,7 @@ export default function RegisterIndex() {
           </button>
         </div>
       </div>
+      <Toaster />
     </div>
   )
 }

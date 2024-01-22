@@ -18,7 +18,7 @@
     "message": "Domain"
   },
   "settingsDomainDescription": {
-    "message": "This is the request domain name of the background service, for example: https://api.openai.com. There is no need to carry the path information behind the main domain name."
+    "message": "This is the complete request address of the background service, for example: https://api.openai.com/v1/chat/completions"
   },
   "settingsApikey": {
     "message": "Api Key"
@@ -37,5 +37,14 @@
   },
   "settingsProfileDescription": {
     "message": "Manage your profile information"
+  },
+  "settingsUpdateBtn": {
+    "message": "Update"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "Domain is empty"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "Please enter the domain."
   }
 }
