@@ -92,14 +92,6 @@
       "sidePanel",
       "storage"
     ],
-    "default_locale": "en",
-    "commands": {
-      "open": {
-        "suggested_key": {
-          "default": "Alt+Shift+M"
-        },
-        "description": "Open Mango Chat"
-      }
-    }
+    "default_locale": "en"
   }
 }
