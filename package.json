@@ -1,7 +1,7 @@
 {
   "name": "mangochat",
   "displayName": "__MSG_extensionName__",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "__MSG_extensionDescription__",
   "author": "Henry Zhang <hello@zhanghe.dev>",
   "scripts": {
@@ -85,12 +85,8 @@
   "manifest": {
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
-    "host_permissions": [
-      "https://*/*"
-    ],
     "permissions": [
-      "sidePanel",
-      "storage"
+      "sidePanel"
     ],
     "default_locale": "en"
   }
