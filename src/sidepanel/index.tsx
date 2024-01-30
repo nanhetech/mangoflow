@@ -1,15 +1,16 @@
 import { useCallback, useRef, useState } from "react"
-import Chat from "~components/chat";
+import Chat, { type QuestionType } from "~components/chat";
 import { Button } from "~components/ui/button";
 import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
 import { Toaster } from "~components/ui/toaster";
+import { sendToContentScript } from "@plasmohq/messaging";
 import "../style.css"
 
 export default function RegisterIndex() {
   const [config] = useStorage("config");
   const chatListRef = useRef<HTMLDivElement>(null);
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [question, setQuestion] = useState<string>('');
   const handleSubmit = useCallback((q: typeof questions[number]) => {
     if (!config) {
@@ -19,10 +20,10 @@ export default function RegisterIndex() {
         variant: "destructive"
       })
       chrome.runtime.openOptionsPage();
-      
+
       return
     };
-    
+
     if (!q) {
       toast({
         title: "Question is empty",
@@ -38,6 +39,18 @@ export default function RegisterIndex() {
   const scrollToBottom = () => {
     chatListRef.current?.scrollIntoView(false);
   }
+  const handleSummary = useCallback(async () => {
+    const {
+      content
+    } = await sendToContentScript({
+      name: 'getDefaultHtml',
+    });
+    setQuestions(o => [...o, {
+      user: content,
+      system: 'Summarizes content for the average person.',
+      type: 'summary',
+    }]);
+  }, [])
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
@@ -55,12 +68,12 @@ export default function RegisterIndex() {
       <div
         className={`flex-1 p-4 md:p-6 overflow-hidden overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
       >
-        {questions.length ? questions.map((question, index) => (
+        {questions.length ? questions.map((message, index) => (
           <Chat
             domain={config.domain}
             apikey={config.apikey}
             key={index}
-            question={question}
+            message={message}
             onMessageChange={scrollToBottom}
           />
         )) : (
@@ -74,10 +87,21 @@ export default function RegisterIndex() {
           className="h-0 w-0"
         />
       </div>
-      <div className="border-t relative">
-        <div className="w-full p-4 md:p-6 flex items-center">
+      <div className="border-t relative px-4 py-2 space-y-2">
+        <div className="flex items-center gap-2">
+          <Button
+            className=""
+            size="sm"
+            variant="outline"
+            title={chrome.i18n.getMessage("summaryDescription")}
+            onClick={handleSummary}
+          >
+            {chrome.i18n.getMessage("summary")}
+          </Button>
+        </div>
+        <div className="w-full flex items-center">
           <textarea
-            className="block w-full focus:outline-none focus:ring-0 bg-transparent border-0 prose-sm"
+            className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
             name="prompt"
             placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
             autoFocus
@@ -87,13 +111,17 @@ export default function RegisterIndex() {
               if (event.key === 'Enter') {
                 event.preventDefault();
                 event.stopPropagation();
-                handleSubmit(question);
+                handleSubmit({
+                  user: question,
+                });
               }
             }}
           />
           <button
             className="p-2 ml-1"
-            onClick={() => handleSubmit(question)}
+            onClick={() => handleSubmit({
+              user: question,
+            })}
           >
             <i className="inline-block icon-[ri--send-plane-fill]" />
           </button>

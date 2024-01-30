@@ -1,9 +1,9 @@
 {
   "extensionName": {
-    "message": "芒果对话"
+    "message": "MangoFlow: 上网冲浪的好副手"
   },
   "extensionDescription": {
-    "message": "AI 对话侧边栏"
+    "message": "AI 对话侧边栏，浏览网页的智能助手"
   },
   "textareaPlaceholder": {
     "message": "请输入你的消息，按回车键发送"
@@ -46,5 +46,11 @@
   },
   "sidepanelDomainErrorDescription": {
     "message": "请输入一个正确的请求域名"
+  },
+  "summary": {
+    "message": "总结"
+  },
+  "summaryDescription": {
+    "message": "总结当前页面的主要内容"
   }
 }

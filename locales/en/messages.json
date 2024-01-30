@@ -1,9 +1,9 @@
 {
   "extensionName": {
-    "message": "Mango Chat"
+    "message": "MangoFlow: Smart Copilot for Internet Surfing"
   },
   "extensionDescription": {
-    "message": "AI Chat Sidebar"
+    "message": "AI chat sidebar, smart assistant for browsing the web"
   },
   "textareaPlaceholder": {
     "message": "Please enter your message and press Enter to send"
@@ -46,5 +46,11 @@
   },
   "sidepanelDomainErrorDescription": {
     "message": "Please enter the domain."
+  },
+  "summary": {
+    "message": "Summary"
+  },
+  "summaryDescription": {
+    "message": "Summarize the main content of the current page."
   }
 }

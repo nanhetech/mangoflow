@@ -1,9 +1,9 @@
 {
   "extensionName": {
-    "message": "芒果對話"
+    "message": "MangoFlow: 上網衝浪的好副手"
   },
   "extensionDescription": {
-    "message": "AI 對話側邊欄"
+    "message": "AI 對話側邊欄，瀏覽網頁的智能助手"
   },
   "textareaPlaceholder": {
     "message": "請輸入你的訊息，按回車鍵發送"
@@ -46,5 +46,11 @@
   },
   "sidepanelDomainErrorDescription": {
     "message": "請輸入一個正確的請求網域"
+  },
+  "summary": {
+    "message": "總結"
+  },
+  "summaryDescription": {
+    "message": "總結當前頁面的主要內容"
   }
 }
