@@ -12,8 +12,8 @@ dependencies:
     specifier: ^0.0.17
     version: 0.0.17
   '@langchain/core':
-    specifier: ^0.1.18
-    version: 0.1.18
+    specifier: ^0.1.20
+    version: 0.1.20
   '@langchain/mistralai':
     specifier: ^0.0.6
     version: 0.0.6
@@ -21,8 +21,8 @@ dependencies:
     specifier: ^0.0.11
     version: 0.0.11
   '@plasmohq/messaging':
-    specifier: ^0.6.1
-    version: 0.6.1(react@18.2.0)
+    specifier: ^0.6.2
+    version: 0.6.2(react@18.2.0)
   '@plasmohq/storage':
     specifier: ^1.9.1
     version: 1.9.1(react@18.2.0)
@@ -129,8 +129,8 @@ dependencies:
     specifier: 8.0.0-rc19
     version: 8.0.0-rc19(react@18.2.0)
   langchain:
-    specifier: ^0.1.9
-    version: 0.1.9(axios@1.6.7)
+    specifier: ^0.1.11
+    version: 0.1.11(axios@1.6.7)
   marked:
     specifier: ^11.2.0
     version: 11.2.0
@@ -234,7 +234,7 @@ packages:
   /@anthropic-ai/sdk@0.9.1:
     resolution: {integrity: sha512-wa1meQ2WSfoY8Uor3EdrJq0jTiZJoKoSii2ZVWRY1oN4Tlr5s59pADg9T79FTbPe1/se5c3pBeZgJL63wmuoBA==}
     dependencies:
-      '@types/node': 18.19.10
+      '@types/node': 18.19.11
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -986,7 +986,7 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.18
+      '@langchain/core': 0.1.20
       '@langchain/openai': 0.0.11
       flat: 5.0.2
       langsmith: 0.0.63
@@ -996,8 +996,8 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/community@0.0.21:
-    resolution: {integrity: sha512-2b3azTwY3i4hKeNpxXhZ34h9CQHvPu1kNTxAT8mSuOwkA0ZZ+DQ1niOT0Ai1K0ZrSyice5aivgvy6v7Jf0yFZw==}
+  /@langchain/community@0.0.23:
+    resolution: {integrity: sha512-c5NnecxjqPYpZJQ/9M2Mg1MibK9A6lbI4tbj12RgDPdnUaC8ekCFrxnnBQEWUgnyrbd9TBSjCt2cTm/7ioCD9A==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -1245,7 +1245,7 @@ packages:
       ws:
         optional: true
     dependencies:
-      '@langchain/core': 0.1.18
+      '@langchain/core': 0.1.20
       '@langchain/openai': 0.0.11
       flat: 5.0.2
       langsmith: 0.0.63
@@ -1255,8 +1255,8 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/core@0.1.18:
-    resolution: {integrity: sha512-fDjocs899HDq3nf3PE0TveQoVabO0vyedt9i74Yef4Ds2o22TEDSh3MfoMxM8stcHiV3/9i+0wH4Xdm0E2YLdg==}
+  /@langchain/core@0.1.20:
+    resolution: {integrity: sha512-oGXxc2G8BMYyNKrE5UCbL2hPaxqUkS+xw9NVXKM9Hn6si5WJ73eb4hax9kuNB2TSQqankwmRERPs18d1NoLpuA==}
     engines: {node: '>=18'}
     dependencies:
       ansi-styles: 5.2.0
@@ -1276,7 +1276,7 @@ packages:
     resolution: {integrity: sha512-zA/xxKNF+rDM9IF1uvVx+LI/eWPZSO85tJBX60ENeQrcM35np92Sm3ca0D4ixcdBAkG0vnn+9ELcYHGdknCbHQ==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.18
+      '@langchain/core': 0.1.20
       '@mistralai/mistralai': 0.0.7
     transitivePeerDependencies:
       - debug
@@ -1286,7 +1286,7 @@ packages:
     resolution: {integrity: sha512-km0N+b1bcbtHVDmTEGs7LJFsCrjAcOMnkYlBQrhuIcyhJ052iF4zPpfptScQcZ25dW1yJJI8DS6dVVeM76l52w==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.18
+      '@langchain/core': 0.1.20
       js-tiktoken: 1.0.10
       openai: 4.26.0
       zod: 3.22.4
@@ -1299,7 +1299,7 @@ packages:
     resolution: {integrity: sha512-kgPwFiUA5Abmt8Q/cDhC4o1o5QAYuq962CqneVieMIgTUOJhYqB8Na4/7JI0EIfEZuUP2uuTrtqsulbLpGNQ8w==}
     engines: {node: '>=18'}
     dependencies:
-      '@langchain/core': 0.1.18
+      '@langchain/core': 0.1.20
       js-tiktoken: 1.0.10
       openai: 4.26.0
       zod: 3.22.4
@@ -2772,8 +2772,8 @@ packages:
     resolution: {integrity: sha512-P75g48dqOGneJ+n0AcqnLE/TYflcaPc3B7h6EopnCBBYUDnCNBMwYmKAkaf5pnhsEB0ybPS6TU1C2DTGfqaW7A==}
     dev: false
 
-  /@plasmohq/messaging@0.6.1(react@18.2.0):
-    resolution: {integrity: sha512-/nn1k8SG5z++o/NnZu+byHWcC9MhPLxfmvj+AP3buqMn7uwfYDcYWURLuMW2Knw08HBg+wku2v1Ltt4evN0nzA==}
+  /@plasmohq/messaging@0.6.2(react@18.2.0):
+    resolution: {integrity: sha512-CGfcvfVE0wsN/Y/i/jV0nwjkwh2gBCEujZFhLoxJ12N0ScoP3JVEIvUxJSFsAD4ylBQ8IjD2FyjQozwiSxWc4Q==}
     peerDependencies:
       react: ^16.8.6 || ^17 || ^18
     peerDependenciesMeta:
@@ -4996,11 +4996,11 @@ packages:
   /@types/filesystem@0.0.35:
     resolution: {integrity: sha512-1eKvCaIBdrD2mmMgy5dwh564rVvfEhZTWVQQGRNn0Nt4ZEnJ0C8oSUCzvMKRA4lGde5oEVo+q2MrTTbV/GHDCQ==}
     dependencies:
-      '@types/filewriter': 0.0.32
+      '@types/filewriter': 0.0.33
     dev: true
 
-  /@types/filewriter@0.0.32:
-    resolution: {integrity: sha512-Kpi2GXQyYJdjL8mFclL1eDgihn1SIzorMZjD94kdPZh9E4VxGOeyjPxi5LpsM4Zku7P0reqegZTt2GxhmA9VBg==}
+  /@types/filewriter@0.0.33:
+    resolution: {integrity: sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==}
     dev: true
 
   /@types/har-format@1.2.15:
@@ -5022,8 +5022,8 @@ packages:
       form-data: 4.0.0
     dev: false
 
-  /@types/node@18.19.10:
-    resolution: {integrity: sha512-IZD8kAM02AW1HRDTPOlz3npFava678pr8Ie9Vp8uRhBROXAv8MXT2pCnGZZAKYdromsNQLHQcfWQ6EOatVLtqA==}
+  /@types/node@18.19.11:
+    resolution: {integrity: sha512-hzdHPKpDdp5bEcRq1XTlZ2ntVjLcHCTV73dEcGg02eSY/+9AZ+jlfz6i00+zOrunMWenjHuI49J8J7Y9uz50JQ==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -5365,7 +5365,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001581
-      electron-to-chromium: 1.4.650
+      electron-to-chromium: 1.4.651
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -5376,7 +5376,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001581
-      electron-to-chromium: 1.4.650
+      electron-to-chromium: 1.4.651
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
 
@@ -5910,8 +5910,8 @@ packages:
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  /electron-to-chromium@1.4.650:
-    resolution: {integrity: sha512-sYSQhJCJa4aGA1wYol5cMQgekDBlbVfTRavlGZVr3WZpDdOPcp6a6xUnFfrt8TqZhsBYYbDxJZCjGfHuGupCRQ==}
+  /electron-to-chromium@1.4.651:
+    resolution: {integrity: sha512-jjks7Xx+4I7dslwsbaFocSwqBbGHQmuXBJUK9QBZTIrzPq3pzn6Uf2szFSP728FtLYE3ldiccmlkOM/zhGKCpA==}
 
   /embla-carousel-react@8.0.0-rc19(react@18.2.0):
     resolution: {integrity: sha512-4BBj1HvlUqhWXFyDJOL/JbQ74jtekfdH646B1wQzM9QmWn6CEcbD/SmovKqc6B5jYTKaaGEGEEw7bpUJRajA8w==}
@@ -6695,8 +6695,8 @@ packages:
       json-buffer: 3.0.1
     dev: false
 
-  /langchain@0.1.9(axios@1.6.7):
-    resolution: {integrity: sha512-4Gm2j8gsT43d4sgpjM7JMSoB83dwxbiLYdcPx23Xi6RfLQ60QB86bogPYqn84ZW9HjrW8IVMXvVyC6DAHNCyIg==}
+  /langchain@0.1.11(axios@1.6.7):
+    resolution: {integrity: sha512-Ma1QW8pX0BAgnmgL5J97WQ17Ir46b8lWiZ3s+sK5iS6zicJzalx0J9FUdFg4XAFzLj6Dy1oHoXcupjrOZLQGOA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -6858,8 +6858,8 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.21
-      '@langchain/core': 0.1.18
+      '@langchain/community': 0.0.23
+      '@langchain/core': 0.1.20
       '@langchain/openai': 0.0.13
       axios: 1.6.7
       binary-extensions: 2.2.0
@@ -7675,7 +7675,7 @@ packages:
     resolution: {integrity: sha512-HPC7tgYdeP38F3uHA5WgnoXZyGbAp9jgcIo23p6It+q/07u4C+NZ8xHKlMShsPbDDmFRpPsa3vdbXYpbhJH3eg==}
     hasBin: true
     dependencies:
-      '@types/node': 18.19.10
+      '@types/node': 18.19.11
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
