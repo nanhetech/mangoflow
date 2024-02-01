@@ -54,7 +54,7 @@ const Chat = ({
         },
         method: 'POST',
         body: JSON.stringify({
-          "model": "gpt-3.5-turbo",
+          "model": "deepseek-chat",
           messages: [
             {
               "role": "system", "content": message.system || `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
