@@ -31,3 +31,5 @@ jobs:
         uses: PlasmoHQ/bpp@v3
         with:
           keys: ${{ secrets.BPP_KEYS }}
+          chrome-file: build/chrome-mv3-prod.zip
+          edge-file: build/edge-mv3-prod.zip
