@@ -4,8 +4,14 @@ import { marked } from "marked";
 
 export type QuestionType = {
   user: string;
-  system?: string;
-  type?: 'chat' | 'summary';
+  type: 'chat'
+} | {
+  user: string;
+  type: 'summary';
+  system: string;
+  title?: string;
+  description?: string;
+  icon?: string;
 }
 type MessageType = {
   role: 'user' | 'system';
@@ -15,6 +21,7 @@ type ChatProps = {
   message: QuestionType;
   domain: string;
   apikey?: string;
+  model?: string;
   onMessageChange?: () => void;
 }
 
@@ -22,6 +29,7 @@ const Chat = ({
   message,
   domain,
   apikey,
+  model = '',
   onMessageChange = () => { }
 }: ChatProps) => {
   const Ref = useRef(false);
@@ -54,10 +62,15 @@ const Chat = ({
         },
         method: 'POST',
         body: JSON.stringify({
-          "model": "deepseek-chat",
-          messages: [
+          model,
+          messages: message.type === 'summary' ? [
             {
-              "role": "system", "content": message.system || `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+              "role": "system", "content": message.system
+            },
+            { "role": "user", "content": message.user }
+          ] : [
+            {
+              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
             Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
             If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.` },
             { "role": "user", "content": message.user }
@@ -100,7 +113,7 @@ const Chat = ({
       setLoading(false);
       setErrorMessage("服务器出错了，请稍后重试");
     }
-  }, [domain, apikey, Ref, message])
+  }, [domain, apikey, Ref, message, model])
   useEffect(() => {
     handleFetchData()
   }, [handleFetchData])
@@ -126,9 +139,34 @@ const Chat = ({
           <i className="inline-block icon-[fluent-emoji--beaming-face-with-smiling-eyes] text-2xl" />
         </div>
         <div className="bg-muted rounded-md py-2 px-4 md:!ml-12 overflow-hidden max-w-full">
-          {message.type === 'summary' ? <p className="prose-sm truncate max-w-[570px]">
-            <i className="inline-block mr-1 icon-[fluent-emoji--balloon] text-base" />{chrome.i18n.getMessage("summary")}{' '}{message.user}
-          </p> : <p className="prose-sm max-w-[570px]">
+          {message.type === 'summary' ? <>
+            <div
+              className="select-none py-1.5 relative flex items-center space-x-2 w-full overflow-hidden max-w-[570px]"
+              onClick={() => {
+                // chrome.tabs.create({
+                //   url,
+                //   active: false,
+                // }, () => {
+                //   setUnreadList((o = []) => {
+                //     o.splice(index, 1);
+                //     return o;
+                //   });
+                // });
+              }}
+            >
+              <span className="w-10 h-10 flex items-center justify-center rounded-md bg-background">
+                <img
+                  src={message.icon}
+                  alt={message.title}
+                  className="w-6 h-6 rounded-full block"
+                />
+              </span>
+              <span className="flex-1 overflow-hidden">
+                <p className="font-bold text-base truncate">{chrome.i18n.getMessage("summary")}{': '}{message.title}</p>
+                <p className="text-xs opacity-60 font-light truncate">{message.description}</p>
+              </span>
+            </div>
+          </> : <p className="prose-sm max-w-[570px]">
             {message.user}
           </p>}
         </div>

@@ -41,7 +41,10 @@ export default function RegisterIndex() {
   }
   const handleSummary = useCallback(async () => {
     const {
-      content
+      content,
+      title,
+      description,
+      icon,
     } = await sendToContentScript({
       name: 'getDefaultHtml',
     });
@@ -49,6 +52,9 @@ export default function RegisterIndex() {
       user: content,
       system: 'Summarizes content for the average person.',
       type: 'summary',
+      title,
+      description,
+      icon,
     }]);
   }, [])
 
@@ -72,6 +78,7 @@ export default function RegisterIndex() {
           <Chat
             domain={config.domain}
             apikey={config.apikey}
+            model={config.model}
             key={index}
             message={message}
             onMessageChange={scrollToBottom}
@@ -112,6 +119,7 @@ export default function RegisterIndex() {
                 event.preventDefault();
                 event.stopPropagation();
                 handleSubmit({
+                  type: 'chat',
                   user: question,
                 });
               }
@@ -120,6 +128,7 @@ export default function RegisterIndex() {
           <button
             className="p-2 ml-1"
             onClick={() => handleSubmit({
+              type: 'chat',
               user: question,
             })}
           >

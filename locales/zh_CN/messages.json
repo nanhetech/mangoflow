@@ -23,8 +23,14 @@
   "settingsApikey": {
     "message": "密钥"
   },
+  "settingsModel": {
+    "message": "模型名称"
+  },
   "settingsApikeyDescription": {
     "message": "这是后台服务的请求密钥，例如：sk-xxxxxx，需要在后台服务中获取"
+  },
+  "settingsModelDescription": {
+    "message": "这是后台服务的模型名称，例如：davinci，需要在后台服务中获取"
   },
   "settingsDomainError": {
     "message": "请输入正确的 URL"

@@ -18,8 +18,10 @@ const profileFormSchema = z.object({
     .url({ message: chrome.i18n.getMessage("settingsDomainError") }),
   apikey: z
     .string()
-    // .min(32, { message: chrome.i18n.getMessage("settingsApikeyError") })
-    .optional()
+    .optional(),
+  model: z
+    .string()
+    .optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -28,6 +30,7 @@ function SettingsProfilePage() {
   const [config, setConfig] = useStorage("config", {
     domain: "http://localhost:1234/v1/chat/completions",
     apikey: "",
+    model: "",
   });
   const defaultValues: Partial<ProfileFormValues> = config
   const form = useForm<ProfileFormValues>({
@@ -40,6 +43,7 @@ function SettingsProfilePage() {
     setConfig({
       domain: data.domain || "",
       apikey: data.apikey || "",
+      model: data.model || "",
     });
     toast({
       title: "Profile updated",
@@ -93,6 +97,22 @@ function SettingsProfilePage() {
                 </FormControl>
                 <FormDescription>
                   {chrome.i18n.getMessage("settingsApikeyDescription")}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="model"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{chrome.i18n.getMessage("settingsModel")}</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormDescription>
+                  {chrome.i18n.getMessage("settingsModelDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

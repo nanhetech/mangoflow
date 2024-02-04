@@ -23,6 +23,12 @@
   "settingsApikey": {
     "message": "Api Key"
   },
+  "settingsModel": {
+    "message": "Model Name"
+  },
+  "settingsModelDescription": {
+    "message": "This is the model name of the background service, for example: davinci, which needs to be obtained from the background service."
+  },
   "settingsApikeyDescription": {
     "message": "This is the request secret key of the background service, for example: sk-xxxxxx, which needs to be obtained from the background service."
   },

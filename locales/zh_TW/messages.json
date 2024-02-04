@@ -23,6 +23,12 @@
   "settingsApikey": {
     "message": "金鑰"
   },
+  "settingsModel": {
+    "message": "模型名稱"
+  },
+  "settingsModelDescription": {
+    "message": "這是後台服務的模型名稱，例如：davinci，需要在後台服務中取得"
+  },
   "settingsApikeyDescription": {
     "message": "這是後台服務的請求金鑰，例如：sk-xxxxxx，需要在後台服務中取得"
   },
