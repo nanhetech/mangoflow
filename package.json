@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "test": "plasmo test"
+    "test": "plasmo test",
+    "package": "plasmo build --zip && plasmo build --zip --target=edge-mv3"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
