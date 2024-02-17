@@ -8,7 +8,7 @@ import { sendToContentScript } from "@plasmohq/messaging";
 import "../style.css"
 
 export default function RegisterIndex() {
-  const [config] = useStorage("config");
+  const [config] = useStorage("modelConfig");
   const chatListRef = useRef<HTMLDivElement>(null);
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [question, setQuestion] = useState<string>('');
@@ -60,17 +60,6 @@ export default function RegisterIndex() {
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
-      <Button
-        className="absolute left-4 top-4 z-20"
-        size="icon"
-        variant="ghost"
-        title={chrome.i18n.getMessage("settingsTitle")}
-        onClick={() => {
-          chrome.runtime.openOptionsPage();
-        }}
-      >
-        <i className="inline-block icon-[ri--settings-fill]" />
-      </Button>
       <div
         className={`flex-1 p-4 md:p-6 overflow-hidden overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
       >
@@ -79,6 +68,7 @@ export default function RegisterIndex() {
             domain={config.domain}
             apikey={config.apikey}
             model={config.model}
+            type={config.type}
             key={index}
             message={message}
             onMessageChange={scrollToBottom}
@@ -105,6 +95,26 @@ export default function RegisterIndex() {
           >
             {chrome.i18n.getMessage("summary")}
           </Button>
+          <Button
+            className=""
+            size="sm"
+            variant="outline"
+            title={chrome.i18n.getMessage("newChat")}
+            onClick={() => setQuestions([])}
+          >
+            {chrome.i18n.getMessage("newChat")}
+          </Button>
+          <Button
+            className="ml-auto"
+            size="sm"
+            variant="ghost"
+            title={chrome.i18n.getMessage("settingsTitle")}
+            onClick={() => {
+              chrome.runtime.openOptionsPage();
+            }}
+          >
+            <i className="inline-block icon-[ri--settings-fill]" />
+          </Button>
         </div>
         <div className="w-full flex items-center">
           <textarea
@@ -125,7 +135,7 @@ export default function RegisterIndex() {
               }
             }}
           />
-          <button
+          {/* <button
             className="p-2 ml-1"
             onClick={() => handleSubmit({
               type: 'chat',
@@ -133,7 +143,7 @@ export default function RegisterIndex() {
             })}
           >
             <i className="inline-block icon-[ri--send-plane-fill]" />
-          </button>
+          </button> */}
         </div>
       </div>
       <Toaster />

@@ -20,6 +20,12 @@
   "settingsDomainDescription": {
     "message": "這是後台服務的完整請求位址，例如：https://api.openai.com/v1/chat/completions"
   },
+  "settingsModelType": {
+    "message": "模型類型"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
   "settingsApikey": {
     "message": "金鑰"
   },
@@ -58,5 +64,17 @@
   },
   "summaryDescription": {
     "message": "總結當前頁面的主要內容"
+  },
+  "settingsSidebarModel": {
+    "message": "模型設定"
+  },
+  "settingsModelOpenai": {
+    "message": "其它 (OpenAI 類別)"
+  },
+  "settingsGetGeminiApikey": {
+    "message": "獲取 Gemini API 金鑰"
+  },
+  "newChat": {
+    "message": "新對話"
   }
 }

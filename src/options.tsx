@@ -11,23 +11,29 @@ import { toast } from "~components/ui/use-toast"
 import { Toaster } from "~components/ui/toaster"
 import { useStorage } from "@plasmohq/storage/hook"
 import "./style.css"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
 
 const profileFormSchema = z.object({
   domain: z
     .string()
-    .url({ message: chrome.i18n.getMessage("settingsDomainError") }),
+    .url({ message: chrome.i18n.getMessage("settingsDomainError") })
+    .optional(),
   apikey: z
     .string()
     .optional(),
   model: z
     .string()
     .optional(),
+  type: z
+    .string()
+    .optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-function SettingsProfilePage() {
-  const [config, setConfig] = useStorage("config", {
+function SettingsModelPage() {
+  const [config, setConfig] = useStorage("modelConfig", {
+    type: "openai",
     domain: "http://localhost:1234/v1/chat/completions",
     apikey: "",
     model: "",
@@ -41,6 +47,7 @@ function SettingsProfilePage() {
 
   function onSubmit(data: ProfileFormValues) {
     setConfig({
+      type: data.type || "",
       domain: data.domain || "",
       apikey: data.apikey || "",
       model: data.model || "",
@@ -61,16 +68,33 @@ function SettingsProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">{chrome.i18n.getMessage("settingsProfileTitle")}</h3>
-        <p className="text-sm text-muted-foreground">
-          {chrome.i18n.getMessage("settingsProfileDescription")}
-        </p>
-      </div>
-      <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{chrome.i18n.getMessage("settingsModelType")}</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="gemini">Google Gemini</SelectItem>
+                    <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  {chrome.i18n.getMessage("settingsModelTypeDescription")}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.getValues("type") === 'openai' && <FormField
             control={form.control}
             name="domain"
             render={({ field }) => (
@@ -85,7 +109,7 @@ function SettingsProfilePage() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          />}
           <FormField
             control={form.control}
             name="apikey"
@@ -102,7 +126,12 @@ function SettingsProfilePage() {
               </FormItem>
             )}
           />
-          <FormField
+          {form.getValues("type") === 'gemini' && <div>
+            <a href="https://aistudio.google.com/app/apikey" className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
+              {chrome.i18n.getMessage("settingsGetGeminiApikey")}
+            </a>
+          </div>}
+          {form.getValues("type") === 'openai' && <FormField
             control={form.control}
             name="model"
             render={({ field }) => (
@@ -117,7 +146,7 @@ function SettingsProfilePage() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          />}
           <Button type="submit">{chrome.i18n.getMessage("settingsUpdateBtn")}</Button>
         </form>
       </Form>
@@ -127,8 +156,8 @@ function SettingsProfilePage() {
 
 const sidebarNavItems = [
   {
-    title: "Profile",
-    key: "profile"
+    title: chrome.i18n.getMessage("settingsSidebarModel"),
+    key: "model"
   },
   // {
   //   title: "Account",
@@ -148,7 +177,7 @@ const sidebarNavItems = [
   // },
 ]
 function IndexOptions() {
-  const [key, setKey] = useState("profile")
+  const [key, setKey] = useState("model")
 
   return (
     <div className="space-y-6 p-10 pb-16">
@@ -167,7 +196,7 @@ function IndexOptions() {
           <SidebarNav value={key} onChangeValue={setKey} items={sidebarNavItems} />
         </aside>
         <div className="flex-1 lg:max-w-2xl">
-          {key === "profile" && <SettingsProfilePage />}
+          {key === "model" && <SettingsModelPage />}
         </div>
       </div>
       <Toaster />

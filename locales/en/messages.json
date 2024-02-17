@@ -20,6 +20,12 @@
   "settingsDomainDescription": {
     "message": "This is the complete request address of the background service, for example: https://api.openai.com/v1/chat/completions"
   },
+  "settingsModelType": {
+    "message": "Model Type"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
   "settingsApikey": {
     "message": "Api Key"
   },
@@ -58,5 +64,17 @@
   },
   "summaryDescription": {
     "message": "Summarize the main content of the current page."
+  },
+  "settingsSidebarModel": {
+    "message": "Model Settings"
+  },
+  "settingsModelOpenai": {
+    "message": "Others (OpenAI similar)"
+  },
+  "settingsGetGeminiApikey": {
+    "message": "Get Gemini API Key"
+  },
+  "newChat": {
+    "message": "New Chat"
   }
 }

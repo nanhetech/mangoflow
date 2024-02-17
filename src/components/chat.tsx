@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export type QuestionType = {
   user: string;
@@ -19,7 +20,8 @@ type MessageType = {
 }
 type ChatProps = {
   message: QuestionType;
-  domain: string;
+  domain?: string;
+  type?: string;
   apikey?: string;
   model?: string;
   onMessageChange?: () => void;
@@ -29,6 +31,7 @@ const Chat = ({
   message,
   domain,
   apikey,
+  type,
   model = '',
   onMessageChange = () => { }
 }: ChatProps) => {
@@ -55,58 +58,72 @@ const Chat = ({
     try {
       // const dd = await chatModel.invoke("what is LangSmith?");
       // console.info("dd: ", dd);
-      const stream = await fetch(`${domain}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': apikey ? `Bearer ${apikey}` : '',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          model,
-          messages: message.type === 'summary' ? [
-            {
-              "role": "system", "content": message.system
-            },
-            { "role": "user", "content": message.user }
-          ] : [
-            {
-              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+      if (type === 'openai') {
+        const stream = await fetch(`${domain}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': apikey ? `Bearer ${apikey}` : '',
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            model,
+            messages: message.type === 'summary' ? [
+              {
+                "role": "system", "content": message.system
+              },
+              { "role": "user", "content": message.user }
+            ] : [
+              {
+                "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
             Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
             If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.` },
-            { "role": "user", "content": message.user }
-          ],
-          "temperature": 0.7,
-          "stream": true
-        })
-      });
+              { "role": "user", "content": message.user }
+            ],
+            "temperature": 0.7,
+            "stream": true
+          })
+        });
 
-      const reader = stream.body?.getReader();
-      if (!reader) throw new Error("No reader available");
+        const reader = stream.body?.getReader();
+        if (!reader) throw new Error("No reader available");
 
-      masterLoop: while (true) {
-        const { done, value } = await reader.read();
+        masterLoop: while (true) {
+          const { done, value } = await reader.read();
 
-        if (done) {
-          setLoading(false);
-          break
-        }
-        const decoder = new TextDecoder();
-        const result = decoder.decode(value);
-        const regex = /data: (.*?)(?=\n\n|$)/gs;
-        let match;
-        while ((match = regex.exec(result)) !== null) {
-          const jsonData = JSON.parse(match[1]);
-          const { delta, finish_reason } = jsonData?.choices?.[0] || {};
-
-          if (finish_reason === 'stop') {
+          if (done) {
             setLoading(false);
-            break masterLoop;
+            break
           }
+          const decoder = new TextDecoder();
+          const result = decoder.decode(value);
+          const regex = /data: (.*?)(?=\n\n|$)/gs;
+          let match;
+          while ((match = regex.exec(result)) !== null) {
+            const jsonData = JSON.parse(match[1]);
+            const { delta, finish_reason } = jsonData?.choices?.[0] || {};
 
-          if (!delta?.content) {
-            continue;
+            if (finish_reason === 'stop') {
+              setLoading(false);
+              break masterLoop;
+            }
+
+            if (!delta?.content) {
+              continue;
+            }
+            setHtml(o => o + jsonData?.choices?.[0]?.delta?.content)
           }
-          setHtml(o => o + jsonData?.choices?.[0]?.delta?.content)
+        }
+      }
+
+      if (type === 'gemini') {
+        const genAI = new GoogleGenerativeAI(apikey);
+        const model = genAI.getGenerativeModel({
+          model: 'gemini-pro'
+        })
+        const prompt = message.type === 'summary' ? `Perform text summarization. The summary should be clear and professional, without any associations. Text: ${message.user}` : message.user;
+        const result = await model.generateContentStream(prompt);
+        for await (const chunk of result.stream) {
+          setHtml(o => o + chunk.text());
         }
       }
     } catch (error) {
