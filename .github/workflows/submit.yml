@@ -1,8 +1,9 @@
 name: "Submit to Web Store"
+
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
