@@ -23,7 +23,7 @@ const GetHtml = () => {
         title,
         description,
         keywords,
-        icon: icon.indexOf('http') === 0 ? icon : `${origin}${icon}`,
+        icon: icon ? (icon.indexOf('http') === 0 ? icon : `${origin}${icon}`) : `${origin}/favicon.ico`,
       })
     }
   })

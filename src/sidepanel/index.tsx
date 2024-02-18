@@ -95,7 +95,7 @@ export default function RegisterIndex() {
           >
             {chrome.i18n.getMessage("summary")}
           </Button>
-          <Button
+          {!!questions.length && <Button
             className=""
             size="sm"
             variant="outline"
@@ -103,7 +103,7 @@ export default function RegisterIndex() {
             onClick={() => setQuestions([])}
           >
             {chrome.i18n.getMessage("newChat")}
-          </Button>
+          </Button>}
           <Button
             className="ml-auto"
             size="sm"
