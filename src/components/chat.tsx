@@ -59,10 +59,14 @@ const Chat = ({
       // const dd = await chatModel.invoke("what is LangSmith?");
       // console.info("dd: ", dd);
       if (type === 'openai') {
-        const stream = await fetch(`${domain}`, {
+        const controller = new AbortController();
+        const signal = controller.signal;
+        const stream = await fetch(domain, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': apikey ? `Bearer ${apikey}` : '',
+            ...(!!apikey && {
+              'Authorization': `Bearer ${apikey}`,
+            }),
           },
           method: 'POST',
           body: JSON.stringify({
@@ -81,36 +85,43 @@ const Chat = ({
             ],
             "temperature": 0.7,
             "stream": true
-          })
+          }),
+          signal,
         });
 
         const reader = stream.body?.getReader();
+
         if (!reader) throw new Error("No reader available");
+        const decoder = new TextDecoder('utf-8');
 
         masterLoop: while (true) {
           const { done, value } = await reader.read();
 
           if (done) {
             setLoading(false);
-            break
+            controller.abort();
+            break;
           }
-          const decoder = new TextDecoder();
-          const result = decoder.decode(value);
-          const regex = /data: (.*?)(?=\n\n|$)/gs;
-          let match;
-          while ((match = regex.exec(result)) !== null) {
-            const jsonData = JSON.parse(match[1]);
-            const { delta, finish_reason } = jsonData?.choices?.[0] || {};
+
+          const chunkValue = decoder.decode(value);
+          const lines = chunkValue.split(/(?<=})(?={)/g);
+          const parsedLines = lines
+            .map((line) => line.replace(/^data: /, "").trim())
+            .filter((line) => line !== "" && line !== "[DONE]")
+            .map((line) => JSON.parse(line));
+
+          for (const line of parsedLines) {
+            const { delta, finish_reason } = line?.choices?.[0] || {};
 
             if (finish_reason === 'stop') {
               setLoading(false);
+              controller.abort();
               break masterLoop;
             }
 
-            if (!delta?.content) {
-              continue;
+            if (delta?.content) {
+              setHtml((o) => o + delta.content);
             }
-            setHtml(o => o + jsonData?.choices?.[0]?.delta?.content)
           }
         }
       }
@@ -190,7 +201,7 @@ const Chat = ({
       </div>
       <div className="flex space-x-0 md:space-x-2 items-start flex-col md:flex-row space-y-2 md:space-y-0">
         <div className="rounded-md bg-muted p-2 flex justify-center items-center">
-          <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] text-2xl" />
+          <i className="inline-block icon-[fluent-emoji--robot] text-2xl" />
         </div>
         <div className="bg-muted max-w-full rounded-md py-2 px-4 md:!mr-12">
           {html ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : errorMessage}

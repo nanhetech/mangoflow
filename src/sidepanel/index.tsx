@@ -75,7 +75,7 @@ export default function RegisterIndex() {
           />
         )) : (
           <div className="flex flex-col justify-center items-center h-full w-full space-y-1">
-            <i className="inline-block icon-[fluent-emoji--grinning-squinting-face] text-5xl" />
+              <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
             <p>MangoFlow</p>
           </div>
         )}
