@@ -104,11 +104,12 @@ const Chat = ({
           }
 
           const chunkValue = decoder.decode(value);
-          const lines = chunkValue.split(/(?<=})(?={)/g);
+          const lines = chunkValue.split(/(?<=})(?:\n\n|\n\ndata: )?(?={|\[)/g);
           const parsedLines = lines
             .map((line) => line.replace(/^data: /, "").trim())
             .filter((line) => line !== "" && line !== "[DONE]")
             .map((line) => JSON.parse(line));
+          // console.info("parsedLines: ", parsedLines);
 
           for (const line of parsedLines) {
             const { delta, finish_reason } = line?.choices?.[0] || {};
@@ -138,6 +139,7 @@ const Chat = ({
         }
       }
     } catch (error) {
+      console.error("error: ", error);
       setLoading(false);
       setErrorMessage("服务器出错了，请稍后重试");
     }

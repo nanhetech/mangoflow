@@ -183,7 +183,6 @@ function IndexOptions() {
     <div className="space-y-6 p-10 pb-16">
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">
-          <i className="inline-block icon-[fluent-emoji--smiling-face-with-sunglasses] text-3xl mr-2 align-text-bottom" />
           {chrome.i18n.getMessage("extensionName")}
         </h2>
         <p className="text-muted-foreground">
