@@ -1,9 +1,9 @@
 {
   "extensionName": {
-    "message": "MangoFlow: Smart Copilot for Internet Surfing"
+    "message": "MangoFlow: AI chat sidebar"
   },
   "extensionDescription": {
-    "message": "AI chat sidebar, smart assistant for browsing the web"
+    "message": "Smart Copilot for Internet Surfing, smart assistant for browsing the web"
   },
   "textareaPlaceholder": {
     "message": "Please enter your message and press Enter to send"

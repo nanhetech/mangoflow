@@ -1,7 +1,7 @@
 {
   "name": "mangoflow",
-  "displayName": "MangoFlow",
-  "version": "0.1.4",
+  "displayName": "__MSG_extensionName__",
+  "version": "0.1.5",
   "description": "__MSG_extensionDescription__",
   "author": "Henry Zhang <hello@zhanghe.dev>",
   "scripts": {
@@ -62,7 +62,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.50.1",
     "react-resizable-panels": "^1.0.10",
-    "sonner": "^1.4.0",
+    "sonner": "^1.4.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "turndown": "^7.1.2",
@@ -86,7 +86,7 @@
     "typescript": "5.2.2"
   },
   "manifest": {
-    "name": "MangoFlow",
+    "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
     "permissions": [
       "sidePanel"
