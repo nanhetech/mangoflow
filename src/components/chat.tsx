@@ -105,10 +105,13 @@ const Chat = ({
 
           const chunkValue = decoder.decode(value);
           const lines = chunkValue.split(/(?<=})(?:\n\n|\n\ndata: )?(?={|\[)/g);
+          console.info("value: ", value);
+          console.info("chunkValue: ", chunkValue);
+          console.info("lines: ", lines);
           const parsedLines = lines
-            .map((line) => line.replace(/^data: /, "").trim())
-            .filter((line) => line !== "" && line !== "[DONE]")
-            .map((line) => JSON.parse(line));
+          .map((line) => line.replace(/^data: /, "").trim())
+          .filter((line) => line !== "" && line !== "[DONE]")
+          .map((line) => JSON.parse(line));
           // console.info("parsedLines: ", parsedLines);
 
           for (const line of parsedLines) {
