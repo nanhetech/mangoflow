@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
+// import OpenAI from "openai";
 
 export type QuestionType = {
   user: string;
@@ -56,8 +58,6 @@ const Chat = ({
     setLoading(true);
 
     try {
-      // const dd = await chatModel.invoke("what is LangSmith?");
-      // console.info("dd: ", dd);
       if (type === 'openai') {
         const controller = new AbortController();
         const signal = controller.signal;
@@ -84,6 +84,7 @@ const Chat = ({
               { "role": "user", "content": message.user }
             ],
             "temperature": 0.7,
+            "max_tokens": 1024,
             "stream": true
           }),
           signal,
@@ -105,13 +106,13 @@ const Chat = ({
 
           const chunkValue = decoder.decode(value);
           const lines = chunkValue.split(/(?<=})(?:\n\n|\n\ndata: )?(?={|\[)/g);
-          console.info("value: ", value);
-          console.info("chunkValue: ", chunkValue);
-          console.info("lines: ", lines);
+          // console.info("value: ", value);
+          // console.info("chunkValue: ", chunkValue);
+          // console.info("lines: ", lines);
           const parsedLines = lines
-          .map((line) => line.replace(/^data: /, "").trim())
-          .filter((line) => line !== "" && line !== "[DONE]")
-          .map((line) => JSON.parse(line));
+            .map((line) => line.replace(/^data: /, "").trim())
+            .filter((line) => line !== "" && line !== "[DONE]")
+            .map((line) => JSON.parse(line));
           // console.info("parsedLines: ", parsedLines);
 
           for (const line of parsedLines) {
@@ -139,6 +140,43 @@ const Chat = ({
         const result = await model.generateContentStream(prompt);
         for await (const chunk of result.stream) {
           setHtml(o => o + chunk.text());
+        }
+      }
+
+      if (type === 'groq') {
+        const groq = new Groq({ apiKey: apikey, dangerouslyAllowBrowser: true });
+        const stream = await groq.chat.completions.create({
+          //
+          // Required parameters
+          //
+          messages: message.type === 'summary' ? [
+            {
+              "role": "system", "content": message.system
+            },
+            { "role": "user", "content": message.user }
+          ] : [
+            {
+              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+            Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+            If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.` },
+            { "role": "user", "content": message.user }
+          ],
+          // The language model which will generate the completion.
+          model: "mixtral-8x7b-32768",
+          temperature: 0.7,
+          max_tokens: 1024,
+          top_p: 1,
+          // A stop sequence is a predefined or user-specified text string that
+          // signals an AI to stop generating content, ensuring its responses
+          // remain focused and concise. Examples include punctuation marks and
+          // markers like "[end]".
+          //
+          // For this example, we will use ", 6" so that the llm stops counting at 5.
+          // If multiple stop values are needed, an array of string may be passed,
+          stream: true
+        });
+        for await (const chunk of stream) {
+          setHtml(o => o + (chunk.choices[0]?.delta?.content || ""));
         }
       }
     } catch (error) {

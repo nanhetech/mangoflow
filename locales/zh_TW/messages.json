@@ -71,8 +71,8 @@
   "settingsModelOpenai": {
     "message": "其它 (OpenAI 類別)"
   },
-  "settingsGetGeminiApikey": {
-    "message": "獲取 Gemini API 金鑰"
+  "settingsGetApikey": {
+    "message": "獲取 API 金鑰"
   },
   "newChat": {
     "message": "新對話"

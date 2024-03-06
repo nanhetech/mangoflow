@@ -71,8 +71,8 @@
   "settingsModelOpenai": {
     "message": "Others (OpenAI similar)"
   },
-  "settingsGetGeminiApikey": {
-    "message": "Get Gemini API Key"
+  "settingsGetApikey": {
+    "message": "Get API Key"
   },
   "newChat": {
     "message": "New Chat"

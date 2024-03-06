@@ -10,8 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "~components/ui/use-toast"
 import { Toaster } from "~components/ui/toaster"
 import { useStorage } from "@plasmohq/storage/hook"
-import "./style.css"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
+import "./style.css"
 
 const profileFormSchema = z.object({
   domain: z
@@ -62,6 +62,11 @@ function SettingsModelPage() {
     })
   }
 
+  const GET_API_KEY_URL = {
+    "gemini": "https://aistudio.google.com/app/apikey",
+    "groq": "https://console.groq.com/keys",
+  }
+
   useEffect(() => {
     form.reset(defaultValues)
   }, [config])
@@ -84,6 +89,7 @@ function SettingsModelPage() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="gemini">Google Gemini</SelectItem>
+                    <SelectItem value="groq">Groq Cloud</SelectItem>
                     <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
                   </SelectContent>
                 </Select>
@@ -94,7 +100,7 @@ function SettingsModelPage() {
               </FormItem>
             )}
           />
-          {form.getValues("type") === 'openai' && <FormField
+          {['openai'].includes(form.getValues("type")) && <FormField
             control={form.control}
             name="domain"
             render={({ field }) => (
@@ -126,9 +132,9 @@ function SettingsModelPage() {
               </FormItem>
             )}
           />
-          {form.getValues("type") === 'gemini' && <div>
-            <a href="https://aistudio.google.com/app/apikey" className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
-              {chrome.i18n.getMessage("settingsGetGeminiApikey")}
+          {['gemini', 'groq'].includes(form.getValues("type")) && <div>
+            <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
+              {chrome.i18n.getMessage("settingsGetApikey")}
             </a>
           </div>}
           {form.getValues("type") === 'openai' && <FormField
