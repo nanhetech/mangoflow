@@ -3,6 +3,7 @@ import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Groq from "groq-sdk";
+import Anthropic from '@anthropic-ai/sdk';
 // import OpenAI from "openai";
 
 export type QuestionType = {
@@ -133,11 +134,11 @@ const Chat = ({
 
       if (type === 'gemini') {
         const genAI = new GoogleGenerativeAI(apikey);
-        const model = genAI.getGenerativeModel({
-          model: 'gemini-pro'
+        const stream = genAI.getGenerativeModel({
+          model
         })
         const prompt = message.type === 'summary' ? `Perform text summarization. The summary should be clear and professional, without any associations. Text: ${message.user}` : message.user;
-        const result = await model.generateContentStream(prompt);
+        const result = await stream.generateContentStream(prompt);
         for await (const chunk of result.stream) {
           setHtml(o => o + chunk.text());
         }
@@ -162,7 +163,7 @@ const Chat = ({
             { "role": "user", "content": message.user }
           ],
           // The language model which will generate the completion.
-          model: "mixtral-8x7b-32768",
+          model,
           temperature: 0.7,
           max_tokens: 1024,
           top_p: 1,
@@ -178,6 +179,32 @@ const Chat = ({
         for await (const chunk of stream) {
           setHtml(o => o + (chunk.choices[0]?.delta?.content || ""));
         }
+      }
+
+      if (type === 'claude') {
+        const anthropic = new Anthropic({
+          apiKey: apikey,
+        });
+
+        const stream = await anthropic.messages.stream({
+          model,
+          max_tokens: 1024,
+          system: message.type === 'summary' ? message.system : `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+            Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+            If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.`,
+          // messages: [{ role: "user", content: "Hello, Claude" }],
+          messages: message.type === 'summary' ? [
+            { "role": "user", "content": message.user }
+          ] : [
+            { "role": "user", "content": message.user }
+          ],
+        }).on('text', (text) => {
+          setHtml(o => o + text);
+        });
+        // for await (const chunk of stream) {
+        //   console.info("chunk: ", chunk);
+        //   // setHtml(o => o + (chunk.choices[0]?.delta?.content || ""));
+        // }
       }
     } catch (error) {
       console.error("error: ", error);

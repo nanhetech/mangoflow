@@ -55,7 +55,7 @@ function SettingsModelPage() {
     toast({
       title: "Profile updated",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
@@ -65,6 +65,7 @@ function SettingsModelPage() {
   const GET_API_KEY_URL = {
     "gemini": "https://aistudio.google.com/app/apikey",
     "groq": "https://console.groq.com/keys",
+    "claude": "https://console.anthropic.com/settings/keys",
   }
 
   useEffect(() => {
@@ -89,6 +90,7 @@ function SettingsModelPage() {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="gemini">Google Gemini</SelectItem>
+                    <SelectItem value="claude">Anthropic Claude 3</SelectItem>
                     <SelectItem value="groq">Groq Cloud</SelectItem>
                     <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
                   </SelectContent>
@@ -123,21 +125,20 @@ function SettingsModelPage() {
               <FormItem>
                 <FormLabel>{chrome.i18n.getMessage("settingsApikey")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="" type="password" {...field} />
                 </FormControl>
                 <FormDescription>
-                  {chrome.i18n.getMessage("settingsApikeyDescription")}
+                  {['gemini', 'groq', 'claude'].includes(form.getValues("type")) ? <div>
+                    <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
+                      {chrome.i18n.getMessage("settingsGetApikey")}
+                    </a>
+                  </div> : chrome.i18n.getMessage("settingsApikeyDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {['gemini', 'groq'].includes(form.getValues("type")) && <div>
-            <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
-              {chrome.i18n.getMessage("settingsGetApikey")}
-            </a>
-          </div>}
-          {form.getValues("type") === 'openai' && <FormField
+          <FormField
             control={form.control}
             name="model"
             render={({ field }) => (
@@ -152,7 +153,7 @@ function SettingsModelPage() {
                 <FormMessage />
               </FormItem>
             )}
-          />}
+          />
           <Button type="submit">{chrome.i18n.getMessage("settingsUpdateBtn")}</Button>
         </form>
       </Form>
