@@ -1,7 +1,7 @@
 {
   "name": "mangoflow",
   "displayName": "__MSG_extensionName__",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "__MSG_extensionDescription__",
   "author": "Henry Zhang <hello@zhanghe.dev>",
   "scripts": {
@@ -58,6 +58,7 @@
     "langchain": "^0.1.25",
     "marked": "^11.2.0",
     "next-themes": "^0.2.1",
+    "ollama": "^0.4.9",
     "openai": "^4.28.4",
     "plasmo": "0.85.0",
     "react": "18.2.0",

@@ -4,7 +4,7 @@ import { marked } from "marked";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Groq from "groq-sdk";
 import Anthropic from '@anthropic-ai/sdk';
-// import OpenAI from "openai";
+import OpenAI from "openai";
 
 export type QuestionType = {
   user: string;
@@ -129,6 +129,38 @@ const Chat = ({
               setHtml((o) => o + delta.content);
             }
           }
+        }
+      }
+
+      if (type === 'ollama') {
+        const openai = new OpenAI({
+          baseURL: 'http://localhost:11434/v1',
+          apiKey: 'ollama',
+          dangerouslyAllowBrowser: true,
+        });
+
+        const stream = await openai.chat.completions.create({
+          model,
+          messages: message.type === 'summary' ? [
+            {
+              "role": "system", "content": message.system
+            },
+            { "role": "user", "content": message.user }
+          ] : [
+            {
+              "role": "system", "content": `You are a helpful, respectful and honest AI Assistant named Mango. You are talking to a human User.
+            Always answer as helpfully and logically as possible, while being safe. Your answers should not include any harmful, political, religious, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
+            If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.` },
+            { "role": "user", "content": message.user }
+          ],
+          // temperature: 0.7,
+          // max_tokens: 1024,
+          stream: true
+        });
+
+        for await (const chunk of stream) {
+          console.info("chunk: ", chunk);
+          setHtml((o) => o + (chunk.choices[0]?.delta?.content || ""));
         }
       }
 

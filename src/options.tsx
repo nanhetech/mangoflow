@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Separator } from "~components/ui/separator"
 import { SidebarNav } from "~components/sidebar-nav"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form"
@@ -13,6 +13,10 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
 import "./style.css"
 
+type OllamaModeelType = {
+  name: string,
+  digest: string,
+}
 const profileFormSchema = z.object({
   domain: z
     .string()
@@ -29,6 +33,12 @@ const profileFormSchema = z.object({
     .optional(),
 })
 
+const GET_API_KEY_URL = {
+  "gemini": "https://aistudio.google.com/app/apikey",
+  "groq": "https://console.groq.com/keys",
+  "claude": "https://console.anthropic.com/settings/keys",
+}
+
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 function SettingsModelPage() {
@@ -38,12 +48,14 @@ function SettingsModelPage() {
     apikey: "",
     model: "",
   });
+  const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
   const defaultValues: Partial<ProfileFormValues> = config
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: "onChange",
   })
+  const type = form.getValues("type")
 
   function onSubmit(data: ProfileFormValues) {
     setConfig({
@@ -62,15 +74,21 @@ function SettingsModelPage() {
     })
   }
 
-  const GET_API_KEY_URL = {
-    "gemini": "https://aistudio.google.com/app/apikey",
-    "groq": "https://console.groq.com/keys",
-    "claude": "https://console.anthropic.com/settings/keys",
-  }
-
   useEffect(() => {
     form.reset(defaultValues)
   }, [config])
+
+  const handleGetOllamaTags = useCallback(async () => {
+    if (type === 'ollama') {
+      const response = await fetch('http://localhost:11434/api/tags')
+      const { models } = await response.json()
+      setOllamaTags(models)
+    }
+  }, [type])
+
+  useEffect(() => {
+    handleGetOllamaTags()
+  }, [type])
 
   return (
     <div className="space-y-6">
@@ -92,6 +110,7 @@ function SettingsModelPage() {
                     <SelectItem value="gemini">Google Gemini</SelectItem>
                     <SelectItem value="claude">Anthropic Claude 3</SelectItem>
                     <SelectItem value="groq">Groq Cloud</SelectItem>
+                    <SelectItem value="ollama">Ollama</SelectItem>
                     <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
                   </SelectContent>
                 </Select>
@@ -102,7 +121,7 @@ function SettingsModelPage() {
               </FormItem>
             )}
           />
-          {['openai'].includes(form.getValues("type")) && <FormField
+          {['openai'].includes(type) && <FormField
             control={form.control}
             name="domain"
             render={({ field }) => (
@@ -118,7 +137,7 @@ function SettingsModelPage() {
               </FormItem>
             )}
           />}
-          <FormField
+          {['openai', 'gemini', 'groq', 'claude'].includes(type) && <FormField
             control={form.control}
             name="apikey"
             render={({ field }) => (
@@ -128,7 +147,7 @@ function SettingsModelPage() {
                   <Input placeholder="" type="password" {...field} />
                 </FormControl>
                 <FormDescription>
-                  {['gemini', 'groq', 'claude'].includes(form.getValues("type")) ? <div>
+                  {['gemini', 'groq', 'claude'].includes(type) ? <div>
                     <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
                       {chrome.i18n.getMessage("settingsGetApikey")}
                     </a>
@@ -137,16 +156,28 @@ function SettingsModelPage() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          />}
           <FormField
             control={form.control}
             name="model"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{chrome.i18n.getMessage("settingsModel")}</FormLabel>
-                <FormControl>
+                {['ollama'].includes(type) ? <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {!!ollamaTags.length && ollamaTags.map(({
+                      name,
+                      digest
+                    }) => <SelectItem key={digest} value={name}>{name}</SelectItem>)}
+                  </SelectContent>
+                </Select> : <FormControl>
                   <Input placeholder="" {...field} />
-                </FormControl>
+                </FormControl>}
                 <FormDescription>
                   {chrome.i18n.getMessage("settingsModelDescription")}
                 </FormDescription>
