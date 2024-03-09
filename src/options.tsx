@@ -65,7 +65,7 @@ function SettingsModelPage() {
       model: data.model || "",
     });
     toast({
-      title: "Profile updated",
+      title: chrome.i18n.getMessage("settingsSubmitSuccess"),
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -115,7 +115,7 @@ function SettingsModelPage() {
                   </SelectContent>
                 </Select>
                 <FormDescription>
-                  {chrome.i18n.getMessage("settingsModelTypeDescription")}
+                  {chrome.i18n.getMessage(type === 'ollama' ? "settingsOllamaModelTypeDescription" : "settingsModelTypeDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -179,7 +179,7 @@ function SettingsModelPage() {
                   <Input placeholder="" {...field} />
                 </FormControl>}
                 <FormDescription>
-                  {chrome.i18n.getMessage("settingsModelDescription")}
+                  {chrome.i18n.getMessage(type === 'ollama' ? "settingsModelNameOllamaDescription" : "settingsModelDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -6,7 +6,7 @@
     "message": "上网冲浪的好副手，浏览网页的智能助手"
   },
   "textareaPlaceholder": {
-    "message": "请输入你的消息，按回车键发送"
+    "message": "输入你的消息，按回车键发送"
   },
   "settingsTitle": {
     "message": "设置"
@@ -26,6 +26,9 @@
   "settingsModelTypeDescription": {
     "message": ""
   },
+  "settingsOllamaModelTypeDescription": {
+    "message": "需要使用 OLLAMA_ORIGINS=chrome-extension://* ollama serve 命令启动 Ollama 服务"
+  },
   "settingsApikey": {
     "message": "密钥"
   },
@@ -37,6 +40,9 @@
   },
   "settingsModelDescription": {
     "message": "这是后台服务的模型名称，例如：davinci，需要在后台服务中获取"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "并不是所有模型都支持聊天模式"
   },
   "settingsDomainError": {
     "message": "请输入正确的 URL"
@@ -60,7 +66,7 @@
     "message": "请输入一个正确的请求域名"
   },
   "summary": {
-    "message": "总结"
+    "message": "页面总结"
   },
   "summaryDescription": {
     "message": "总结当前页面的主要内容"
@@ -76,5 +82,8 @@
   },
   "newChat": {
     "message": "新对话"
+  },
+  "settingsSubmitSuccess": {
+    "message": "设置已更新"
   }
 }

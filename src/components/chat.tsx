@@ -153,13 +153,12 @@ const Chat = ({
             If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.` },
             { "role": "user", "content": message.user }
           ],
-          // temperature: 0.7,
-          // max_tokens: 1024,
+          temperature: 0.7,
+          max_tokens: 1024,
           stream: true
         });
 
         for await (const chunk of stream) {
-          console.info("chunk: ", chunk);
           setHtml((o) => o + (chunk.choices[0]?.delta?.content || ""));
         }
       }

@@ -6,7 +6,7 @@
     "message": "上網衝浪的好副手，瀏覽網頁的智能助手"
   },
   "textareaPlaceholder": {
-    "message": "請輸入你的訊息，按回車鍵發送"
+    "message": "輸入你的訊息，按回車鍵發送"
   },
   "settingsTitle": {
     "message": "設定"
@@ -26,6 +26,9 @@
   "settingsModelTypeDescription": {
     "message": ""
   },
+  "settingsOllamaModelTypeDescription": {
+    "message": "需要使用 OLLAMA_ORIGINS=chrome-extension://* ollama serve 命令啟動 Ollama 服務"
+  },
   "settingsApikey": {
     "message": "金鑰"
   },
@@ -34,6 +37,9 @@
   },
   "settingsModelDescription": {
     "message": "這是後台服務的模型名稱，例如：davinci，需要在後台服務中取得"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "並不是所有模型都支持聊天模式"
   },
   "settingsApikeyDescription": {
     "message": "這是後台服務的請求金鑰，例如：sk-xxxxxx，需要在後台服務中取得"
@@ -60,7 +66,7 @@
     "message": "請輸入一個正確的請求網域"
   },
   "summary": {
-    "message": "總結"
+    "message": "頁面摘要"
   },
   "summaryDescription": {
     "message": "總結當前頁面的主要內容"
@@ -76,5 +82,8 @@
   },
   "newChat": {
     "message": "新對話"
+  },
+  "settingsSubmitSuccess": {
+    "message": "設定已成功儲存"
   }
 }

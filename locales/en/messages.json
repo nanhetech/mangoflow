@@ -6,7 +6,7 @@
     "message": "Smart Copilot for Internet Surfing, smart assistant for browsing the web"
   },
   "textareaPlaceholder": {
-    "message": "Please enter your message and press Enter to send"
+    "message": "Enter your message and press Enter to send"
   },
   "settingsTitle": {
     "message": "Settings"
@@ -24,7 +24,10 @@
     "message": "Model Type"
   },
   "settingsModelTypeDescription": {
-    "message": ""
+    "message": "The Ollama service needs to be started with the command: 'OLLAMA_ORIGINS=chrome-extension://* ollama serve'"
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "需要使用 OLLAMA_ORIGINS=chrome-extension://* ollama serve 命令启动 Ollama 服务"
   },
   "settingsApikey": {
     "message": "Api Key"
@@ -34,6 +37,9 @@
   },
   "settingsModelDescription": {
     "message": "This is the model name of the background service, for example: davinci, which needs to be obtained from the background service."
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "not all models support the chat mode"
   },
   "settingsApikeyDescription": {
     "message": "This is the request secret key of the background service, for example: sk-xxxxxx, which needs to be obtained from the background service."
@@ -60,7 +66,7 @@
     "message": "Please enter the domain."
   },
   "summary": {
-    "message": "Summary"
+    "message": "Page summary"
   },
   "summaryDescription": {
     "message": "Summarize the main content of the current page."
@@ -76,5 +82,8 @@
   },
   "newChat": {
     "message": "New Chat"
+  },
+  "settingsSubmitSuccess": {
+    "message": "Settings saved successfully"
   }
 }
