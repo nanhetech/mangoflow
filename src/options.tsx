@@ -5,12 +5,14 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "~components/ui/input"
 import { Button } from "~components/ui/button"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "~components/ui/use-toast"
 import { Toaster } from "~components/ui/toaster"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
+import { Textarea } from "~components/ui/textarea"
+import { DEFAULT_MODEL_CONFIG, DEFAULT_SUMMATY_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT, GET_API_KEY_URL } from "~lib/utils"
+import * as z from "zod"
 import "./style.css"
 
 type OllamaModeelType = {
@@ -31,23 +33,18 @@ const profileFormSchema = z.object({
   type: z
     .string()
     .optional(),
+  systemPrompt: z
+    .string()
+    .optional(),
+  summatySystemPrompt: z
+    .string()
+    .optional(),
 })
-
-const GET_API_KEY_URL = {
-  "gemini": "https://aistudio.google.com/app/apikey",
-  "groq": "https://console.groq.com/keys",
-  "claude": "https://console.anthropic.com/settings/keys",
-}
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 function SettingsModelPage() {
-  const [config, setConfig] = useStorage("modelConfig", {
-    type: "openai",
-    domain: "http://localhost:1234/v1/chat/completions",
-    apikey: "",
-    model: "",
-  });
+  const [config, setConfig] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
   const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
   const defaultValues: Partial<ProfileFormValues> = config
   const form = useForm<ProfileFormValues>({
@@ -63,6 +60,8 @@ function SettingsModelPage() {
       domain: data.domain || "",
       apikey: data.apikey || "",
       model: data.model || "",
+      systemPrompt: data.systemPrompt || DEFAULT_SYSTEM_PROMPT,
+      summatySystemPrompt: data.summatySystemPrompt || DEFAULT_SUMMATY_SYSTEM_PROMPT,
     });
     toast({
       title: chrome.i18n.getMessage("settingsSubmitSuccess"),
@@ -180,6 +179,44 @@ function SettingsModelPage() {
                 </FormControl>}
                 <FormDescription>
                   {chrome.i18n.getMessage(type === 'ollama' ? "settingsModelNameOllamaDescription" : "settingsModelDescription")}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="systemPrompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{chrome.i18n.getMessage("settingsSystemPrompt")}</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={chrome.i18n.getMessage("settingsSystemPromptDescription")}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {chrome.i18n.getMessage("settingsSystemPromptDescription")}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="summatySystemPrompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{chrome.i18n.getMessage("settingsSummatyPrompt")}</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={chrome.i18n.getMessage("settingsSummatyPromptDescription")}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {chrome.i18n.getMessage("settingsSummatyPromptDescription")}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -5,10 +5,11 @@ import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
 import { Toaster } from "~components/ui/toaster";
 import { sendToContentScript } from "@plasmohq/messaging";
+import { DEFAULT_MODEL_CONFIG } from "~lib/utils";
 import "../style.css"
 
 export default function RegisterIndex() {
-  const [config] = useStorage("modelConfig");
+  const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
   const chatListRef = useRef<HTMLDivElement>(null);
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [question, setQuestion] = useState<string>('');
@@ -50,7 +51,6 @@ export default function RegisterIndex() {
     });
     setQuestions(o => [...o, {
       user: content,
-      system: 'Summarizes content for the average person.',
       type: 'summary',
       title,
       description,
@@ -69,13 +69,15 @@ export default function RegisterIndex() {
             apikey={config.apikey}
             model={config.model}
             type={config.type}
+            systemPrompt={config.systemPrompt}
+            summatySystemPrompt={config.summatySystemPrompt}
             key={index}
             message={message}
             onMessageChange={scrollToBottom}
           />
         )) : (
           <div className="flex flex-col justify-center items-center h-full w-full space-y-1">
-              <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
+            <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
             <p>MangoFlow</p>
           </div>
         )}
@@ -84,7 +86,27 @@ export default function RegisterIndex() {
           className="h-0 w-0"
         />
       </div>
-      <div className="border-t relative px-4 py-2 space-y-2">
+      <div className="border-t relative p-4 space-y-2">
+        <div className="w-full flex items-center">
+          <textarea
+            className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
+            name="prompt"
+            placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
+            autoFocus
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                event.stopPropagation();
+                handleSubmit({
+                  type: 'chat',
+                  user: question,
+                });
+              }
+            }}
+          />
+        </div>
         <div className="flex items-center gap-2">
           <Button
             className=""
@@ -115,35 +137,16 @@ export default function RegisterIndex() {
           >
             <i className="inline-block icon-[ri--settings-fill]" />
           </Button>
-        </div>
-        <div className="w-full flex items-center">
-          <textarea
-            className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
-            name="prompt"
-            placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
-            autoFocus
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                event.stopPropagation();
-                handleSubmit({
-                  type: 'chat',
-                  user: question,
-                });
-              }
-            }}
-          />
-          {/* <button
-            className="p-2 ml-1"
+          <Button
+            className=""
+            size="sm"
             onClick={() => handleSubmit({
               type: 'chat',
               user: question,
             })}
           >
             <i className="inline-block icon-[ri--send-plane-fill]" />
-          </button> */}
+          </Button>
         </div>
       </div>
       <Toaster />

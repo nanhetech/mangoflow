@@ -18,7 +18,7 @@
     "message": "Domain"
   },
   "settingsDomainDescription": {
-    "message": "This is the complete request address of the background service, for example: https://api.openai.com/v1/chat/completions"
+    "message": "This is the complete request address of the background service, for example: https://api.openai.com/v1"
   },
   "settingsModelType": {
     "message": "Model Type"
@@ -85,5 +85,20 @@
   },
   "settingsSubmitSuccess": {
     "message": "Settings saved successfully"
+  },
+  "settingsSystemPrompt": {
+    "message": "Chat system prompt"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "This prompt only works in AI conversations"
+  },
+  "settingsSummatyPrompt": {
+    "message": "Summarize system prompt"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "This prompt only works on the summary button function"
+  },
+  "chatErrorMessage": {
+    "message": "Not connected to the server and need to configure the model information correctly, click on the"
   }
 }

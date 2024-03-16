@@ -18,7 +18,7 @@
     "message": "域名"
   },
   "settingsDomainDescription": {
-    "message": "这是后台服务的完整请求地址，例如：https://api.openai.com/v1/chat/completions"
+    "message": "这是后台服务的完整请求地址，例如：https://api.openai.com/v1"
   },
   "settingsModelType": {
     "message": "模型类型"
@@ -85,5 +85,20 @@
   },
   "settingsSubmitSuccess": {
     "message": "设置已更新"
+  },
+  "settingsSystemPrompt": {
+    "message": "系统提示词"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "此提示词只在 AI 对话栏起作用"
+  },
+  "settingsSummatyPrompt": {
+    "message": "总结功能系统提示词"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "此提示词只在总结按钮功能起作用"
+  },
+  "chatErrorMessage": {
+    "message": "未连接到服务器，需要正确配置模型信息，请点击"
   }
 }
