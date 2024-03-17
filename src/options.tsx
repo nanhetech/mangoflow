@@ -229,10 +229,23 @@ function SettingsModelPage() {
   )
 }
 
+const SettingsPromptPage = () => {
+
+  return (
+    <div className="">
+      123
+    </div>
+  )
+}
+
 const sidebarNavItems = [
   {
     title: chrome.i18n.getMessage("settingsSidebarModel"),
     key: "model"
+  },
+  {
+    title: chrome.i18n.getMessage("settingsPromptModel"),
+    key: "prompt"
   },
   // {
   //   title: "Account",
@@ -271,6 +284,7 @@ function IndexOptions() {
         </aside>
         <div className="flex-1 lg:max-w-2xl">
           {key === "model" && <SettingsModelPage />}
+          {key === "prompt" && <SettingsPromptPage />}
         </div>
       </div>
       <Toaster />

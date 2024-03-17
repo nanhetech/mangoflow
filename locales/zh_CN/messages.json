@@ -100,5 +100,8 @@
   },
   "chatErrorMessage": {
     "message": "未连接到服务器，需要正确配置模型信息，请点击"
+  },
+  "settingsPromptModel": {
+    "message": "提示词设置"
   }
 }

@@ -5,8 +5,47 @@ import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
 import { Toaster } from "~components/ui/toaster";
 import { sendToContentScript } from "@plasmohq/messaging";
-import { DEFAULT_MODEL_CONFIG } from "~lib/utils";
-import "../style.css"
+import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
+import "../style.css";
+
+type HeaderToolsProps = {
+  className?: string,
+}
+const HeaderTools = ({
+  className = ''
+}: HeaderToolsProps) => {
+
+  return (
+    <div className={cn('flex justify-between items-center space-x-2 p-4 pb-2', className)}>
+      <Select>
+        <SelectTrigger className="max-w-full w-auto space-x-1">
+          <span>Model:</span><SelectValue placeholder="Select a model" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Model</SelectLabel>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+            <SelectItem value="blueberry">Blueberry</SelectItem>
+            <SelectItem value="grapes">Grapes</SelectItem>
+            <SelectItem value="pineapple">Pineapple</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <Button
+        size="icon"
+        variant="ghost"
+        title={chrome.i18n.getMessage("settingsTitle")}
+        onClick={() => {
+          chrome.runtime.openOptionsPage();
+        }}
+      >
+        <i className="inline-block icon-[ri--settings-fill]" />
+      </Button>
+    </div>
+  )
+}
 
 export default function RegisterIndex() {
   const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
@@ -60,8 +99,9 @@ export default function RegisterIndex() {
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
+      <HeaderTools />
       <div
-        className={`flex-1 p-4 md:p-6 overflow-hidden overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
+        className={`flex-1 p-4 overflow-hidden overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
       >
         {questions.length ? questions.map((message, index) => (
           <Chat
@@ -108,36 +148,39 @@ export default function RegisterIndex() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            className=""
-            size="sm"
-            variant="outline"
-            title={chrome.i18n.getMessage("summaryDescription")}
-            onClick={handleSummary}
-          >
-            {chrome.i18n.getMessage("summary")}
-          </Button>
+          <Select>
+            <SelectTrigger className="w-auto max-w-full space-x-1">
+              <span>Prompt:</span><SelectValue placeholder="Select a prompt" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Prompt template</SelectLabel>
+                <SelectItem value="apple">Apple</SelectItem>
+                <SelectItem value="banana">Banana</SelectItem>
+                <SelectItem value="blueberry">Blueberry</SelectItem>
+                <SelectItem value="grapes">Grapes</SelectItem>
+                <SelectItem value="pineapple">Pineapple</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           {!!questions.length && <Button
-            className=""
-            size="sm"
+            size="icon"
             variant="outline"
             title={chrome.i18n.getMessage("newChat")}
             onClick={() => setQuestions([])}
           >
-            {chrome.i18n.getMessage("newChat")}
+            <i className="inline-block icon-[ri--chat-new-fill]" />
           </Button>}
           <Button
             className="ml-auto"
-            size="sm"
-            variant="ghost"
-            title={chrome.i18n.getMessage("settingsTitle")}
-            onClick={() => {
-              chrome.runtime.openOptionsPage();
-            }}
+            size="icon"
+            variant="outline"
+            title={chrome.i18n.getMessage("summaryDescription")}
+            onClick={handleSummary}
           >
-            <i className="inline-block icon-[ri--settings-fill]" />
+            <i className="inline-block icon-[material-symbols--allergy]" />
           </Button>
-          <Button
+          {/* <Button
             className=""
             size="sm"
             onClick={() => handleSubmit({
@@ -146,7 +189,7 @@ export default function RegisterIndex() {
             })}
           >
             <i className="inline-block icon-[ri--send-plane-fill]" />
-          </Button>
+          </Button> */}
         </div>
       </div>
       <Toaster />

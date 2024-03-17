@@ -181,7 +181,7 @@ const Chat = ({
         <div className="bg-muted rounded-md py-2 px-4 md:!ml-12 overflow-hidden max-w-full">
           {message.type === 'summary' ? <>
             <div
-              className="select-none py-1.5 relative flex items-center space-x-2 w-full overflow-hidden max-w-[570px]"
+              className="select-none py-0.5 relative flex items-center space-x-2 w-full overflow-hidden max-w-[570px]"
               onClick={() => {
                 // chrome.tabs.create({
                 //   url,
@@ -215,7 +215,7 @@ const Chat = ({
         <div className="rounded-md bg-muted p-2 flex justify-center items-center">
           <i className="inline-block icon-[fluent-emoji--robot] text-2xl" />
         </div>
-        <div className="bg-muted max-w-full rounded-md py-2 px-4 md:!mr-12">
+        <div className="bg-muted max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group">
           {html ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : (!loading && <p>{errorMessage}<Button
             className="px-1 leading-tight h-auto align-text-bottom"
             size="sm"
@@ -228,6 +228,22 @@ const Chat = ({
             <i className="inline-block icon-[ri--settings-fill]" />
           </Button></p>)}
           {(loading && !(html || errorMessage)) ? <i className="inline-block icon-[fluent-emoji--cat-with-tears-of-joy] align-text-bottom animate-pulse text-lg" /> : null}
+          <div className="hidden group-hover:block absolute left-0 bottom-0 bg-muted rounded-md rounded-tl-none translate-y-3/4 px-1">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => { }}
+            >
+              <i className="inline-block icon-[ri--file-copy-line]" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => { }}
+            >
+              <i className="inline-block icon-[material-symbols--replay]" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
