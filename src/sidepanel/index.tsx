@@ -15,39 +15,66 @@ import { marked } from "marked";
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import "../style.css";
+import type { ProfileFormValuesType } from "~options";
+import type { MessageParam } from "@anthropic-ai/sdk/resources";
 
 type RoleType = 'user' | 'system' | 'assistant';
 
 type ChatType = {
   id: string;
-  role: RoleType;
-  content: string;
-  done: boolean;
+  user: string;
+  assistant?: string;
+  done?: boolean;
+}
+
+type UpdataChatType = {
+  id: string;
+  user?: string;
+  assistant?: string;
+  done?: boolean;
 }
 
 type ChatState = {
   list: ChatType[];
+  done: boolean;
 }
 
 type ChatActions = {
   clear: () => void;
-  add: (content: string, role?: RoleType) => void;
+  add: (content: string) => void;
+  updateChatAssistantById: (item: UpdataChatType) => void;
   // setCount: (countCallback: (count: State['count']) => State['count']) => void
 }
 
 const useChatStore = create<ChatState & ChatActions>((set) => ({
   list: [],
+  done: false,
   // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
   // removeAllBears: () => set({ bears: 0 }),
   // updateBears: (newBears) => set({ bears: newBears }),
-  update: (newList) => set({ list: newList }),
-  add: (content, role = 'user') => set((state) => ({
+  updateChatAssistantById: (item) => set(({ list, done }) => {
+    const result = [...list];
+    const index = result.findIndex(({ id }) => item.id === id);
+    if (index < 0) {
+      return {};
+    }
+    const { assistant } = result[index];
+    result[index].assistant = assistant + item?.assistant || '';
+    result[index].done = item?.done || false;
+
+    return {
+      list: result,
+      done: result[index]?.done || done,
+    }
+  }),
+  add: (content) => set((state) => ({
     list: [...state.list, {
       id: nanoid(),
-      role,
-      content,
+      user: content,
+      assistant: "",
       done: false,
     }],
+    done: false,
   })),
   clear: () => set({ list: [] }),
 }))
@@ -69,29 +96,20 @@ type MessageType = {
 }
 
 type ChatProps = {
-  message: QuestionType;
-  domain?: string;
-  type?: string;
-  apikey?: string;
-  model?: string;
-  systemPrompt?: string;
-  summatySystemPrompt?: string;
+  data: ChatType;
+  config: ProfileFormValuesType;
   onMessageChange?: () => void;
 }
 
 const Chat = ({
-  message,
-  domain,
-  apikey,
-  type,
-  model = '',
-  summatySystemPrompt = '',
-  systemPrompt = '',
+  data,
+  config,
   onMessageChange = () => { }
 }: ChatProps) => {
+  const { updateChatAssistantById: updataChat, list: chats } = useChatStore(state => state);
+  const { id, user, assistant, done } = data;
   const Ref = useRef(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [html, setHtml] = useState<string>('');
+  // const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState('');
   // const handleSpeechSynthesis = useCallback(() => {
   //   if (!message || !Ref.current) return;
@@ -105,11 +123,26 @@ const Chat = ({
   //   speechSynthesis.speak(utterance);
   // }, [message, loading])
   const handleFetchData = useCallback(async () => {
-    if (!message || Ref.current) return;
+    const { type, model, apikey, domain, systemPrompt, summatySystemPrompt } = config;
+    const { id, user } = data;
+    if (!user || Ref.current) return;
     Ref.current = true;
-    setLoading(true);
-    setHtml('');
+    // setLoading(true);
+    updataChat({
+      id,
+      assistant: '',
+      done: false,
+    })
     setErrorMessage('');
+    const msgs = chats.map(chat => ([
+      {
+        role: 'user', content: chat.user,
+      },
+      ...(chat.assistant ? [{
+        role: 'assistant',
+        content: chat.assistant,
+      }] : []),
+    ])).flat();
 
     try {
       if (['ollama', 'openai'].includes(type)) {
@@ -121,16 +154,11 @@ const Chat = ({
 
         const stream = await openai.chat.completions.create({
           model,
-          messages: message.type === 'summary' ? [
-            {
-              "role": "system", "content": summatySystemPrompt
-            },
-            { "role": "user", "content": message.user }
-          ] : [
+          messages: [
             {
               "role": "system", "content": systemPrompt
             },
-            { "role": "user", "content": message.user }
+            { "role": "user", "content": user }
           ],
           temperature: 0.7,
           max_tokens: 1024,
@@ -138,7 +166,11 @@ const Chat = ({
         });
 
         for await (const chunk of stream) {
-          setHtml((o) => o + (chunk.choices[0]?.delta?.content || ""));
+          updataChat({
+            id,
+            assistant: (chunk.choices[0]?.delta?.content || ""),
+            done: false,
+          })
         }
       }
 
@@ -147,26 +179,25 @@ const Chat = ({
         const stream = genAI.getGenerativeModel({
           model
         })
-        const prompt = message.type === 'summary' ? `${summatySystemPrompt} Text: ${message.user}` : message.user;
+        const prompt = `${systemPrompt}\n${user}`;
         const result = await stream.generateContentStream(prompt);
         for await (const chunk of result.stream) {
-          setHtml(o => o + chunk.text());
+          updataChat({
+            id,
+            assistant: (chunk.text() || ""),
+            done: false,
+          })
         }
       }
 
       if (type === 'groq') {
         const groq = new Groq({ apiKey: apikey, dangerouslyAllowBrowser: true });
         const stream = await groq.chat.completions.create({
-          messages: message.type === 'summary' ? [
-            {
-              "role": "system", "content": summatySystemPrompt
-            },
-            { "role": "user", "content": message.user }
-          ] : [
+          messages: [
             {
               "role": "system", "content": systemPrompt
             },
-            { "role": "user", "content": message.user }
+            ...msgs
           ],
           model,
           temperature: 0.7,
@@ -175,7 +206,11 @@ const Chat = ({
           stream: true
         });
         for await (const chunk of stream) {
-          setHtml(o => o + (chunk.choices[0]?.delta?.content || ""));
+          updataChat({
+            id,
+            assistant: (chunk.choices[0]?.delta?.content || ""),
+            done: false,
+          })
         }
       }
 
@@ -184,25 +219,25 @@ const Chat = ({
           apiKey: apikey,
         });
 
-        const stream = await anthropic.messages.stream({
+        await anthropic.messages.stream({
           model,
           max_tokens: 1024,
-          system: message.type === 'summary' ? summatySystemPrompt : systemPrompt,
-          messages: message.type === 'summary' ? [
-            { "role": "user", "content": message.user }
-          ] : [
-            { "role": "user", "content": message.user }
-          ],
-        }).on('text', (text) => {
-          setHtml(o => o + text);
+          system: systemPrompt,
+          messages: msgs as MessageParam[],
+        }).on('text', (text = "") => {
+          updataChat({
+            id,
+            assistant: text,
+            done: false,
+          })
         });
       }
     } catch (error) {
       console.error("error: ", error);
-      setLoading(false);
+      // setLoading(false);
       setErrorMessage(chrome.i18n.getMessage("chatErrorMessage"));
     }
-  }, [domain, apikey, Ref, message, model])
+  }, [Ref, config, data, chats])
   useEffect(() => {
     handleFetchData()
   }, [handleFetchData])
@@ -212,13 +247,13 @@ const Chat = ({
   useThrottleEffect(() => {
     onMessageChange();
   }, [
-    html,
+    assistant,
     errorMessage,
     onMessageChange
   ], {
     wait: 300
   });
-  const htmlflow = useMemo(() => ({ __html: marked(html) }), [html])
+  const htmlflow = useMemo(() => ({ __html: marked(assistant) }), [assistant]);
 
   return (
     <div className="space-y-2">
@@ -228,36 +263,9 @@ const Chat = ({
           <i className="inline-block icon-[fluent-emoji--beaming-face-with-smiling-eyes] text-2xl" />
         </div>
         <div className="bg-muted rounded-md py-2 px-4 md:!ml-12 overflow-hidden max-w-full">
-          {message.type === 'summary' ? <>
-            <div
-              className="select-none py-0.5 relative flex items-center space-x-2 w-full overflow-hidden max-w-[570px]"
-              onClick={() => {
-                // chrome.tabs.create({
-                //   url,
-                //   active: false,
-                // }, () => {
-                //   setUnreadList((o = []) => {
-                //     o.splice(index, 1);
-                //     return o;
-                //   });
-                // });
-              }}
-            >
-              <span className="w-10 h-10 flex items-center justify-center rounded-md bg-background">
-                <img
-                  src={message.icon}
-                  alt={message.title}
-                  className="w-6 h-6 rounded-full block"
-                />
-              </span>
-              <span className="flex-1 overflow-hidden">
-                <p className="font-bold text-base truncate">{chrome.i18n.getMessage("summary")}{': '}{message.title}</p>
-                <p className="text-xs opacity-60 font-light truncate">{message.description}</p>
-              </span>
-            </div>
-          </> : <p className="prose-sm max-w-[570px]">
-            {message.user}
-          </p>}
+          <p className="prose-sm max-w-[570px]">
+            {data.user}
+          </p>
         </div>
       </div>
       <div className="flex space-x-0 md:space-x-2 items-start flex-col md:flex-row space-y-2 md:space-y-0">
@@ -265,7 +273,8 @@ const Chat = ({
           <i className="inline-block icon-[fluent-emoji--robot] text-2xl" />
         </div>
         <div className="bg-muted max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group">
-          {html ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : (!loading && <p>{errorMessage}<Button
+          {assistant && <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" />}
+          {/* {assistant ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : (!loading && <p>{errorMessage}<Button
             className="px-1 leading-tight h-auto align-text-bottom"
             size="sm"
             variant="link"
@@ -275,8 +284,8 @@ const Chat = ({
             }}
           >
             <i className="inline-block icon-[ri--settings-fill]" />
-          </Button></p>)}
-          {(loading && !(html || errorMessage)) ? <i className="inline-block icon-[fluent-emoji--cat-with-tears-of-joy] align-text-bottom animate-pulse text-lg" /> : null}
+          </Button></p>)} */}
+          {/* {(!(assistant || errorMessage)) ? <i className="inline-block icon-[fluent-emoji--cat-with-tears-of-joy] align-text-bottom animate-pulse text-lg" /> : null} */}
           {/* 添加复制和重新生成按钮 */}
           {/* <div className="hidden group-hover:block absolute left-0 bottom-0 bg-muted rounded-md rounded-tl-none translate-y-3/4 px-1">
             <Button
@@ -352,10 +361,34 @@ type InputBoxProps = {
 const InputBox = ({
   className = '',
 }: InputBoxProps) => {
-  const { list: chats, clear } = useChatStore(state => state);
+  const { list: chats, clear, add: addChat } = useChatStore(state => state);
   const [prompts] = useStorage('prompts', []);
   const [activePrompt, setActivePrompt] = useStorage('activePrompt', null);
   const [question, setQuestion] = useState<string>('');
+  const handleSubmit = useCallback(() => {
+    // if (!config) {
+    //   toast({
+    //     title: chrome.i18n.getMessage("sidepanelDomainErrorTitle"),
+    //     description: chrome.i18n.getMessage("sidepanelDomainErrorDescription"),
+    //     variant: "destructive"
+    //   })
+    //   chrome.runtime.openOptionsPage();
+
+    //   return
+    // };
+
+    if (!question) {
+      toast({
+        title: "Question is empty",
+        description: "Please enter the question.",
+        variant: "destructive"
+      })
+
+      return
+    };
+    addChat(question);
+    setQuestion('');
+  }, [question, setQuestion])
 
   return (
     <div className="border-t relative p-4 space-y-2">
@@ -371,10 +404,7 @@ const InputBox = ({
             if (event.key === 'Enter') {
               event.preventDefault();
               event.stopPropagation();
-              // handleSubmit({
-              //   type: 'chat',
-              //   user: question,
-              // });
+              handleSubmit();
             }
           }}
         />
@@ -429,70 +459,40 @@ const InputBox = ({
 
 export default function RegisterIndex() {
   const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
+  const { list: chats } = useChatStore(state => state);
   const chatListRef = useRef<HTMLDivElement>(null);
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
-  const [question, setQuestion] = useState<string>('');
-  const handleSubmit = useCallback((q: typeof questions[number]) => {
-    if (!config) {
-      toast({
-        title: chrome.i18n.getMessage("sidepanelDomainErrorTitle"),
-        description: chrome.i18n.getMessage("sidepanelDomainErrorDescription"),
-        variant: "destructive"
-      })
-      chrome.runtime.openOptionsPage();
-
-      return
-    };
-
-    if (!q) {
-      toast({
-        title: "Question is empty",
-        description: "Please enter the question.",
-        variant: "destructive"
-      })
-
-      return
-    };
-    setQuestions(o => [...o, q]);
-    setQuestion('');
-  }, [config])
   const scrollToBottom = () => {
     chatListRef.current?.scrollIntoView(false);
   }
-  const handleSummary = useCallback(async () => {
-    const {
-      content,
-      title,
-      description,
-      icon,
-    } = await sendToContentScript({
-      name: 'getDefaultHtml',
-    });
-    setQuestions(o => [...o, {
-      user: content,
-      type: 'summary',
-      title,
-      description,
-      icon,
-    }]);
-  }, [])
+  // const handleSummary = useCallback(async () => {
+  //   const {
+  //     content,
+  //     title,
+  //     description,
+  //     icon,
+  //   } = await sendToContentScript({
+  //     name: 'getDefaultHtml',
+  //   });
+  //   setQuestions(o => [...o, {
+  //     user: content,
+  //     type: 'summary',
+  //     title,
+  //     description,
+  //     icon,
+  //   }]);
+  // }, [])
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
       <HeaderTools className="absolute z-10 top-0 left-0 w-full" />
       <div
-        className={`flex-1 p-4 overflow-hidden pt-16 overflow-y-auto${questions.length ? ' space-y-6' : ''}`}
+        className={`flex-1 p-4 overflow-hidden pt-16 overflow-y-auto${chats.length ? ' space-y-6' : ''}`}
       >
-        {questions.length ? questions.map((message, index) => (
+        {chats.length ? chats.map((data) => (
           <Chat
-            domain={config.domain}
-            apikey={config.apikey}
-            model={config.model}
-            type={config.type}
-            systemPrompt={config.systemPrompt}
-            summatySystemPrompt={config.summatySystemPrompt}
-            key={index}
-            message={message}
+            key={data.id}
+            data={data}
+            config={config}
             onMessageChange={scrollToBottom}
           />
         )) : (
@@ -506,7 +506,7 @@ export default function RegisterIndex() {
           className="h-0 w-0"
         />
       </div>
-      <div className="border-t relative p-4 space-y-2">
+      {/* <div className="border-t relative p-4 space-y-2">
         <div className="w-full flex items-center">
           <textarea
             className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
@@ -560,7 +560,7 @@ export default function RegisterIndex() {
           >
             <i className="inline-block icon-[material-symbols--allergy]" />
           </Button>
-          {/* <Button
+          <Button
             className=""
             size="sm"
             onClick={() => handleSubmit({
@@ -569,9 +569,10 @@ export default function RegisterIndex() {
             })}
           >
             <i className="inline-block icon-[ri--send-plane-fill]" />
-          </Button> */}
+          </Button>
         </div>
-      </div>
+      </div> */}
+      <InputBox />
       <Toaster />
     </div>
   )

@@ -138,8 +138,8 @@ dependencies:
     specifier: ^0.3.2
     version: 0.3.2
   input-otp:
-    specifier: ^1.2.0
-    version: 1.2.0(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^1.2.2
+    version: 1.2.2(react-dom@18.2.0)(react@18.2.0)
   langchain:
     specifier: ^0.1.28
     version: 0.1.28(axios@1.6.8)
@@ -261,7 +261,7 @@ packages:
   /@anthropic-ai/sdk@0.17.2:
     resolution: {integrity: sha512-xDfL/OblarYcwTSN2xBhynXJTkaTaxr8/v1fRKdT3grOZ4TrzIdrFfaTM771proR4g3uLe76PFSF3+gPjI6Gpw==}
     dependencies:
-      '@types/node': 18.19.24
+      '@types/node': 18.19.25
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -277,7 +277,7 @@ packages:
   /@anthropic-ai/sdk@0.9.1:
     resolution: {integrity: sha512-wa1meQ2WSfoY8Uor3EdrJq0jTiZJoKoSii2ZVWRY1oN4Tlr5s59pADg9T79FTbPe1/se5c3pBeZgJL63wmuoBA==}
     dependencies:
-      '@types/node': 18.19.24
+      '@types/node': 18.19.25
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -5093,8 +5093,8 @@ packages:
       form-data: 4.0.0
     dev: false
 
-  /@types/node@18.19.24:
-    resolution: {integrity: sha512-eghAz3gnbQbvnHqB+mgB2ZR3aH6RhdEmHGS48BnV75KceQPHqabkxKI0BbUSsqhqy2Ddhc2xD/VAR9ySZd57Lw==}
+  /@types/node@18.19.25:
+    resolution: {integrity: sha512-NrNXHJCexZtcbR9K1hsv1fSbwAwnhv7ql7l331aKvW0sej5H0NY1o64BHe0AA2ZoQuTm7NE6fyNW079MOWXe4Q==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -5467,7 +5467,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001599
-      electron-to-chromium: 1.4.708
+      electron-to-chromium: 1.4.710
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -5478,7 +5478,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001599
-      electron-to-chromium: 1.4.708
+      electron-to-chromium: 1.4.710
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
 
@@ -6015,8 +6015,8 @@ packages:
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  /electron-to-chromium@1.4.708:
-    resolution: {integrity: sha512-iWgEEvREL4GTXXHKohhh33+6Y8XkPI5eHihDmm8zUk5Zo7HICEW+wI/j5kJ2tbuNUCXJ/sNXa03ajW635DiJXA==}
+  /electron-to-chromium@1.4.710:
+    resolution: {integrity: sha512-w+9yAVHoHhysCa+gln7AzbO9CdjFcL/wN/5dd+XW/Msl2d/4+WisEaCF1nty0xbAKaxdaJfgLB2296U7zZB7BA==}
 
   /embla-carousel-react@8.0.0-rc19(react@18.2.0):
     resolution: {integrity: sha512-4BBj1HvlUqhWXFyDJOL/JbQ74jtekfdH646B1wQzM9QmWn6CEcbD/SmovKqc6B5jYTKaaGEGEEw7bpUJRajA8w==}
@@ -6447,7 +6447,7 @@ packages:
   /groq-sdk@0.3.2:
     resolution: {integrity: sha512-Xp1xOea7nqUcTMndpiA8VkjZ05jM/eUUeCILxhRF+c2etBz/myQwRcUrr5lpWc0euIt96AiBMa9aYa0Iqrh13g==}
     dependencies:
-      '@types/node': 18.19.24
+      '@types/node': 18.19.25
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -6614,8 +6614,8 @@ packages:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
     dev: false
 
-  /input-otp@1.2.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-54bYU7SqAYdAKNRpHXHGJZtuiSqSIHEs4iSr7Rte/Yot2IiovUtc3TxEcF7Ak5yeuhtJ0pvr99z5nHpPne5S7w==}
+  /input-otp@1.2.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9x6UurPuc9Tb+ywWFcFrG4ryvScSmfLyj8D35dl/HNpSr9jZNtWiXufU65kaDHD/KYUop7hDFH+caZCUKdYNsg==}
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
       react-dom: ^16.8 || ^17.0 || ^18.0
@@ -7841,7 +7841,7 @@ packages:
     resolution: {integrity: sha512-vvKRIgB4/7w48PGVbeR8OceH/PT6fRo4sTIjRC7+y7WoK7by1R0cXs2SZRx4KsEh0ZB8J0eqdVIdRgs8XzeoEg==}
     hasBin: true
     dependencies:
-      '@types/node': 18.19.24
+      '@types/node': 18.19.25
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0

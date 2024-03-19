@@ -55,7 +55,7 @@
     "date-fns": "^3.6.0",
     "embla-carousel-react": "8.0.0-rc19",
     "groq-sdk": "^0.3.2",
-    "input-otp": "^1.2.0",
+    "input-otp": "^1.2.2",
     "langchain": "^0.1.28",
     "marked": "^11.2.0",
     "nanoid": "^5.0.6",

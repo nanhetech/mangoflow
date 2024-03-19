@@ -41,20 +41,20 @@ const profileFormSchema = z.object({
     .optional(),
 })
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+export type ProfileFormValuesType = z.infer<typeof profileFormSchema>
 
 function SettingsModelPage() {
   const [config, setConfig] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
   const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
-  const defaultValues: Partial<ProfileFormValues> = config
-  const form = useForm<ProfileFormValues>({
+  const defaultValues: Partial<ProfileFormValuesType> = config
+  const form = useForm<ProfileFormValuesType>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: "onChange",
   })
   const type = form.getValues("type")
 
-  function onSubmit(data: ProfileFormValues) {
+  function onSubmit(data: ProfileFormValuesType) {
     setConfig({
       type: data.type || "",
       domain: data.domain || "",
