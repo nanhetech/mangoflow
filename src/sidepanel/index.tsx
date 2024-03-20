@@ -3,22 +3,15 @@ import { Button } from "~components/ui/button";
 import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
 import { Toaster } from "~components/ui/toaster";
-import { sendToContentScript } from "@plasmohq/messaging";
+import { usePort } from "@plasmohq/messaging/hook";
 import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
-import OpenAI from "openai";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import Groq from "groq-sdk";
-import Anthropic from "@anthropic-ai/sdk";
 import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import "../style.css";
 import type { ProfileFormValuesType } from "~options";
-import type { MessageParam } from "@anthropic-ai/sdk/resources";
-
-type RoleType = 'user' | 'system' | 'assistant';
 
 type ChatType = {
   id: string;
@@ -90,24 +83,19 @@ export type QuestionType = {
   icon?: string;
 }
 
-type MessageType = {
-  role: 'user' | 'system';
-  content: string;
-}
 
 type ChatProps = {
   data: ChatType;
   config: ProfileFormValuesType;
-  onMessageChange?: () => void;
 }
 
 const Chat = ({
   data,
   config,
-  onMessageChange = () => { }
 }: ChatProps) => {
+  const assistantPort = usePort("assistant")
   const { updateChatAssistantById: updataChat, list: chats } = useChatStore(state => state);
-  const { id, user, assistant, done } = data;
+  const { assistant } = data;
   const Ref = useRef(false);
   // const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -123,7 +111,7 @@ const Chat = ({
   //   speechSynthesis.speak(utterance);
   // }, [message, loading])
   const handleFetchData = useCallback(async () => {
-    const { type, model, apikey, domain, systemPrompt, summatySystemPrompt } = config;
+    const { type, model, apikey, domain, systemPrompt } = config;
     const { id, user } = data;
     if (!user || Ref.current) return;
     Ref.current = true;
@@ -144,99 +132,16 @@ const Chat = ({
       }] : []),
     ])).flat();
 
-    try {
-      if (['ollama', 'openai'].includes(type)) {
-        const openai = new OpenAI({
-          baseURL: type === 'ollama' ? 'http://localhost:11434/v1' : domain,
-          apiKey: type === 'ollama' ? 'ollama' : (apikey || ''),
-          dangerouslyAllowBrowser: true,
-        });
-
-        const stream = await openai.chat.completions.create({
-          model,
-          messages: [
-            {
-              "role": "system", "content": systemPrompt
-            },
-            { "role": "user", "content": user }
-          ],
-          temperature: 0.7,
-          max_tokens: 1024,
-          stream: true
-        });
-
-        for await (const chunk of stream) {
-          updataChat({
-            id,
-            assistant: (chunk.choices[0]?.delta?.content || ""),
-            done: false,
-          })
-        }
-      }
-
-      if (type === 'gemini') {
-        const genAI = new GoogleGenerativeAI(apikey);
-        const stream = genAI.getGenerativeModel({
-          model
-        })
-        const prompt = `${systemPrompt}\n${user}`;
-        const result = await stream.generateContentStream(prompt);
-        for await (const chunk of result.stream) {
-          updataChat({
-            id,
-            assistant: (chunk.text() || ""),
-            done: false,
-          })
-        }
-      }
-
-      if (type === 'groq') {
-        const groq = new Groq({ apiKey: apikey, dangerouslyAllowBrowser: true });
-        const stream = await groq.chat.completions.create({
-          messages: [
-            {
-              "role": "system", "content": systemPrompt
-            },
-            ...msgs
-          ],
-          model,
-          temperature: 0.7,
-          max_tokens: 1024,
-          top_p: 1,
-          stream: true
-        });
-        for await (const chunk of stream) {
-          updataChat({
-            id,
-            assistant: (chunk.choices[0]?.delta?.content || ""),
-            done: false,
-          })
-        }
-      }
-
-      if (type === 'claude') {
-        const anthropic = new Anthropic({
-          apiKey: apikey,
-        });
-
-        await anthropic.messages.stream({
-          model,
-          max_tokens: 1024,
-          system: systemPrompt,
-          messages: msgs as MessageParam[],
-        }).on('text', (text = "") => {
-          updataChat({
-            id,
-            assistant: text,
-            done: false,
-          })
-        });
-      }
-    } catch (error) {
-      console.error("error: ", error);
-      // setLoading(false);
-      setErrorMessage(chrome.i18n.getMessage("chatErrorMessage"));
-    }
+    assistantPort.send({
+      id,
+      type,
+      domain,
+      apikey,
+      model,
+      user,
+      systemPrompt,
+      msgs
+    })
   }, [Ref, config, data, chats])
   useEffect(() => {
     handleFetchData()
@@ -244,15 +149,6 @@ const Chat = ({
   // useEffect(() => {
   //   handleSpeechSynthesis()
   // }, [handleSpeechSynthesis])
-  useThrottleEffect(() => {
-    onMessageChange();
-  }, [
-    assistant,
-    errorMessage,
-    onMessageChange
-  ], {
-    wait: 300
-  });
   const htmlflow = useMemo(() => ({ __html: marked(assistant) }), [assistant]);
 
   return (
@@ -358,9 +254,7 @@ type InputBoxProps = {
   className?: string,
 }
 
-const InputBox = ({
-  className = '',
-}: InputBoxProps) => {
+const InputBox = () => {
   const { list: chats, clear, add: addChat } = useChatStore(state => state);
   const [prompts] = useStorage('prompts', []);
   const [activePrompt, setActivePrompt] = useStorage('activePrompt', null);
@@ -458,12 +352,21 @@ const InputBox = ({
 }
 
 export default function RegisterIndex() {
+  const assistantPort = usePort("assistant")
   const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
-  const { list: chats } = useChatStore(state => state);
+  const { updateChatAssistantById: updataChat, list: chats } = useChatStore(state => state);
   const chatListRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     chatListRef.current?.scrollIntoView(false);
   }
+  useEffect(() => {
+    assistantPort.listen(data => {
+      if (data) {
+        updataChat(data)
+        scrollToBottom()
+      }
+    })
+  }, [])
   // const handleSummary = useCallback(async () => {
   //   const {
   //     content,
@@ -493,7 +396,6 @@ export default function RegisterIndex() {
             key={data.id}
             data={data}
             config={config}
-            onMessageChange={scrollToBottom}
           />
         )) : (
           <div className="flex flex-col justify-center items-center h-full w-full space-y-1">
