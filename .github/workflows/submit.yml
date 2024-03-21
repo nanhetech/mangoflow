@@ -34,3 +34,4 @@ jobs:
           keys: ${{ secrets.BPP_KEYS }}
           chrome-file: build/chrome-mv3-prod.zip
           edge-file: build/edge-mv3-prod.zip
+          edge-notes: "Enter the settings page, Model type selection Groq Cloud, Api Key: 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, Model Name: mixtral-8x7b-32768, Then click the update button to test."
