@@ -93,9 +93,10 @@ const Chat = ({
   data,
   config,
 }: ChatProps) => {
-  const assistantPort = usePort("assistant")
+  const assistantPort = usePort("assistant");
+  const [copyState, setCopyState] = useState<boolean>(false);
   const { updateChatAssistantById: updataChat, list: chats } = useChatStore(state => state);
-  const { assistant } = data;
+  const { assistant, done = false } = data;
   const Ref = useRef(false);
   // const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState('');
@@ -149,7 +150,7 @@ const Chat = ({
   // useEffect(() => {
   //   handleSpeechSynthesis()
   // }, [handleSpeechSynthesis])
-  const htmlflow = useMemo(() => ({ __html: marked(assistant) }), [assistant]);
+  const htmlflow = useMemo(() => ({ __html: marked.parse(assistant) }), [assistant]);
 
   return (
     <div className="space-y-2">
@@ -168,8 +169,11 @@ const Chat = ({
         <div className="rounded-md bg-muted p-2 flex justify-center items-center">
           <i className="inline-block icon-[fluent-emoji--robot] text-2xl" />
         </div>
-        <div className="bg-muted max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group">
-          {assistant && <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" />}
+        <div className={cn("bg-muted max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group", {
+          'animate-pulse': !done
+        })}>
+          <article className="markdown prose prose-sm w-full break-words dark:prose-invert dark" dangerouslySetInnerHTML={htmlflow} />
+          {!done && <i className="inline-block icon-[ri--brush-fill] align-text-bottom mt-1" />}
           {/* {assistant ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : (!loading && <p>{errorMessage}<Button
             className="px-1 leading-tight h-auto align-text-bottom"
             size="sm"
@@ -183,26 +187,32 @@ const Chat = ({
           </Button></p>)} */}
           {/* {(!(assistant || errorMessage)) ? <i className="inline-block icon-[fluent-emoji--cat-with-tears-of-joy] align-text-bottom animate-pulse text-lg" /> : null} */}
           {/* 添加复制和重新生成按钮 */}
-          {/* <div className="hidden group-hover:block absolute left-0 bottom-0 bg-muted rounded-md rounded-tl-none translate-y-3/4 px-1">
+          {done && <div className="hidden group-hover:block absolute left-0 bottom-0 bg-muted rounded-md rounded-tl-none translate-y-3/4 px-1">
             <Button
               size="sm"
               variant="ghost"
               title="copy"
               onClick={() => {
-                navigator.clipboard.writeText(html);
+                navigator.clipboard.writeText(assistant).then(() => {
+                  setCopyState(true);
+
+                  setTimeout(() => {
+                    setCopyState(false);
+                  }, 1500);
+                });
               }}
             >
-              <i className="inline-block icon-[ri--file-copy-line]" />
+              {copyState ? <i className="inline-block icon-[ri--check-fill]" /> : <i className="inline-block icon-[ri--file-copy-line]" />}
             </Button>
-            <Button
+            {/* <Button
               size="sm"
               variant="ghost"
               title="regenerate"
               onClick={handleFetchData}
             >
               <i className="inline-block icon-[material-symbols--replay]" />
-            </Button>
-          </div> */}
+            </Button> */}
+          </div>}
         </div>
       </div>
     </div>
@@ -361,7 +371,7 @@ export default function RegisterIndex() {
   }
   useEffect(() => {
     assistantPort.listen(data => {
-      if (data) {
+      if (data?.id) {
         updataChat(data)
         scrollToBottom()
       }

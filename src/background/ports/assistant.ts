@@ -68,11 +68,13 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
         stream: true
       });
       for await (const chunk of stream) {
-        console.info("chunk is: ", chunk.choices[0]?.delta?.content);
+        // console.info("chunk is: ", chunk);
+        const { choices = [] } = chunk;
+        const { finish_reason = '', delta: { content = '' } = {} } = choices[0] || {};
         res.send({
           id,
-          assistant: (chunk.choices[0]?.delta?.content || ""),
-          done: false,
+          assistant: content,
+          done: finish_reason === 'stop',
         })
       }
     }
@@ -96,10 +98,11 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("error: ", error);
+    // console.error("error: ", typeof error);
     // setLoading(false);
     // setErrorMessage(chrome.i18n.getMessage("chatErrorMessage"));
     res.send({
+      error,
       message: chrome.i18n.getMessage("chatErrorMessage")
     })
   }
