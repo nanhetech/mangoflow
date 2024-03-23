@@ -100,5 +100,14 @@
   },
   "chatErrorMessage": {
     "message": "Not connected to the server and need to configure the model information correctly, click on the"
+  },
+  "settingsModelsTitle": {
+    "message": "Models"
+  },
+  "settingsPromptsTitle": {
+    "message": "Prompts"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "Super button"
   }
 }

@@ -100,5 +100,14 @@
   },
   "chatErrorMessage": {
     "message": "未連接到伺服器，需要正確配置模型訊息，請點擊"
+  },
+  "settingsModelsTitle": {
+    "message": "模型管理"
+  },
+  "settingsPromptsTitle": {
+    "message": "提示詞管理"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "超級按鈕管理"
   }
 }

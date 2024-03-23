@@ -6,14 +6,15 @@ import { Toaster } from "~components/ui/toaster";
 import { usePort } from "@plasmohq/messaging/hook";
 import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
-import { useThrottleEffect } from "ahooks";
 import { marked } from "marked";
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
-import "../style.css";
 import type { ProfileFormValuesType } from "~options";
+import { ScrollArea } from "~components/ui/scroll-area";
+import "../style.css";
+import { sendToContentScript } from "@plasmohq/messaging";
 
-type ChatType = {
+export type ChatType = {
   id: string;
   user: string;
   assistant?: string;
@@ -36,15 +37,11 @@ type ChatActions = {
   clear: () => void;
   add: (content: string) => void;
   updateChatAssistantById: (item: UpdataChatType) => void;
-  // setCount: (countCallback: (count: State['count']) => State['count']) => void
 }
 
 const useChatStore = create<ChatState & ChatActions>((set) => ({
   list: [],
   done: false,
-  // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  // removeAllBears: () => set({ bears: 0 }),
-  // updateBears: (newBears) => set({ bears: newBears }),
   updateChatAssistantById: (item) => set(({ list, done }) => {
     const result = [...list];
     const index = result.findIndex(({ id }) => item.id === id);
@@ -141,7 +138,7 @@ const Chat = ({
       model,
       user,
       systemPrompt,
-      msgs
+      chats
     })
   }, [Ref, config, data, chats])
   useEffect(() => {
@@ -155,41 +152,29 @@ const Chat = ({
   return (
     <div className="space-y-2">
       <div className="flex flex-col items-end md:flex-row-reverse md:items-start space-y-2 md:space-y-0">
-        <div className="md:ml-2 rounded-md bg-muted p-2 flex justify-center items-center">
+        <div className="md:ml-2 rounded-md bg-muted/40 p-2 flex justify-center items-center">
           {/* <i className="inline-block icon-[ri--bear-smile-line] text-2xl" /> */}
           <i className="inline-block icon-[fluent-emoji--beaming-face-with-smiling-eyes] text-2xl" />
         </div>
-        <div className="bg-muted rounded-md py-2 px-4 md:!ml-12 overflow-hidden max-w-full">
+        <div className="bg-muted/40 border rounded-md py-2 px-4 md:!ml-12 overflow-hidden max-w-full">
           <p className="prose-sm max-w-[570px]">
             {data.user}
           </p>
         </div>
       </div>
       <div className="flex space-x-0 md:space-x-2 items-start flex-col md:flex-row space-y-2 md:space-y-0">
-        <div className="rounded-md bg-muted p-2 flex justify-center items-center">
+        <div className="rounded-md bg-muted/40 p-2 flex justify-center items-center">
           <i className="inline-block icon-[fluent-emoji--robot] text-2xl" />
         </div>
-        <div className={cn("bg-muted max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group", {
+        <div className={cn("bg-muted/40 border max-w-full rounded-md py-2.5 px-4 md:!mr-12 relative group", {
           'animate-pulse': !done
         })}>
           <article className="markdown prose prose-sm w-full break-words dark:prose-invert dark" dangerouslySetInnerHTML={htmlflow} />
           {!done && <i className="inline-block icon-[ri--brush-fill] align-text-bottom mt-1" />}
-          {/* {assistant ? <article dangerouslySetInnerHTML={htmlflow} className="markdown prose prose-sm w-full break-words dark:prose-invert dark" /> : (!loading && <p>{errorMessage}<Button
-            className="px-1 leading-tight h-auto align-text-bottom"
-            size="sm"
-            variant="link"
-            title={chrome.i18n.getMessage("settingsTitle")}
-            onClick={() => {
-              chrome.runtime.openOptionsPage();
-            }}
-          >
-            <i className="inline-block icon-[ri--settings-fill]" />
-          </Button></p>)} */}
-          {/* {(!(assistant || errorMessage)) ? <i className="inline-block icon-[fluent-emoji--cat-with-tears-of-joy] align-text-bottom animate-pulse text-lg" /> : null} */}
           {/* 添加复制和重新生成按钮 */}
-          {done && <div className="hidden group-hover:block absolute left-0 bottom-0 bg-muted rounded-md rounded-tl-none translate-y-3/4 px-1">
+          {done && <div className="hidden group-hover:block absolute right-2 bottom-2 bg-muted/40 rounded-md">
             <Button
-              size="sm"
+              size="icon"
               variant="ghost"
               title="copy"
               onClick={() => {
@@ -205,7 +190,7 @@ const Chat = ({
               {copyState ? <i className="inline-block icon-[ri--check-fill]" /> : <i className="inline-block icon-[ri--file-copy-line]" />}
             </Button>
             {/* <Button
-              size="sm"
+              size="icon"
               variant="ghost"
               title="regenerate"
               onClick={handleFetchData}
@@ -268,6 +253,7 @@ const InputBox = () => {
   const { list: chats, clear, add: addChat } = useChatStore(state => state);
   const [prompts] = useStorage('prompts', []);
   const [activePrompt, setActivePrompt] = useStorage('activePrompt', null);
+  const [activeSuperButton] = useStorage('activeSuperButton', null);
   const [question, setQuestion] = useState<string>('');
   const handleSubmit = useCallback(() => {
     // if (!config) {
@@ -293,9 +279,27 @@ const InputBox = () => {
     addChat(question);
     setQuestion('');
   }, [question, setQuestion])
+  const handleSuperButton = useCallback(async () => {
+    if (!activeSuperButton) {
+      toast({
+        title: "No super button is active",
+        description: "Please activate a super button.",
+        variant: "destructive"
+      })
+    }
+    const {
+      content,
+      title,
+      description,
+      icon,
+    } = await sendToContentScript({
+      name: 'getDefaultHtml',
+    });
+
+  }, [])
 
   return (
-    <div className="border-t relative p-4 space-y-2">
+    <div className="bg-muted/40 border-t relative p-4 space-y-2">
       <div className="w-full flex items-center">
         <textarea
           className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
@@ -337,15 +341,15 @@ const InputBox = () => {
         >
           <i className="inline-block icon-[ri--chat-new-fill]" />
         </Button>}
-        {/* <Button
-          className="ml-auto"
+        <Button
+          className="ml-auto relative z-50"
           size="icon"
           variant="outline"
           title={chrome.i18n.getMessage("summaryDescription")}
-          onClick={handleSummary}
+          onClick={handleSuperButton}
         >
           <i className="inline-block icon-[material-symbols--allergy]" />
-        </Button> */}
+        </Button>
         {/* <Button
             className=""
             size="sm"
@@ -374,116 +378,42 @@ export default function RegisterIndex() {
       if (data?.id) {
         updataChat(data)
         scrollToBottom()
+      } else {
+        toast({
+          title: "无法访问服务器",
+          description: "可能是配置不正确或者网络被阻止",
+          variant: "destructive"
+        })
       }
     })
   }, [])
-  // const handleSummary = useCallback(async () => {
-  //   const {
-  //     content,
-  //     title,
-  //     description,
-  //     icon,
-  //   } = await sendToContentScript({
-  //     name: 'getDefaultHtml',
-  //   });
-  //   setQuestions(o => [...o, {
-  //     user: content,
-  //     type: 'summary',
-  //     title,
-  //     description,
-  //     icon,
-  //   }]);
-  // }, [])
 
   return (
     <div className="flex flex-col overflow-hidden h-full relative">
       <HeaderTools className="absolute z-10 top-0 left-0 w-full" />
-      <div
-        className={`flex-1 p-4 overflow-hidden pt-16 overflow-y-auto${chats.length ? ' space-y-6' : ''}`}
-      >
-        {chats.length ? chats.map((data) => (
-          <Chat
-            key={data.id}
-            data={data}
-            config={config}
-          />
-        )) : (
-          <div className="flex flex-col justify-center items-center h-full w-full space-y-1">
-            <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
-            <p>MangoFlow</p>
-          </div>
-        )}
+      <ScrollArea className="flex-1">
         <div
-          ref={chatListRef}
-          className="h-0 w-0"
-        />
-      </div>
-      {/* <div className="border-t relative p-4 space-y-2">
-        <div className="w-full flex items-center">
-          <textarea
-            className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
-            name="prompt"
-            placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
-            autoFocus
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                event.stopPropagation();
-                handleSubmit({
-                  type: 'chat',
-                  user: question,
-                });
-              }
-            }}
+          className="p-4 overflow-hidden pt-16 overflow-y-auto space-y-6"
+        >
+          {!!chats.length && chats.map((data) => (
+            <Chat
+              key={data.id}
+              data={data}
+              config={config}
+            />
+          ))}
+          <div
+            ref={chatListRef}
+            className="h-0 w-0"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Select>
-            <SelectTrigger className="w-auto max-w-full space-x-1">
-              <span>Prompt:</span><SelectValue placeholder="Select a prompt" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Prompt template</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          {!!questions.length && <Button
-            size="icon"
-            variant="outline"
-            title={chrome.i18n.getMessage("newChat")}
-            onClick={() => setQuestions([])}
-          >
-            <i className="inline-block icon-[ri--chat-new-fill]" />
-          </Button>}
-          <Button
-            className="ml-auto"
-            size="icon"
-            variant="outline"
-            title={chrome.i18n.getMessage("summaryDescription")}
-            onClick={handleSummary}
-          >
-            <i className="inline-block icon-[material-symbols--allergy]" />
-          </Button>
-          <Button
-            className=""
-            size="sm"
-            onClick={() => handleSubmit({
-              type: 'chat',
-              user: question,
-            })}
-          >
-            <i className="inline-block icon-[ri--send-plane-fill]" />
-          </Button>
+      </ScrollArea>
+      {!chats.length && (
+        <div className="flex flex-col justify-center items-center h-full w-full space-y-1 pointer-events-none select-none">
+          <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
+          <p>MangoFlow</p>
         </div>
-      </div> */}
+      )}
       <InputBox />
       <Toaster />
     </div>

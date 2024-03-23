@@ -5,54 +5,92 @@ import Groq from "groq-sdk";
 import OpenAI from "openai";
 
 const handler: PlasmoMessaging.PortHandler = async (req, res) => {
-  const { id, type, domain, apikey, model, user, systemPrompt, msgs } = req.body || {};
+  const { id, type, domain, apikey, model, user, systemPrompt, chats } = req.body || {};
+
   try {
     if (['ollama', 'openai'].includes(type)) {
+      const msgs = chats.map(chat => ([
+        {
+          role: 'user', content: chat.user,
+        },
+        ...(chat.assistant ? [{
+          role: 'assistant',
+          content: chat.assistant,
+        }] : []),
+      ])).flat();
       const openai = new OpenAI({
         baseURL: type === 'ollama' ? 'http://localhost:11434/v1' : domain,
         apiKey: type === 'ollama' ? 'ollama' : (apikey || ''),
         dangerouslyAllowBrowser: true,
       });
-
       const stream = await openai.chat.completions.create({
         model,
         messages: [
           {
             "role": "system", "content": systemPrompt
           },
-          { "role": "user", "content": user }
+          ...msgs,
         ],
         temperature: 0.7,
-        max_tokens: 1024,
+        max_tokens: 10240,
         stream: true
       });
 
       for await (const chunk of stream) {
+        const { choices = [] } = chunk;
+        const { finish_reason = '', delta: { content = '' } = {} } = choices[0] || {};
+
         res.send({
           id,
-          assistant: (chunk.choices[0]?.delta?.content || ""),
-          done: false,
+          assistant: content,
+          done: finish_reason === 'stop',
         })
       }
     }
 
     if (type === 'gemini') {
+      const msgs = chats.filter(({ assistant }) => assistant).map(chat => ([
+        {
+          role: 'user', parts: [{ text: chat.user }],
+        },
+        ...(chat.assistant ? [{
+          role: 'model',
+          parts: [{ text: chat.assistant }],
+        }] : []),
+      ])).flat();
       const genAI = new GoogleGenerativeAI(apikey);
-      const stream = genAI.getGenerativeModel({
+      const genModel = genAI.getGenerativeModel({
         model
       })
-      const prompt = `${systemPrompt}\n${user}`;
-      const result = await stream.generateContentStream(prompt);
+      const chat = genModel.startChat({
+        history: msgs,
+        generationConfig: {
+          maxOutputTokens: 10000,
+        },
+      });
+      const prompt = systemPrompt ? `${systemPrompt}:\n${user}` : user;
+      const result = await chat.sendMessageStream(prompt);
       for await (const chunk of result.stream) {
+        const { candidates = [] } = chunk;
+        const { finishReason = '', content: { parts = [] } = {} } = candidates[0] || {};
         res.send({
           id,
           assistant: (chunk.text() || ""),
-          done: false,
+          done: finishReason === 'STOP',
         })
       }
     }
 
     if (type === 'groq') {
+      const msgs = chats.map(chat => ([
+        {
+          role: 'user', content: chat.user,
+        },
+        ...(chat.assistant ? [{
+          role: 'assistant',
+          content: chat.assistant,
+        }] : []),
+      ])).flat();
       const groq = new Groq({ apiKey: apikey, dangerouslyAllowBrowser: true });
       const stream = await groq.chat.completions.create({
         messages: [
@@ -68,7 +106,6 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
         stream: true
       });
       for await (const chunk of stream) {
-        // console.info("chunk is: ", chunk);
         const { choices = [] } = chunk;
         const { finish_reason = '', delta: { content = '' } = {} } = choices[0] || {};
         res.send({
@@ -80,6 +117,15 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
     }
 
     if (type === 'claude') {
+      const msgs = chats.map(chat => ([
+        {
+          role: 'user', content: chat.user,
+        },
+        ...(chat.assistant ? [{
+          role: 'assistant',
+          content: chat.assistant,
+        }] : []),
+      ])).flat();
       const anthropic = new Anthropic({
         apiKey: apikey,
       });
@@ -94,6 +140,12 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
           id,
           assistant: text,
           done: false,
+        })
+      }).on('finalMessage', () => {
+        res.send({
+          id,
+          assistant: '',
+          done: true,
         })
       });
     }

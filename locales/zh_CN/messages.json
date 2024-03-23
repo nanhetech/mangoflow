@@ -103,5 +103,14 @@
   },
   "settingsPromptModel": {
     "message": "提示词设置"
+  },
+  "settingsModelsTitle": {
+    "message": "模型管理"
+  },
+  "settingsPromptsTitle": {
+    "message": "提示词管理"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "超级按钮管理"
   }
 }
