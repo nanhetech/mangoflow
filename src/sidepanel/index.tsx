@@ -11,8 +11,8 @@ import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import type { ProfileFormValuesType } from "~options";
 import { ScrollArea } from "~components/ui/scroll-area";
-import "../style.css";
 import { sendToContentScript } from "@plasmohq/messaging";
+import "../style.css";
 
 export type ChatType = {
   id: string;

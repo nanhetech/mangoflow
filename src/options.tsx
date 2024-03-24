@@ -19,7 +19,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~comp
 import { Sheet, SheetContent, SheetTrigger } from "~components/ui/sheet"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "~components/ui/dropdown-menu"
 import logoUrl from "raw:/assets/icon.png"
+import { create } from 'zustand';
 import { nanoid } from 'nanoid';
+import { Storage } from "@plasmohq/storage"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~components/ui/dialog"
 
 type OllamaModeelType = {
   name: string,
@@ -235,26 +238,250 @@ function SettingsModelPage() {
   )
 }
 
+const storage = new Storage();
+type Model = {
+  id?: string,
+  title?: string,
+  type?: string,
+  description?: string,
+  url?: string,
+  apikey?: string,
+  name?: string,
+}
+type ModelState = {
+  activeModel: Model | null;
+}
+type ModelActions = {
+  update: (model: Model) => void;
+  close: () => void;
+  open: () => void;
+}
+const useActiveModelStore = create<ModelState & ModelActions>((set) => ({
+  activeModel: null,
+  update: (model) => set(state => ({
+    activeModel: model,
+  })),
+  close: () => set({
+    activeModel: null
+  }),
+  open: () => set({
+    activeModel: {}
+  })
+}))
+const EditModelDialog = () => {
+  const { activeModel, open, update, close } = useActiveModelStore(state => state);
+  const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
+  const defaultValues: Partial<ProfileFormValuesType> = activeModel
+  const form = useForm<ProfileFormValuesType>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues,
+    mode: "onChange",
+  })
+  const type = form.getValues("type")
+
+  function onSubmit(data: ProfileFormValuesType) {
+    // setConfig({
+    //   type: data.type || "",
+    //   domain: data.domain || "",
+    //   apikey: data.apikey || "",
+    //   model: data.model || "",
+    //   systemPrompt: data.systemPrompt || DEFAULT_SYSTEM_PROMPT,
+    //   summatySystemPrompt: data.summatySystemPrompt || DEFAULT_SUMMATY_SYSTEM_PROMPT,
+    // });
+  }
+
+  useEffect(() => {
+    form.reset(defaultValues)
+  }, [activeModel])
+
+  const handleGetOllamaTags = useCallback(async () => {
+    if (type === 'ollama') {
+      const response = await fetch('http://localhost:11434/api/tags')
+      const { models } = await response.json()
+      setOllamaTags(models)
+    }
+  }, [type])
+
+  useEffect(() => {
+    handleGetOllamaTags()
+  }, [type])
+
+  return (
+    <Dialog open={!!activeModel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{activeModel?.id ? "Modifying model information" : "Add a model"}</DialogTitle>
+          <DialogDescription>
+            Please fill in the model information below
+          </DialogDescription>
+        </DialogHeader>
+        <div className="">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsModelType")}</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a model" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="gemini">Google Gemini</SelectItem>
+                        <SelectItem value="claude">Anthropic Claude 3</SelectItem>
+                        <SelectItem value="groq">Groq Cloud</SelectItem>
+                        <SelectItem value="ollama">Ollama</SelectItem>
+                        <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      {chrome.i18n.getMessage(type === 'ollama' ? "settingsOllamaModelTypeDescription" : "settingsModelTypeDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {['openai'].includes(type) && <FormField
+                control={form.control}
+                name="domain"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsDomain")}</FormLabel>
+                    <FormControl>
+                      <Input placeholder="" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      {chrome.i18n.getMessage("settingsDomainDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />}
+              {['openai', 'gemini', 'groq', 'claude'].includes(type) && <FormField
+                control={form.control}
+                name="apikey"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsApikey")}</FormLabel>
+                    <FormControl>
+                      <Input placeholder="" type="password" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      {['gemini', 'groq', 'claude'].includes(type) ? <div>
+                        <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
+                          {chrome.i18n.getMessage("settingsGetApikey")}
+                        </a>
+                      </div> : chrome.i18n.getMessage("settingsApikeyDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />}
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsModel")}</FormLabel>
+                    {['ollama'].includes(type) ? <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {!!ollamaTags.length && ollamaTags.map(({
+                          name,
+                          digest
+                        }) => <SelectItem key={digest} value={name}>{name}</SelectItem>)}
+                      </SelectContent>
+                    </Select> : <FormControl>
+                      <Input placeholder="" {...field} />
+                    </FormControl>}
+                    <FormDescription>
+                      {chrome.i18n.getMessage(type === 'ollama' ? "settingsModelNameOllamaDescription" : "settingsModelDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="systemPrompt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsSystemPrompt")}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={chrome.i18n.getMessage("settingsSystemPromptDescription")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {chrome.i18n.getMessage("settingsSystemPromptDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="summatySystemPrompt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsSummatyPrompt")}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={chrome.i18n.getMessage("settingsSummatyPromptDescription")}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {chrome.i18n.getMessage("settingsSummatyPromptDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button onClick={close} variant="secondary">Cancel</Button>
+                <Button variant="default" type="submit">{activeModel?.id ? "Save" : "Add"}</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 const SettingsModelsPage = () => {
   const [models, setModels] = useStorage('models', []);
   const [activeModel, setActiveModel] = useStorage('activeModel', null);
+  const { activeModel: activeModelDialog, open, update, close } = useActiveModelStore(state => state);
+  console.info("models: ", models)
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <div className="flex items-center">
+      {/* <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Models</h1>
-      </div>
+      </div> */}
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-4">
         <div className="flex flex-col items-center gap-1 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
             You have no models
           </h3>
           <p className="text-sm text-muted-foreground">
-            You can start selling as soon as you add a product.
+            You can talk to the AI after adding a model.
           </p>
-          <Button className="mt-4">Add Model</Button>
+          <Button className="mt-4" onClick={() => open()}>Add Model</Button>
         </div>
       </div>
+      <EditModelDialog />
     </main>
   )
 }
@@ -367,7 +594,7 @@ function IndexOptions() {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <div className="flex items-center gap-1 font-semibold">
               <img src={logoUrl} className="h-6 w-6" alt="" />
-              <span className="text-sm">MangoFlow</span>
+              <span className="text-lg">MangoFlow</span>
             </div>
             {/* <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <i className="inline-block icon-[ri--menu-fill]" />
@@ -435,10 +662,10 @@ function IndexOptions() {
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
                 <p
-                  className="flex items-center justify-center gap-2 text-lg font-semibold"
+                  className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <img src={logoUrl} className="h-6 w-6" alt="" />
-                  <span className="sr-only">{chrome.i18n.getMessage("extensionName")}</span>
+                  <span className="text-lg">{chrome.i18n.getMessage("extensionName")}</span>
                 </p>
                 {sidebarNavItems.map(({ title, key: navItemKey, icon }) => {
                   return (

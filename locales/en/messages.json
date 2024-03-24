@@ -24,10 +24,10 @@
     "message": "Model Type"
   },
   "settingsModelTypeDescription": {
-    "message": "The Ollama service needs to be started with the command: 'OLLAMA_ORIGINS=chrome-extension://* ollama serve'"
+    "message": ""
   },
   "settingsOllamaModelTypeDescription": {
-    "message": "需要使用 OLLAMA_ORIGINS=chrome-extension://* ollama serve 命令启动 Ollama 服务"
+    "message": "The Ollama service needs to be started with the command: 'OLLAMA_ORIGINS=chrome-extension://* ollama serve'"
   },
   "settingsApikey": {
     "message": "Api Key"
