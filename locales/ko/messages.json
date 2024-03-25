@@ -1,0 +1,116 @@
+{
+  "extensionName": {
+    "message": "MongoFlow: AI 대화 사이드바"
+  },
+  "extensionDescription": {
+    "message": "인터넷 서핑의 좋은 파트너, 웹 페이지 탐색을 위한 지능형 도우미"
+  },
+  "textareaPlaceholder": {
+    "message": "메시지를 입력하고 Enter 키를 눌러 전송하세요."
+  },
+  "settingsTitle": {
+    "message": "설정"
+  },
+  "settingsDescription": {
+    "message": "플러그인 구성 관리"
+  },
+  "settingsDomain": {
+    "message": "도메인"
+  },
+  "settingsDomainDescription": {
+    "message": "백엔드 서비스의 전체 요청 주소입니다. 예: https://api.openai.com/v1"
+  },
+  "settingsModelType": {
+    "message": "모델 유형"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "OLLAMA_ORIGINS=chrome-extension://* ollama serve 명령을 사용하여 Ollama 서비스를 시작해야 합니다."
+  },
+  "settingsApikey": {
+    "message": "키"
+  },
+  "settingsModel": {
+    "message": "모델 이름"
+  },
+  "settingsApikeyDescription": {
+    "message": "백엔드 서비스의 요청 키입니다. 예: sk-xxxxxx. 백엔드 서비스에서 가져와야 합니다."
+  },
+  "settingsModelDescription": {
+    "message": "백엔드 서비스의 모델 이름입니다. 예: davinci. 백엔드 서비스에서 가져와야 합니다."
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "모든 모델이 채팅 모드를 지원하는 것은 아닙니다."
+  },
+  "settingsDomainError": {
+    "message": "올바른 URL 을 입력하세요."
+  },
+  "settingsApikeyError": {
+    "message": "올바른 API 키를 입력하세요."
+  },
+  "settingsProfileTitle": {
+    "message": "프로필"
+  },
+  "settingsProfileDescription": {
+    "message": "프로필 정보 관리"
+  },
+  "settingsUpdateBtn": {
+    "message": "업데이트"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "도메인이 비어 있습니다."
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "올바른 요청 도메인을 입력하세요."
+  },
+  "summary": {
+    "message": "페이지 요약"
+  },
+  "summaryDescription": {
+    "message": "현재 페이지의 주요 내용 요약"
+  },
+  "settingsSidebarModel": {
+    "message": "모델 설정"
+  },
+  "settingsModelOpenai": {
+    "message": "기타 (OpenAI 유형)"
+  },
+  "settingsGetApikey": {
+    "message": "API 키 가져오기"
+  },
+  "newChat": {
+    "message": "새 대화"
+  },
+  "settingsSubmitSuccess": {
+    "message": "설정이 업데이트되었습니다."
+  },
+  "settingsSystemPrompt": {
+    "message": "시스템 프롬프트"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "이 프롬프트는 AI 대화 창에서만 작동합니다."
+  },
+  "settingsSummatyPrompt": {
+    "message": "요약 기능 시스템 프롬프트"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "이 프롬프트는 요약 버튼 기능에서만 작동합니다."
+  },
+  "chatErrorMessage": {
+    "message": "서버에 연결되지 않았습니다. 모델 정보를 올바르게 구성해야 합니다. 클릭하세요."
+  },
+  "settingsPromptModel": {
+    "message": "프롬프트 설정"
+  },
+  "settingsModelsTitle": {
+    "message": "모델 관리"
+  },
+  "settingsPromptsTitle": {
+    "message": "프롬프트 관리"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "슈퍼 버튼 관리"
+  }
+}
