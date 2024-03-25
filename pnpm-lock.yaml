@@ -141,8 +141,8 @@ dependencies:
     specifier: ^1.2.3
     version: 1.2.3(react-dom@18.2.0)(react@18.2.0)
   langchain:
-    specifier: ^0.1.28
-    version: 0.1.28(axios@1.6.8)
+    specifier: ^0.1.29
+    version: 0.1.29(axios@1.6.8)
   marked:
     specifier: ^11.2.0
     version: 11.2.0
@@ -6854,8 +6854,8 @@ packages:
       json-buffer: 3.0.1
     dev: false
 
-  /langchain@0.1.28(axios@1.6.8):
-    resolution: {integrity: sha512-LNuILtOSFptfOqDwUwQAl7B0dYrBtxzVZ6lDhc5DA8rk+pyTCy12HQO7t8bGqC8oQlEPYPKaom8VRlvfupUBTw==}
+  /langchain@0.1.29(axios@1.6.8):
+    resolution: {integrity: sha512-IVS+eyQXp/9oy3+yFoCFgi2ZAZPak9nQJARvcjn8a0PwSXRCUIy8OkNjcV2kdoypbUhGhTyDw19BzFhLKq4vYg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.310.0
@@ -6879,7 +6879,7 @@ packages:
       cheerio: ^1.0.0-rc.12
       chromadb: '*'
       convex: ^1.3.1
-      couchbase: ^4.2.10
+      couchbase: ^4.3.0
       d3-dsv: ^2.0.0
       epub2: ^3.0.1
       faiss-node: '*'
@@ -7019,7 +7019,6 @@ packages:
       '@langchain/openai': 0.0.23
       axios: 1.6.8
       binary-extensions: 2.3.0
-      expr-eval: 2.0.2
       js-tiktoken: 1.0.10
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
