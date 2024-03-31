@@ -12,8 +12,9 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
 import { Textarea } from "~components/ui/textarea"
 import { DEFAULT_MODEL_CONFIG, DEFAULT_SUMMATY_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT, GET_API_KEY_URL, cn } from "~lib/utils"
-import * as z from "zod"
-import "./style.css"
+import * as z from "zod";
+import "./style.css";
+import 'animate.css';
 import { Badge } from "~components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~components/ui/card"
 import { Sheet, SheetContent, SheetTrigger } from "~components/ui/sheet"
@@ -24,6 +25,8 @@ import { nanoid } from 'nanoid';
 import { Storage } from "@plasmohq/storage"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~components/ui/dialog"
 import { ScrollArea } from "~components/ui/scroll-area"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~components/ui/table"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~components/ui/alert-dialog"
 
 type OllamaModeelType = {
   name: string,
@@ -240,7 +243,7 @@ function SettingsModelPage() {
 }
 
 const storage = new Storage();
-type Model = {
+export type Model = {
   id?: string,
   title?: string,
   description?: string,
@@ -251,14 +254,17 @@ type Model = {
 }
 type ModelState = {
   activeModel: Model | null;
+  deleteModel: Model | null;
 }
 type ModelActions = {
   update: (model: Model) => void;
   close: () => void;
   open: (model?: Model) => void;
+  openDelete: (model?: Model) => void;
 }
 const useActiveModelStore = create<ModelState & ModelActions>((set) => ({
   activeModel: null,
+  deleteModel: null,
   update: (model) => set(state => ({
     activeModel: model,
   })),
@@ -267,8 +273,47 @@ const useActiveModelStore = create<ModelState & ModelActions>((set) => ({
   }),
   open: (model) => set({
     activeModel: model || {}
+  }),
+  openDelete: (model) => set({
+    deleteModel: model || null
   })
 }))
+
+const ConfrimDeleteModal = ({
+  title,
+}: {
+  title?: string,
+}) => {
+  const { deleteModel, openDelete } = useActiveModelStore(state => state);
+  const handleDeleteModel = useCallback(async () => {
+    const list = await storage.get<Model[]>("models");
+    const newList = list.filter(({ id }) => id !== deleteModel?.id)
+    await storage.set("models", newList);
+    toast({
+      title: "删除成功",
+    })
+  }, [deleteModel])
+
+  return (
+    <AlertDialog open={!!deleteModel} onOpenChange={(open) => {
+      if (!open) openDelete()
+    }}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your account
+            and remove your data from our servers.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteModel}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
 
 const modelFormSchema = z.object({
   title: z
@@ -318,31 +363,47 @@ const EditModelDialog = () => {
   })
   const type = form.getValues("type")
 
-  const onSubmit = async ({
-    title,
-    type,
-    url,
-    apikey,
-    name
-  }: ModelFormValuesType) => {
-    const data = {
-      id: nanoid(),
-      title,
-      type,
-      url,
-      apikey,
-      name,
+  const onSubmit = async (val: ModelFormValuesType) => {
+    if (activeModel?.id) {
+      const list = await storage.get<Model[]>("models");
+      const newList = list?.map((item) => {
+        if (item.id === activeModel?.id) {
+          return {
+            ...item,
+            ...val,
+          }
+        }
+        return item;
+      })
+      await storage.set("models", newList);
+      toast({
+        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+            <code className="text-white">{JSON.stringify(val, null, 2)}</code>
+          </pre>
+        ),
+      })
+    } else {
+      const data = {
+        id: nanoid(),
+        ...val,
+      }
+      const list = await storage.get("models");
+      await storage.set("models", [...(list || []), data])
+
+      if (list?.length === 0) {
+        await storage.set("activeModel", data);
+      }
+      toast({
+        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
     }
-    const list = await storage.get("models");
-    await storage.set("models", [...(list || []), data])
-    toast({
-      title: chrome.i18n.getMessage("settingsSubmitSuccess"),
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
     close()
   }
 
@@ -498,14 +559,40 @@ const ModelCard = ({ data }: {
   data: Model,
 }) => {
   const { id, title, type, apikey, name } = data;
+  const { update, openDelete } = useActiveModelStore(state => state);
 
   return (
-    <div className="flex gap-2 p-4">
-      <p>{title}</p>
-      <p>{type}</p>
-      <p>{apikey}</p>
-      <p>{name}</p>
-    </div>
+    <TableRow>
+      <TableCell className="font-medium">
+        {title}
+      </TableCell>
+      <TableCell>
+        <Badge variant="outline">{type}</Badge>
+      </TableCell>
+      <TableCell>{apikey}</TableCell>
+      <TableCell className="hidden md:table-cell">
+        {name}
+      </TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              aria-haspopup="true"
+              size="icon"
+              variant="ghost"
+            >
+              <i className=" inline-block icon-[ri--more-fill]" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => update(data)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => openDelete(data)}>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
   )
 }
 
@@ -521,7 +608,24 @@ const SettingsModelsPage = () => {
         <h1 className="text-lg font-semibold md:text-2xl">Models</h1>
       </div> */}
       {!!models.length ? <ScrollArea className="flex flex-1 flex-col gap-4">
-        {models.map((data) => <ModelCard key={data.id} data={data} />)}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead className="hidden md:table-cell">
+                Total Sales
+              </TableHead>
+              <TableHead>
+                <span className="sr-only">Actions</span>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {models.map((data) => <ModelCard key={data.id} data={data} />)}
+          </TableBody>
+        </Table>
       </ScrollArea> : <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-4">
         <div className="flex flex-col items-center gap-1 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
@@ -534,6 +638,7 @@ const SettingsModelsPage = () => {
         </div>
       </div>}
       <EditModelDialog />
+      <ConfrimDeleteModal />
     </main>
   )
 }
@@ -679,7 +784,7 @@ function IndexOptions() {
           </div>
         </div>
         <div className="flex flex-col">
-          <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 md:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button

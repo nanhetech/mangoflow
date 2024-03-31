@@ -9,10 +9,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { marked } from "marked";
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
-import type { ProfileFormValuesType } from "~options";
+import type { Model, ProfileFormValuesType } from "~options";
 import { ScrollArea } from "~components/ui/scroll-area";
 import { sendToContentScript } from "@plasmohq/messaging";
 import "../style.css";
+import 'animate.css';
 
 export type ChatType = {
   id: string;
@@ -36,6 +37,7 @@ type ChatState = {
 type ChatActions = {
   clear: () => void;
   add: (content: string) => void;
+  remove: (id: string) => void;
   updateChatAssistantById: (item: UpdataChatType) => void;
 }
 
@@ -66,6 +68,13 @@ const useChatStore = create<ChatState & ChatActions>((set) => ({
     }],
     done: false,
   })),
+  remove: (id) => set(({ list }) => {
+    const result = [...list];
+    return {
+      list: result.filter((item) => item.id !== id),
+      done: false,
+    }
+  }),
   clear: () => set({ list: [] }),
 }))
 
@@ -109,7 +118,7 @@ const Chat = ({
   //   speechSynthesis.speak(utterance);
   // }, [message, loading])
   const handleFetchData = useCallback(async () => {
-    const { type, model, apikey, domain, systemPrompt } = config;
+    const { systemPrompt } = config;
     const { id, user } = data;
     if (!user || Ref.current) return;
     Ref.current = true;
@@ -120,23 +129,8 @@ const Chat = ({
       done: false,
     })
     setErrorMessage('');
-    const msgs = chats.map(chat => ([
-      {
-        role: 'user', content: chat.user,
-      },
-      ...(chat.assistant ? [{
-        role: 'assistant',
-        content: chat.assistant,
-      }] : []),
-    ])).flat();
 
     assistantPort.send({
-      id,
-      type,
-      domain,
-      apikey,
-      model,
-      user,
       systemPrompt,
       chats
     })
@@ -211,23 +205,26 @@ type HeaderToolsProps = {
 const HeaderTools = ({
   className = ''
 }: HeaderToolsProps) => {
-  const [models] = useStorage('models', []);
-  const [activeModel, setActiveModel] = useStorage('activeModel', null);
+  const [models] = useStorage<Model[]>('models', []);
+  const [activeModel, setActiveModel] = useStorage<Model>('activeModel', null);
+  const handleSetActiveModel = useCallback((id: string) => {
+    const model = models.find(model => model.id === id);
+    setActiveModel(model)
+  }, [models])
 
   return (
     <div className={cn('flex justify-between items-center space-x-2 p-4 pb-2 bg-opacity-95 backdrop-blur backdrop-filter', className)}>
-      <Select onValueChange={console.info} >
+      <Select value={activeModel?.id} onValueChange={handleSetActiveModel} >
         <SelectTrigger className="max-w-full w-auto space-x-1">
-          <span>Model:</span><SelectValue placeholder="Select a model" />
+          {/* <span>Model:</span> */}
+          <SelectValue placeholder="Select a model" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Model</SelectLabel>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
+            {models?.map(({ id, title, description, type, url, apikey, name }) => (
+              <SelectItem key={id} value={id}>{title}</SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -302,7 +299,9 @@ const InputBox = () => {
     <div className="bg-muted/40 border-t relative p-4 space-y-2">
       <div className="w-full flex items-center">
         <textarea
-          className="block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm"
+          className={cn("block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm", {
+            "animate__animated animate__headShake": true
+          })}
           name="prompt"
           placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
           autoFocus
@@ -368,22 +367,23 @@ const InputBox = () => {
 export default function RegisterIndex() {
   const assistantPort = usePort("assistant")
   const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
-  const { updateChatAssistantById: updataChat, list: chats } = useChatStore(state => state);
+  const { updateChatAssistantById: updataChat, list: chats, remove } = useChatStore(state => state);
   const chatListRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     chatListRef.current?.scrollIntoView(false);
   }
   useEffect(() => {
     assistantPort.listen(data => {
-      if (data?.id) {
-        updataChat(data)
-        scrollToBottom()
-      } else {
+      if (data?.error) {
         toast({
           title: "无法访问服务器",
           description: "可能是配置不正确或者网络被阻止",
           variant: "destructive"
         })
+        remove(data.id)
+      } else {
+        updataChat(data)
+        scrollToBottom()
       }
     })
   }, [])

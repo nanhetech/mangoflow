@@ -1,11 +1,32 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import type { PlasmoMessaging } from "@plasmohq/messaging"
+import type { PlasmoMessaging } from "@plasmohq/messaging";
 import Groq from "groq-sdk";
 import OpenAI from "openai";
+// import ollama from 'ollama';
+import { Storage } from "@plasmohq/storage"
+import type { Model } from "~options";
+import type { ChatType } from "~sidepanel";
 
-const handler: PlasmoMessaging.PortHandler = async (req, res) => {
-  const { id, type, domain, apikey, model, user, systemPrompt, chats } = req.body || {};
+type ReqBodyType = {
+  chats: ChatType[],
+  systemPrompt: string,
+}
+const storage = new Storage();
+const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) => {
+  const { systemPrompt, chats } = req.body || {};
+  const activeModel = await storage.get<Model>("activeModel");
+  const { id, user } = chats.find(({ assistant }) => !assistant);
+
+  if (!activeModel?.id) {
+    res.send({
+      id,
+      error: "Model is already active",
+      message: chrome.i18n.getMessage("chatErrorMessage")
+    })
+    return;
+  }
+  const { type, url, apikey, name } = activeModel;
 
   try {
     if (['ollama', 'openai'].includes(type)) {
@@ -19,17 +40,17 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
         }] : []),
       ])).flat();
       const openai = new OpenAI({
-        baseURL: type === 'ollama' ? 'http://localhost:11434/v1' : domain,
+        baseURL: type === 'ollama' ? 'http://localhost:11434/v1' : url,
         apiKey: type === 'ollama' ? 'ollama' : (apikey || ''),
         dangerouslyAllowBrowser: true,
       });
       const stream = await openai.chat.completions.create({
-        model,
+        model: name,
         messages: [
           {
             "role": "system", "content": systemPrompt
           },
-          ...msgs,
+          ...msgs as any,
         ],
         temperature: 0.7,
         max_tokens: 10240,
@@ -60,7 +81,7 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
       ])).flat();
       const genAI = new GoogleGenerativeAI(apikey);
       const genModel = genAI.getGenerativeModel({
-        model
+        model: name
       })
       const chat = genModel.startChat({
         history: msgs,
@@ -99,7 +120,7 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
           },
           ...msgs
         ],
-        model,
+        model: name,
         temperature: 0.7,
         max_tokens: 1024,
         top_p: 1,
@@ -131,10 +152,10 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
       });
 
       await anthropic.messages.stream({
-        model,
+        model: name,
         max_tokens: 1024,
         system: systemPrompt,
-        messages: msgs,
+        messages: msgs as any,
       }).on('text', (text = "") => {
         res.send({
           id,
@@ -150,10 +171,8 @@ const handler: PlasmoMessaging.PortHandler = async (req, res) => {
       });
     }
   } catch (error) {
-    // console.error("error: ", typeof error);
-    // setLoading(false);
-    // setErrorMessage(chrome.i18n.getMessage("chatErrorMessage"));
     res.send({
+      id,
       error,
       message: chrome.i18n.getMessage("chatErrorMessage")
     })
