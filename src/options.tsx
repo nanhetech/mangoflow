@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { Separator } from "~components/ui/separator"
-import { SidebarNav } from "~components/sidebar-nav"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form"
 import { Input } from "~components/ui/input"
 import { Button } from "~components/ui/button"
@@ -16,7 +14,6 @@ import * as z from "zod";
 import "./style.css";
 import 'animate.css';
 import { Badge } from "~components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~components/ui/card"
 import { Sheet, SheetContent, SheetTrigger } from "~components/ui/sheet"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "~components/ui/dropdown-menu"
 import logoUrl from "raw:/assets/icon.png"
@@ -27,6 +24,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { ScrollArea } from "~components/ui/scroll-area"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~components/ui/table"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~components/ui/alert-dialog"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~components/ui/card"
 
 type OllamaModeelType = {
   name: string,
@@ -55,192 +53,6 @@ const profileFormSchema = z.object({
 })
 
 export type ProfileFormValuesType = z.infer<typeof profileFormSchema>
-
-function SettingsModelPage() {
-  const [config, setConfig] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
-  const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
-  const defaultValues: Partial<ProfileFormValuesType> = config
-  const form = useForm<ProfileFormValuesType>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
-  })
-  const type = form.getValues("type")
-
-  function onSubmit(data: ProfileFormValuesType) {
-    setConfig({
-      type: data.type || "",
-      domain: data.domain || "",
-      apikey: data.apikey || "",
-      model: data.model || "",
-      systemPrompt: data.systemPrompt || DEFAULT_SYSTEM_PROMPT,
-      summatySystemPrompt: data.summatySystemPrompt || DEFAULT_SUMMATY_SYSTEM_PROMPT,
-    });
-    toast({
-      title: chrome.i18n.getMessage("settingsSubmitSuccess"),
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
-  }
-
-  useEffect(() => {
-    form.reset(defaultValues)
-  }, [config])
-
-  const handleGetOllamaTags = useCallback(async () => {
-    if (type === 'ollama') {
-      const response = await fetch('http://localhost:11434/api/tags')
-      const { models } = await response.json()
-      setOllamaTags(models)
-    }
-  }, [type])
-
-  useEffect(() => {
-    handleGetOllamaTags()
-  }, [type])
-
-  return (
-    <div className="space-y-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsModelType")}</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="gemini">Google Gemini</SelectItem>
-                    <SelectItem value="claude">Anthropic Claude 3</SelectItem>
-                    <SelectItem value="groq">Groq Cloud</SelectItem>
-                    <SelectItem value="ollama">Ollama</SelectItem>
-                    <SelectItem value="openai">{chrome.i18n.getMessage("settingsModelOpenai")}</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  {chrome.i18n.getMessage(type === 'ollama' ? "settingsOllamaModelTypeDescription" : "settingsModelTypeDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {['openai'].includes(type) && <FormField
-            control={form.control}
-            name="domain"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsDomain")}</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormDescription>
-                  {chrome.i18n.getMessage("settingsDomainDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />}
-          {['openai', 'gemini', 'groq', 'claude'].includes(type) && <FormField
-            control={form.control}
-            name="apikey"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsApikey")}</FormLabel>
-                <FormControl>
-                  <Input placeholder="" type="password" {...field} />
-                </FormControl>
-                <FormDescription>
-                  {['gemini', 'groq', 'claude'].includes(type) ? <div>
-                    <a href={GET_API_KEY_URL[form.getValues('type')]} className="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs" target="_blank" rel="noreferrer">
-                      {chrome.i18n.getMessage("settingsGetApikey")}
-                    </a>
-                  </div> : chrome.i18n.getMessage("settingsApikeyDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />}
-          <FormField
-            control={form.control}
-            name="model"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsModel")}</FormLabel>
-                {['ollama'].includes(type) ? <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {!!ollamaTags.length && ollamaTags.map(({
-                      name,
-                      digest
-                    }) => <SelectItem key={digest} value={name}>{name}</SelectItem>)}
-                  </SelectContent>
-                </Select> : <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>}
-                <FormDescription>
-                  {chrome.i18n.getMessage(type === 'ollama' ? "settingsModelNameOllamaDescription" : "settingsModelDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="systemPrompt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsSystemPrompt")}</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={chrome.i18n.getMessage("settingsSystemPromptDescription")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  {chrome.i18n.getMessage("settingsSystemPromptDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="summatySystemPrompt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{chrome.i18n.getMessage("settingsSummatyPrompt")}</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder={chrome.i18n.getMessage("settingsSummatyPromptDescription")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  {chrome.i18n.getMessage("settingsSummatyPromptDescription")}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">{chrome.i18n.getMessage("settingsUpdateBtn")}</Button>
-        </form>
-      </Form>
-    </div>
-  )
-}
 
 const storage = new Storage();
 export type Model = {
@@ -287,8 +99,13 @@ const ConfrimDeleteModal = ({
   const { deleteModel, openDelete } = useActiveModelStore(state => state);
   const handleDeleteModel = useCallback(async () => {
     const list = await storage.get<Model[]>("models");
+    const activeModel = await storage.get<Model>("activeModel");
     const newList = list.filter(({ id }) => id !== deleteModel?.id)
     await storage.set("models", newList);
+
+    if (activeModel?.id && activeModel.id === deleteModel.id) {
+      await storage.set("activeModel", null);
+    }
     toast({
       title: "删除成功",
     })
@@ -300,15 +117,16 @@ const ConfrimDeleteModal = ({
     }}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>确定删除这个模型？-{">"} {deleteModel?.title}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
+            <pre className="mt-2 max-w-full py-4 overflow-hidden">
+              <code className="max-w-full whitespace-pre-wrap">{JSON.stringify(deleteModel, null, 2)}</code>
+            </pre>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteModel}>Continue</AlertDialogAction>
+          <AlertDialogCancel>取消</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteModel}>确定</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -424,7 +242,9 @@ const EditModelDialog = () => {
   }, [type])
 
   return (
-    <Dialog open={!!activeModel}>
+    <Dialog open={!!activeModel} onOpenChange={(open) => {
+      if (!open) close()
+    }}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{activeModel?.id ? "Modifying model information" : "Add a model"}</DialogTitle>
@@ -544,7 +364,7 @@ const EditModelDialog = () => {
               />
               <DialogFooter>
                 {/* <Button onClick={close} variant="outline" className="mr-auto">Test</Button> */}
-                <Button onClick={close} variant="secondary">Cancel</Button>
+                {/* <Button onClick={close} variant="secondary">Cancel</Button> */}
                 <Button variant="default" type="submit">{activeModel?.id ? "Save" : "Add"}</Button>
               </DialogFooter>
             </form>
@@ -566,10 +386,10 @@ const ModelCard = ({ data }: {
       <TableCell className="font-medium">
         {title}
       </TableCell>
-      <TableCell>
-        <Badge variant="outline">{type}</Badge>
+      <TableCell className="hidden md:table-cell">
+        <Badge variant="outline" className="uppercase">{type}</Badge>
       </TableCell>
-      <TableCell>{apikey}</TableCell>
+      <TableCell className="hidden md:table-cell transition-transform blur-sm hover:blur-none">{apikey}</TableCell>
       <TableCell className="hidden md:table-cell">
         {name}
       </TableCell>
@@ -597,36 +417,43 @@ const ModelCard = ({ data }: {
 }
 
 const SettingsModelsPage = () => {
-  const [models, setModels] = useStorage<Model[]>('models', []);
-  const [activeModel, setActiveModel] = useStorage('activeModel', null);
-  const { activeModel: activeModelDialog, open, update, close } = useActiveModelStore(state => state);
-  console.info("models: ", models)
+  const [models] = useStorage<Model[]>('models', []);
+  const { open } = useActiveModelStore(state => state);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      {/* <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Models</h1>
-      </div> */}
-      {!!models.length ? <ScrollArea className="flex flex-1 flex-col gap-4">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Total Sales
-              </TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {models.map((data) => <ModelCard key={data.id} data={data} />)}
-          </TableBody>
-        </Table>
-      </ScrollArea> : <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-4">
+      {!!models.length ? <>
+        <div className="flex items-end">
+          <div className="">
+            <h1 className="text-xl font-bold tracking-tight">Models</h1>
+            <p className="text-sm text-muted-foreground">
+              管理你的所有模型信息，模型信息只保存在本地，
+            </p>
+          </div>
+          <Button className="ml-auto" onClick={() => open()}>Add Model</Button>
+        </div>
+        <ScrollArea className="flex-1">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead className="hidden md:table-cell">Type</TableHead>
+                <TableHead className="hidden md:table-cell">apikey</TableHead>
+                <TableHead className="hidden md:table-cell">
+                  Model name
+                </TableHead>
+                <TableHead>
+                  Actions
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {models.map((data) => <ModelCard key={data.id} data={data} />)}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </> : <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm p-4">
         <div className="flex flex-col items-center gap-1 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
             You have no models

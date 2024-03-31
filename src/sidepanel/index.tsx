@@ -166,7 +166,7 @@ const Chat = ({
           <article className="markdown prose prose-sm w-full break-words dark:prose-invert dark" dangerouslySetInnerHTML={htmlflow} />
           {!done && <i className="inline-block icon-[ri--brush-fill] align-text-bottom mt-1" />}
           {/* 添加复制和重新生成按钮 */}
-          {done && <div className="hidden group-hover:block absolute right-2 bottom-2 bg-muted/40 rounded-md">
+          {done && <div className="hidden group-hover:block absolute right-2 bottom-2 bg-muted/40 rounded-md backdrop-blur-md">
             <Button
               size="icon"
               variant="ghost"
