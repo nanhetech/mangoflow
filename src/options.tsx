@@ -5,7 +5,7 @@ import { Button } from "~components/ui/button"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "~components/ui/use-toast"
-import { Toaster } from "~components/ui/toaster"
+import { Toaster } from "~components/ui/sonner"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
 import { Textarea } from "~components/ui/textarea"
@@ -77,7 +77,7 @@ type ModelActions = {
 const useActiveModelStore = create<ModelState & ModelActions>((set) => ({
   activeModel: null,
   deleteModel: null,
-  update: (model) => set(state => ({
+  update: (model) => set(() => ({
     activeModel: model,
   })),
   close: () => set({
@@ -90,12 +90,39 @@ const useActiveModelStore = create<ModelState & ModelActions>((set) => ({
     deleteModel: model || null
   })
 }))
-
-const ConfrimDeleteModal = ({
-  title,
-}: {
+export type Prompt = {
+  id?: string,
   title?: string,
-}) => {
+  system?: string,
+}
+type PromptState = {
+  activePrompt: Prompt | null;
+  deletePrompt: Prompt | null;
+}
+type PromptActions = {
+  update: (Prompt: Prompt) => void;
+  close: () => void;
+  open: (Prompt?: Prompt) => void;
+  openDelete: (Prompt?: Prompt) => void;
+}
+const useActivePromptStore = create<PromptState & PromptActions>((set) => ({
+  activePrompt: null,
+  deletePrompt: null,
+  update: (prompt) => set(() => ({
+    activePrompt: prompt,
+  })),
+  close: () => set({
+    activePrompt: null
+  }),
+  open: (prompt) => set({
+    activePrompt: prompt || {}
+  }),
+  openDelete: (prompt) => set({
+    deletePrompt: prompt || null
+  })
+}))
+
+const ConfrimDeleteModal = () => {
   const { deleteModel, openDelete } = useActiveModelStore(state => state);
   const handleDeleteModel = useCallback(async () => {
     const list = await storage.get<Model[]>("models");
@@ -133,14 +160,52 @@ const ConfrimDeleteModal = ({
   )
 }
 
+const ConfrimPromptDeleteModal = () => {
+  const { deletePrompt, openDelete } = useActivePromptStore(state => state);
+  const handleDeletePrompt = useCallback(async () => {
+    const list = await storage.get<Model[]>("prompts");
+    const activePrompt = await storage.get<Model>("activePrompt");
+    const newList = list.filter(({ id }) => id !== deletePrompt?.id)
+    await storage.set("prompts", newList);
+
+    if (activePrompt?.id && activePrompt.id === deletePrompt.id) {
+      await storage.set("activePrompt", null);
+    }
+    toast({
+      title: "删除成功",
+    })
+  }, [deletePrompt])
+
+  return (
+    <AlertDialog open={!!deletePrompt} onOpenChange={(open) => {
+      if (!open) openDelete()
+    }}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>确定删除这个提示词吗？-{">"} {deletePrompt?.title}</AlertDialogTitle>
+          <AlertDialogDescription>
+            <pre className="mt-2 max-w-full py-4 overflow-hidden">
+              <code className="max-w-full whitespace-pre-wrap">{JSON.stringify(deletePrompt, null, 2)}</code>
+            </pre>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>取消</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeletePrompt}>确定</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+
 const modelFormSchema = z.object({
   title: z
     .string({
-      required_error: "请填写模型简称",
-      invalid_type_error: "模型简称必须是字符串"
+      required_error: "请填写模型标题",
+      invalid_type_error: "模型标题必须是字符串"
     })
     .min(2, {
-      message: "最少两个字符"
+      message: "最少 2 个字符"
     })
     .max(16, {
       message: "最大长度为 16 个字符"
@@ -148,7 +213,7 @@ const modelFormSchema = z.object({
   type: z
     .string({
       required_error: "请选择模型类型",
-      invalid_type_error: "模型简称必须是字符串"
+      invalid_type_error: "模型类型必须是字符串"
     }),
   url: z
     .string({
@@ -171,7 +236,7 @@ const modelFormSchema = z.object({
 type ModelFormValuesType = z.infer<typeof modelFormSchema>
 
 const EditModelDialog = () => {
-  const { activeModel, open, update, close } = useActiveModelStore(state => state);
+  const { activeModel, close } = useActiveModelStore(state => state);
   const [ollamaTags, setOllamaTags] = useState<OllamaModeelType[]>([])
   const defaultValues: Partial<ModelFormValuesType> = activeModel
   const form = useForm<ModelFormValuesType>({
@@ -194,6 +259,11 @@ const EditModelDialog = () => {
         return item;
       })
       await storage.set("models", newList);
+      const currentModel = await storage.get<Model>("activeModel");
+
+      if (currentModel?.id && (currentModel?.id === activeModel?.id)) {
+        await storage.set("activeModel", { ...currentModel, ...val });
+      }
       toast({
         title: chrome.i18n.getMessage("settingsSubmitSuccess"),
         description: (
@@ -260,7 +330,7 @@ const EditModelDialog = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>模型简称</FormLabel>
+                    <FormLabel>模型标题</FormLabel>
                     <FormControl>
                       <Input placeholder="" {...field} />
                     </FormControl>
@@ -375,10 +445,162 @@ const EditModelDialog = () => {
   )
 }
 
+const promptFormSchema = z.object({
+  title: z
+    .string({
+      required_error: "请填写模型标题",
+      invalid_type_error: "模型标题必须是字符串"
+    })
+    .min(2, {
+      message: "最少 2 个字符"
+    })
+    .max(16, {
+      message: "最大长度为 16 个字符"
+    }),
+  system: z
+    .string({
+      required_error: "请填写系统提示词",
+      invalid_type_error: "系统提示词必须是字符串"
+    })
+    .min(2, {
+      message: "最少 2 个字符"
+    })
+    .max(512, {
+      message: "最大长度为 512 个字符"
+    }),
+})
+
+type PromptFormValuesType = z.infer<typeof promptFormSchema>
+
+const EditPromptDialog = () => {
+  const { activePrompt, close } = useActivePromptStore(state => state);
+  const defaultValues: Partial<PromptFormValuesType> = activePrompt
+  const form = useForm<PromptFormValuesType>({
+    resolver: zodResolver(promptFormSchema),
+    defaultValues,
+    mode: "onChange",
+  })
+
+  const onSubmit = async (val: PromptFormValuesType) => {
+    if (activePrompt?.id) {
+      const list = await storage.get<Model[]>("prompts");
+      const newList = list?.map((item) => {
+        if (item.id === activePrompt?.id) {
+          return {
+            ...item,
+            ...val,
+          }
+        }
+        return item;
+      })
+      await storage.set("prompts", newList);
+      const currentPrompt = await storage.get<Prompt>("activePrompt");
+
+      if (currentPrompt?.id && (currentPrompt?.id === activePrompt?.id)) {
+        await storage.set("activePrompt", { ...currentPrompt, ...val });
+      }
+      toast({
+        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+            <code className="text-white">{JSON.stringify(val, null, 2)}</code>
+          </pre>
+        ),
+      })
+    } else {
+      const data = {
+        id: nanoid(),
+        ...val,
+      }
+      const list = await storage.get("prompts");
+      await storage.set("prompts", [...(list || []), data])
+
+      if (list?.length === 0) {
+        await storage.set("activePrompt", data);
+      }
+      toast({
+        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
+    close()
+  }
+
+  useEffect(() => {
+    form.reset(defaultValues)
+  }, [activePrompt])
+
+  return (
+    <Dialog open={!!activePrompt} onOpenChange={(open) => {
+      if (!open) close()
+    }}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{activePrompt?.id ? "Modifying prompt information" : "Add a prompt"}</DialogTitle>
+          <DialogDescription>
+            Please fill in the prompt information below
+          </DialogDescription>
+        </DialogHeader>
+        <div className="">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>系统提示词标题</FormLabel>
+                    <FormControl>
+                      <Input placeholder="" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      {chrome.i18n.getMessage("settingsSystemPromptDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="system"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{chrome.i18n.getMessage("settingsModelType")}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder=""
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {chrome.i18n.getMessage("settingsOllamaModelTypeDescription")}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                {/* <Button onClick={close} variant="outline" className="mr-auto">Test</Button> */}
+                {/* <Button onClick={close} variant="secondary">Cancel</Button> */}
+                <Button variant="default" type="submit">{activePrompt?.id ? "Save" : "Add"}</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 const ModelCard = ({ data }: {
   data: Model,
 }) => {
-  const { id, title, type, apikey, name } = data;
+  const { title, type, apikey, name } = data;
   const { update, openDelete } = useActiveModelStore(state => state);
 
   return (
@@ -416,6 +638,41 @@ const ModelCard = ({ data }: {
   )
 }
 
+const PromptCard = ({ data }: {
+  data: Prompt,
+}) => {
+  const { title, system } = data;
+  const { update, openDelete } = useActivePromptStore(state => state);
+
+  return (
+    <TableRow>
+      <TableCell className="font-medium">
+        {title}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">{system}</TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              aria-haspopup="true"
+              size="icon"
+              variant="ghost"
+            >
+              <i className="inline-block icon-[ri--more-fill]" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => update(data)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => openDelete(data)}>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
+  )
+}
+
 const SettingsModelsPage = () => {
   const [models] = useStorage<Model[]>('models', []);
   const { open } = useActiveModelStore(state => state);
@@ -427,7 +684,7 @@ const SettingsModelsPage = () => {
           <div className="">
             <h1 className="text-xl font-bold tracking-tight">Models</h1>
             <p className="text-sm text-muted-foreground">
-              管理你的所有模型信息，模型信息只保存在本地，
+              管理你的所有模型信息，模型信息只保存在本地。
             </p>
           </div>
           <Button className="ml-auto" onClick={() => open()}>Add Model</Button>
@@ -471,25 +728,56 @@ const SettingsModelsPage = () => {
 }
 
 const SettingsPromptsPage = () => {
-  const [prompts] = useStorage('prompts', []);
-  const [activePrompt, setActivePrompt] = useStorage('activePrompt', null);
+  const [prompts] = useStorage<Prompt[]>('prompts', []);
+  const { open } = useActivePromptStore(state => state);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Prompts</h1>
-      </div>
-      <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            You have no products
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            You can start selling as soon as you add a product.
-          </p>
-          <Button className="mt-4">Add Product</Button>
+      {!!prompts.length ? <>
+        <div className="flex items-end">
+          <div className="">
+            <h1 className="text-xl font-bold tracking-tight">Prompts</h1>
+            <p className="text-sm text-muted-foreground">
+              管理你的所有系统提示词。
+            </p>
+          </div>
+          <Button className="ml-auto" onClick={() => open()}>Add Prompt</Button>
         </div>
-      </div>
+        <ScrollArea className="flex-1">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead className="hidden md:table-cell">system</TableHead>
+                <TableHead>
+                  Actions
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {prompts.map((data) => <PromptCard key={data.id} data={data} />)}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </> : <>
+        <div className="flex items-center">
+          <h1 className="text-lg font-semibold md:text-2xl">Prompts</h1>
+        </div>
+        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+          <div className="flex flex-col items-center gap-1 text-center">
+            <h3 className="text-2xl font-bold tracking-tight">
+              You have no prompts
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              You can start selling as soon as you add a product.
+            </p>
+            <Button className="mt-4" onClick={() => open()}>Add Prompt</Button>
+          </div>
+        </div>
+      </>}
+      <EditPromptDialog />
+      <ConfrimPromptDeleteModal />
     </main>
   )
 }

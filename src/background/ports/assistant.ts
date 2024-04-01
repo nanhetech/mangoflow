@@ -5,17 +5,18 @@ import Groq from "groq-sdk";
 import OpenAI from "openai";
 // import ollama from 'ollama';
 import { Storage } from "@plasmohq/storage"
-import type { Model } from "~options";
+import type { Model, Prompt } from "~options";
 import type { ChatType } from "~sidepanel";
 
 type ReqBodyType = {
   chats: ChatType[],
-  systemPrompt: string,
 }
 const storage = new Storage();
 const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) => {
-  const { systemPrompt, chats } = req.body || {};
+  const { chats } = req.body || {};
   const activeModel = await storage.get<Model>("activeModel");
+  const activePrompt = await storage.get<Prompt>("activePrompt");
+  const { system = '' } = activePrompt || {};
   const { id, user } = chats.find(({ assistant }) => !assistant);
 
   if (!activeModel?.id) {
@@ -48,7 +49,7 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
         model: name,
         messages: [
           {
-            "role": "system", "content": systemPrompt
+            "role": "system", "content": system
           },
           ...msgs as any,
         ],
@@ -89,7 +90,7 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
           maxOutputTokens: 10000,
         },
       });
-      const prompt = systemPrompt ? `${systemPrompt}:\n${user}` : user;
+      const prompt = system ? `${system}\n${user}` : user;
       const result = await chat.sendMessageStream(prompt);
       for await (const chunk of result.stream) {
         const { candidates = [] } = chunk;
@@ -116,7 +117,7 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
       const stream = await groq.chat.completions.create({
         messages: [
           {
-            "role": "system", "content": systemPrompt
+            "role": "system", "content": system
           },
           ...msgs
         ],
@@ -154,7 +155,7 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
       await anthropic.messages.stream({
         model: name,
         max_tokens: 1024,
-        system: systemPrompt,
+        system,
         messages: msgs as any,
       }).on('text', (text = "") => {
         res.send({

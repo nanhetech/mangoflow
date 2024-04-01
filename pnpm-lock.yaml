@@ -16,7 +16,7 @@ dependencies:
     version: 3.3.4(react-hook-form@7.51.2)
   '@langchain/community':
     specifier: ^0.0.17
-    version: 0.0.17
+    version: 0.0.17(@mozilla/readability@0.5.0)
   '@langchain/core':
     specifier: ^0.1.52
     version: 0.1.52
@@ -26,6 +26,9 @@ dependencies:
   '@langchain/openai':
     specifier: ^0.0.11
     version: 0.0.11
+  '@mozilla/readability':
+    specifier: ^0.5.0
+    version: 0.5.0
   '@plasmohq/messaging':
     specifier: ^0.6.2
     version: 0.6.2(react@18.2.0)
@@ -145,7 +148,7 @@ dependencies:
     version: 1.2.3(react-dom@18.2.0)(react@18.2.0)
   langchain:
     specifier: ^0.1.30
-    version: 0.1.30(axios@1.6.8)
+    version: 0.1.30(@mozilla/readability@0.5.0)(axios@1.6.8)
   marked:
     specifier: ^11.2.0
     version: 11.2.0
@@ -804,7 +807,7 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@langchain/community@0.0.17:
+  /@langchain/community@0.0.17(@mozilla/readability@0.5.0):
     resolution: {integrity: sha512-BI7WJv3rtIbmKrvUNeTaxGGrz8jnu4boLnpl+4cH3WE2lrKTdzuvp6Ot4dACowWInvNSfXcdMzG3BrtTMSaDcQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1049,6 +1052,7 @@ packages:
     dependencies:
       '@langchain/core': 0.1.52
       '@langchain/openai': 0.0.11
+      '@mozilla/readability': 0.5.0
       flat: 5.0.2
       langsmith: 0.0.70
       uuid: 9.0.1
@@ -1057,7 +1061,7 @@ packages:
       - encoding
     dev: false
 
-  /@langchain/community@0.0.43:
+  /@langchain/community@0.0.43(@mozilla/readability@0.5.0):
     resolution: {integrity: sha512-60TjV3knGGOPHfbJxLpuwARr8oA0r6Txm8wTFvFx+TjRUrloyBUcWSbJIdm62gAwBJDEHmdjjyWOOzU+eewcuA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -1335,6 +1339,7 @@ packages:
     dependencies:
       '@langchain/core': 0.1.52
       '@langchain/openai': 0.0.25
+      '@mozilla/readability': 0.5.0
       expr-eval: 2.0.2
       flat: 5.0.2
       langsmith: 0.1.14
@@ -1545,6 +1550,11 @@ packages:
       axios-retry: 4.1.0(axios@1.6.8)
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /@mozilla/readability@0.5.0:
+    resolution: {integrity: sha512-Z+CZ3QaosfFaTqvhQsIktyGrjFjSC0Fa4EMph4mqKnWhmyoGICsV/8QK+8HpXut6zV7zwfWwqDmEjtk1Qf6EgQ==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.2:
@@ -6908,7 +6918,7 @@ packages:
       json-buffer: 3.0.1
     dev: false
 
-  /langchain@0.1.30(axios@1.6.8):
+  /langchain@0.1.30(@mozilla/readability@0.5.0)(axios@1.6.8):
     resolution: {integrity: sha512-5h/vNMmutQ98tbB0sPDlAileZVca6A2McFgGa3+D56Dm8mSSCzTQL2DngPA6h09DlKDpSr7+6PdFw5Hoj0ZDSw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -7068,7 +7078,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.43
+      '@langchain/community': 0.0.43(@mozilla/readability@0.5.0)
       '@langchain/core': 0.1.52
       '@langchain/openai': 0.0.25
       axios: 1.6.8
@@ -7798,8 +7808,8 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /node-abi@3.56.0:
-    resolution: {integrity: sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==}
+  /node-abi@3.57.0:
+    resolution: {integrity: sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.5.4
@@ -8301,7 +8311,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.56.0
+      node-abi: 3.57.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1

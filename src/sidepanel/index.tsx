@@ -2,14 +2,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "~components/ui/button";
 import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "~components/ui/use-toast";
-import { Toaster } from "~components/ui/toaster";
+import { Toaster } from "~components/ui/sonner";
 import { usePort } from "@plasmohq/messaging/hook";
 import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
 import { marked } from "marked";
 import { create } from 'zustand';
 import { nanoid } from 'nanoid';
-import type { Model, ProfileFormValuesType } from "~options";
+import type { Model, ProfileFormValuesType, Prompt } from "~options";
 import { ScrollArea } from "~components/ui/scroll-area";
 import { sendToContentScript } from "@plasmohq/messaging";
 import "../style.css";
@@ -248,8 +248,8 @@ type InputBoxProps = {
 
 const InputBox = () => {
   const { list: chats, clear, add: addChat } = useChatStore(state => state);
-  const [prompts] = useStorage('prompts', []);
-  const [activePrompt, setActivePrompt] = useStorage('activePrompt', null);
+  const [prompts] = useStorage<Prompt[]>('prompts', []);
+  const [activePrompt, setActivePrompt] = useStorage<Prompt>('activePrompt', null);
   const [activeSuperButton] = useStorage('activeSuperButton', null);
   const [question, setQuestion] = useState<string>('');
   const handleSubmit = useCallback(() => {
@@ -292,8 +292,11 @@ const InputBox = () => {
     } = await sendToContentScript({
       name: 'getDefaultHtml',
     });
-
-  }, [])
+  }, []);
+  const handleSetActivePrompt = useCallback((id: string) => {
+    const pmt = prompts.find(prompt => prompt.id === id);
+    setActivePrompt(pmt)
+  }, [prompts])
 
   return (
     <div className="bg-muted/40 border-t relative p-4 space-y-2">
@@ -317,18 +320,16 @@ const InputBox = () => {
         />
       </div>
       <div className="flex items-center gap-2">
-        <Select>
+        <Select value={activePrompt?.id} onValueChange={handleSetActivePrompt}>
           <SelectTrigger className="w-auto max-w-full space-x-1">
             <span>Prompt:</span><SelectValue placeholder="Select a prompt" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Prompt template</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              {prompts?.map(({ id, title }) => (
+                <SelectItem value={id} key={id}>{title}</SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>
