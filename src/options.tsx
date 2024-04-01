@@ -813,11 +813,11 @@ const sidebarNavItems = [
     key: "prompts",
     icon: <i className="inline-block icon-[ri--braces-fill]" />
   },
-  {
-    title: chrome.i18n.getMessage("settingsSuperButtonTitle"),
-    key: "superButtons",
-    icon: <i className="inline-block icon-[material-symbols--allergy]" />
-  },
+  // {
+  //   title: chrome.i18n.getMessage("settingsSuperButtonTitle"),
+  //   key: "superButtons",
+  //   icon: <i className="inline-block icon-[material-symbols--allergy]" />
+  // },
   // {
   //   title: "Appearance",
   //   key: "appearance"

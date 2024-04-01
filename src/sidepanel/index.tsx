@@ -336,7 +336,7 @@ const InputBox = () => {
         >
           <i className="inline-block icon-[ri--chat-new-fill]" />
         </Button>}
-        <Button
+        {/* <Button
           className="ml-auto relative z-50"
           size="icon"
           variant="outline"
@@ -344,7 +344,7 @@ const InputBox = () => {
           onClick={handleSuperButton}
         >
           <i className="inline-block icon-[material-symbols--allergy]" />
-        </Button>
+        </Button> */}
         {/* <Button
             className=""
             size="sm"
