@@ -4,7 +4,7 @@ import { Input } from "~components/ui/input"
 import { Button } from "~components/ui/button"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "~components/ui/use-toast"
+import { toast } from "sonner"
 import { Toaster } from "~components/ui/sonner"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
@@ -133,9 +133,7 @@ const ConfrimDeleteModal = () => {
     if (activeModel?.id && activeModel.id === deleteModel.id) {
       await storage.set("activeModel", null);
     }
-    toast({
-      title: "删除成功",
-    })
+    toast.success("删除成功")
   }, [deleteModel])
 
   return (
@@ -171,9 +169,7 @@ const ConfrimPromptDeleteModal = () => {
     if (activePrompt?.id && activePrompt.id === deletePrompt.id) {
       await storage.set("activePrompt", null);
     }
-    toast({
-      title: "删除成功",
-    })
+    toast.success("删除成功")
   }, [deletePrompt])
 
   return (
@@ -264,8 +260,7 @@ const EditModelDialog = () => {
       if (currentModel?.id && (currentModel?.id === activeModel?.id)) {
         await storage.set("activeModel", { ...currentModel, ...val });
       }
-      toast({
-        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+      toast(chrome.i18n.getMessage("settingsSubmitSuccess"), {
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
             <code className="text-white">{JSON.stringify(val, null, 2)}</code>
@@ -283,8 +278,7 @@ const EditModelDialog = () => {
       if (list?.length === 0) {
         await storage.set("activeModel", data);
       }
-      toast({
-        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
+      toast(chrome.i18n.getMessage("settingsSubmitSuccess"), {
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
             <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -499,14 +493,15 @@ const EditPromptDialog = () => {
       if (currentPrompt?.id && (currentPrompt?.id === activePrompt?.id)) {
         await storage.set("activePrompt", { ...currentPrompt, ...val });
       }
-      toast({
-        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
-            <code className="text-white">{JSON.stringify(val, null, 2)}</code>
-          </pre>
-        ),
-      })
+      toast(
+        chrome.i18n.getMessage("settingsSubmitSuccess"),
+        {
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+              <code className="text-white">{JSON.stringify(val, null, 2)}</code>
+            </pre>
+          ),
+        })
     } else {
       const data = {
         id: nanoid(),
@@ -518,14 +513,15 @@ const EditPromptDialog = () => {
       if (list?.length === 0) {
         await storage.set("activePrompt", data);
       }
-      toast({
-        title: chrome.i18n.getMessage("settingsSubmitSuccess"),
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
+      toast(
+        chrome.i18n.getMessage("settingsSubmitSuccess"),
+        {
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-hidden">
+              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+            </pre>
+          ),
+        })
     }
     close()
   }

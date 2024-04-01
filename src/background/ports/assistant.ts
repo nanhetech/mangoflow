@@ -22,7 +22,7 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
   if (!activeModel?.id) {
     res.send({
       id,
-      error: "Model is already active",
+      error: "未设置模型，请设置模型",
       message: chrome.i18n.getMessage("chatErrorMessage")
     })
     return;

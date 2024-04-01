@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "~components/ui/button";
 import { useStorage } from "@plasmohq/storage/hook";
-import { toast } from "~components/ui/use-toast";
+import { toast } from "sonner"
 import { Toaster } from "~components/ui/sonner";
 import { usePort } from "@plasmohq/messaging/hook";
 import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
@@ -265,11 +265,7 @@ const InputBox = () => {
     // };
 
     if (!question) {
-      toast({
-        title: "Question is empty",
-        description: "Please enter the question.",
-        variant: "destructive"
-      })
+      toast.warning("Please enter the content.")
 
       return
     };
@@ -278,17 +274,16 @@ const InputBox = () => {
   }, [question, setQuestion])
   const handleSuperButton = useCallback(async () => {
     if (!activeSuperButton) {
-      toast({
-        title: "No super button is active",
-        description: "Please activate a super button.",
-        variant: "destructive"
+      toast("No super button is active", {
+        action: {
+          label: 'Undo',
+          onClick: () => console.log('Undo')
+        },
       })
     }
     const {
       content,
       title,
-      description,
-      icon,
     } = await sendToContentScript({
       name: 'getDefaultHtml',
     });
@@ -303,7 +298,7 @@ const InputBox = () => {
       <div className="w-full flex items-center">
         <textarea
           className={cn("block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm", {
-            "animate__animated animate__headShake": true
+            "animate__animated animate__headShake": false,
           })}
           name="prompt"
           placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
@@ -376,10 +371,12 @@ export default function RegisterIndex() {
   useEffect(() => {
     assistantPort.listen(data => {
       if (data?.error) {
-        toast({
-          title: "无法访问服务器",
+        toast(data?.error || "无法访问服务器", {
           description: "可能是配置不正确或者网络被阻止",
-          variant: "destructive"
+          action: {
+            label: '设置模型信息',
+            onClick: () => chrome.runtime.openOptionsPage()
+          },
         })
         remove(data.id)
       } else {
@@ -416,7 +413,7 @@ export default function RegisterIndex() {
         </div>
       )}
       <InputBox />
-      <Toaster />
+      <Toaster position="top-center" />
     </div>
   )
 }
