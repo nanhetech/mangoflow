@@ -18,7 +18,6 @@ import { Sheet, SheetContent, SheetTrigger } from "~components/ui/sheet"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "~components/ui/dropdown-menu"
 import logoUrl from "raw:/assets/icon.png"
 import { create } from 'zustand';
-import { nanoid } from 'nanoid';
 import { Storage } from "@plasmohq/storage"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~components/ui/dialog"
 import { ScrollArea } from "~components/ui/scroll-area"
@@ -269,7 +268,7 @@ const EditModelDialog = () => {
       })
     } else {
       const data = {
-        id: nanoid(),
+        id: crypto.randomUUID(),
         ...val,
       }
       const list = await storage.get("models");
@@ -504,7 +503,7 @@ const EditPromptDialog = () => {
         })
     } else {
       const data = {
-        id: nanoid(),
+        id: crypto.randomUUID(),
         ...val,
       }
       const list = await storage.get("prompts");

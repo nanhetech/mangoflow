@@ -8,7 +8,6 @@ import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
 import { marked } from "marked";
 import { create } from 'zustand';
-import { nanoid } from 'nanoid';
 import type { Model, ProfileFormValuesType, Prompt } from "~options";
 import { ScrollArea } from "~components/ui/scroll-area";
 import { sendToContentScript } from "@plasmohq/messaging";
@@ -61,7 +60,7 @@ const useChatStore = create<ChatState & ChatActions>((set) => ({
   }),
   add: (content) => set((state) => ({
     list: [...state.list, {
-      id: nanoid(),
+      id: crypto.randomUUID(),
       user: content,
       assistant: "",
       done: false,
