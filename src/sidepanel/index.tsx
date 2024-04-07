@@ -4,15 +4,13 @@ import { useStorage } from "@plasmohq/storage/hook";
 import { toast } from "sonner"
 import { Toaster } from "~components/ui/sonner";
 import { usePort } from "@plasmohq/messaging/hook";
-import { DEFAULT_MODEL_CONFIG, cn } from "~lib/utils";
+import { cn } from "~lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~components/ui/select";
 import { marked } from "marked";
 import { create } from 'zustand';
-import type { Model, ProfileFormValuesType, Prompt } from "~options";
+import type { Model, Prompt } from "~options";
 import { ScrollArea } from "~components/ui/scroll-area";
-import { sendToContentScript } from "@plasmohq/messaging";
 import "../style.css";
-import 'animate.css';
 
 export type ChatType = {
   id: string;
@@ -91,12 +89,10 @@ export type QuestionType = {
 
 type ChatProps = {
   data: ChatType;
-  config: ProfileFormValuesType;
 }
 
 const Chat = ({
   data,
-  config,
 }: ChatProps) => {
   const assistantPort = usePort("assistant");
   const [copyState, setCopyState] = useState<boolean>(false);
@@ -117,7 +113,6 @@ const Chat = ({
   //   speechSynthesis.speak(utterance);
   // }, [message, loading])
   const handleFetchData = useCallback(async () => {
-    const { systemPrompt } = config;
     const { id, user } = data;
     if (!user || Ref.current) return;
     Ref.current = true;
@@ -130,10 +125,9 @@ const Chat = ({
     setErrorMessage('');
 
     assistantPort.send({
-      systemPrompt,
       chats
     })
-  }, [Ref, config, data, chats])
+  }, [Ref, data, chats])
   useEffect(() => {
     handleFetchData()
   }, [handleFetchData])
@@ -221,7 +215,7 @@ const HeaderTools = ({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Model</SelectLabel>
-            {models?.map(({ id, title, description, type, url, apikey, name }) => (
+            {models?.map(({ id, title }) => (
               <SelectItem key={id} value={id}>{title}</SelectItem>
             ))}
           </SelectGroup>
@@ -241,9 +235,6 @@ const HeaderTools = ({
   )
 }
 
-type InputBoxProps = {
-  className?: string,
-}
 
 const InputBox = () => {
   const { list: chats, clear, add: addChat } = useChatStore(state => state);
@@ -271,22 +262,6 @@ const InputBox = () => {
     addChat(question);
     setQuestion('');
   }, [question, setQuestion])
-  const handleSuperButton = useCallback(async () => {
-    if (!activeSuperButton) {
-      toast("No super button is active", {
-        action: {
-          label: 'Undo',
-          onClick: () => console.log('Undo')
-        },
-      })
-    }
-    const {
-      content,
-      title,
-    } = await sendToContentScript({
-      name: 'getDefaultHtml',
-    });
-  }, []);
   const handleSetActivePrompt = useCallback((id: string) => {
     const pmt = prompts.find(prompt => prompt.id === id);
     setActivePrompt(pmt)
@@ -297,7 +272,7 @@ const InputBox = () => {
       <div className="w-full flex items-center">
         <textarea
           className={cn("block w-full focus:outline-none focus:ring-0 bg-transparent prose-sm", {
-            "animate__animated animate__headShake": false,
+            // "animate__animated animate__headShake": false,
           })}
           name="prompt"
           placeholder={chrome.i18n.getMessage("textareaPlaceholder")}
@@ -361,7 +336,6 @@ const InputBox = () => {
 
 export default function RegisterIndex() {
   const assistantPort = usePort("assistant")
-  const [config] = useStorage("modelConfig", DEFAULT_MODEL_CONFIG);
   const { updateChatAssistantById: updataChat, list: chats, remove } = useChatStore(state => state);
   const chatListRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -396,7 +370,6 @@ export default function RegisterIndex() {
             <Chat
               key={data.id}
               data={data}
-              config={config}
             />
           ))}
           <div

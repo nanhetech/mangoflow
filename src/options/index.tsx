@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form"
 import { Input } from "~components/ui/input"
 import { Button } from "~components/ui/button"
@@ -9,49 +9,25 @@ import { Toaster } from "~components/ui/sonner"
 import { useStorage } from "@plasmohq/storage/hook"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select"
 import { Textarea } from "~components/ui/textarea"
-import { DEFAULT_MODEL_CONFIG, DEFAULT_SUMMATY_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT, GET_API_KEY_URL, cn } from "~lib/utils"
+import { GET_API_KEY_URL, cn } from "~lib/utils"
 import * as z from "zod";
-import "./style.css";
-import 'animate.css';
+// import 'animate.css';
 import { Badge } from "~components/ui/badge"
 import { Sheet, SheetContent, SheetTrigger } from "~components/ui/sheet"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "~components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "~components/ui/dropdown-menu"
 import logoUrl from "raw:/assets/icon.png"
 import { create } from 'zustand';
 import { Storage } from "@plasmohq/storage"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~components/ui/dialog"
 import { ScrollArea } from "~components/ui/scroll-area"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~components/ui/table"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "~components/ui/alert-dialog"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~components/ui/card"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "~components/ui/alert-dialog"
+import "../style.css";
 
 type OllamaModeelType = {
   name: string,
   digest: string,
 }
-const profileFormSchema = z.object({
-  domain: z
-    .string()
-    .url({ message: chrome.i18n.getMessage("settingsDomainError") })
-    .optional(),
-  apikey: z
-    .string()
-    .optional(),
-  model: z
-    .string()
-    .optional(),
-  type: z
-    .string()
-    .optional(),
-  systemPrompt: z
-    .string()
-    .optional(),
-  summatySystemPrompt: z
-    .string()
-    .optional(),
-})
-
-export type ProfileFormValuesType = z.infer<typeof profileFormSchema>
 
 const storage = new Storage();
 export type Model = {

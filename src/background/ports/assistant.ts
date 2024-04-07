@@ -171,6 +171,11 @@ const handler: PlasmoMessaging.PortHandler<ReqBodyType, any> = async (req, res) 
         })
       });
     }
+    res.send({
+      id,
+      assistant: "",
+      done: true,
+    })
   } catch (error) {
     res.send({
       id,
