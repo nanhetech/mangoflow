@@ -1,6 +1,8 @@
 import { useMessage } from "@plasmohq/messaging/hook";
 import TurndownService from 'turndown';
 import { Readability, isProbablyReaderable } from '@mozilla/readability';
+import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama";
+
 // import "cheerio";
 // import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 // import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
@@ -40,6 +42,10 @@ const GetHtml = () => {
         turndownService.remove('noscript')
         turndownService.remove('link')
         const content = turndownService.turndown(article.content);
+        const embeddings = new OllamaEmbeddings({
+          model: "gemma:latest",
+          baseUrl: "https://ollama.mangoflow.chat",
+        });
         // console.info("content: ", content);
         // const textSplitter = new RecursiveCharacterTextSplitter({
         //   chunkSize: 500,
