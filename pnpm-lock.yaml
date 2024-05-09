@@ -19,13 +19,13 @@ importers:
         version: 3.3.4(react-hook-form@7.51.4(react@18.2.0))
       '@langchain/community':
         specifier: ^0.0.17
-        version: 0.0.17(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.42.0)
+        version: 0.0.17(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.43.0)
       '@langchain/core':
         specifier: ^0.1.62
-        version: 0.1.62(openai@4.42.0)
+        version: 0.1.62(openai@4.43.0)
       '@langchain/mistralai':
         specifier: ^0.0.6
-        version: 0.0.6(openai@4.42.0)
+        version: 0.0.6(openai@4.43.0)
       '@langchain/openai':
         specifier: ^0.0.11
         version: 0.0.11
@@ -154,7 +154,7 @@ importers:
         version: 1.2.4(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       langchain:
         specifier: ^0.1.36
-        version: 0.1.36(@mozilla/readability@0.5.0)(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.2.4)(lodash@4.17.21)(openai@4.42.0)
+        version: 0.1.36(@mozilla/readability@0.5.0)(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.2.4)(lodash@4.17.21)(openai@4.43.0)
       marked:
         specifier: ^11.2.0
         version: 11.2.0
@@ -168,11 +168,11 @@ importers:
         specifier: ^0.4.9
         version: 0.4.9
       openai:
-        specifier: ^4.42.0
-        version: 4.42.0
+        specifier: ^4.43.0
+        version: 4.43.0
       plasmo:
-        specifier: 0.85.2
-        version: 0.85.2(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: 0.86.2
+        version: 0.86.2(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -204,8 +204,8 @@ importers:
         specifier: ^0.8.9
         version: 0.8.9(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       zod:
-        specifier: ^3.23.7
-        version: 3.23.7
+        specifier: ^3.23.8
+        version: 3.23.8
       zustand:
         specifier: ^4.5.2
         version: 4.5.2(@types/react@18.2.37)(react@18.2.0)
@@ -1844,12 +1844,12 @@ packages:
     resolution: {integrity: sha512-QCMmmfic514CfdXMJ7JMWUnqDzIHKVKyYeqPpUDsXON6JvA1yTmO5mEQSls8+5u/HpocP9QmTskQOHu3RCNX9A==}
     engines: {node: '>= 16.0.0', parcel: '>= 2.7.0'}
 
-  '@plasmohq/parcel-compressor-utf8@0.0.6':
-    resolution: {integrity: sha512-dtbZXi2gAHyVhxqxF2SvJtwDOy02QYRjwCJYOFsQR79qwAiuUBaeQ47p++vFrqNX86mo1lUtZniJl63xNQi08w==}
+  '@plasmohq/parcel-compressor-utf8@0.1.0':
+    resolution: {integrity: sha512-UxljXY+cUVO0ZdszoQRfQjbRjyWYIhGKCjFD48yOcnbSkOZmS5MPPhKrT79x+PMGSK5T6fUXaDjzqbnMb45MZw==}
     engines: {parcel: '>= 2.8.0'}
 
-  '@plasmohq/parcel-config@0.40.5':
-    resolution: {integrity: sha512-2uXGCURaKazxG8UKGnwZCQ0cfi9sns9JkyC5ERVQJqTmjE81Rwzd/QxjuoufQ2/kvcg3klb3952X1znmD7prlQ==}
+  '@plasmohq/parcel-config@0.40.7':
+    resolution: {integrity: sha512-M1nOXLI8lPcI/ZS1G+UCfuXe0MWb4+sCnG5xTakm8eDRjH0Paq4pWYKXqi1Bl5V76quK9I3gjezgqEihUTAynQ==}
 
   '@plasmohq/parcel-core@0.1.8':
     resolution: {integrity: sha512-kMWuazvf925ZAn2yHzzrb4Zsje1titFmvi/C5cXrI0TH58eT7n6GUiRXiOYP4JgGDHs/pEygx3WPuyWVTNF2HQ==}
@@ -1895,8 +1895,8 @@ packages:
     resolution: {integrity: sha512-6X6ubo37Ic7u1y3MjY+vt23Gb3ULtOsH1MbKw3jZMiG8nLGXqXRfiHSyNxJWAdpk7N7ASE8dHnZ+5g3E57bldA==}
     engines: {parcel: '>= 2.7.0'}
 
-  '@plasmohq/parcel-transformer-svelte@0.5.2':
-    resolution: {integrity: sha512-kZevkKYgYB7KZqi1+8k5ELqrSNKakqBwuTLnIT0BOx/8VKTJ6fwkzW0SR1OFsDJIACRFbMLO77u+erwHkodBEA==}
+  '@plasmohq/parcel-transformer-svelte@0.6.0':
+    resolution: {integrity: sha512-5lZW6NBtzhJaCyjpKaZF1/YzY9CF+kbfNknvASJB/Cf6uJPJlrgdxoWiVJ8IWMs3DyLgAnJXTdIU+uwjwXP1wg==}
     engines: {parcel: '>= 2.7.0'}
 
   '@plasmohq/parcel-transformer-vue@0.5.0':
@@ -2884,8 +2884,8 @@ packages:
   '@types/node-fetch@2.6.11':
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
 
-  '@types/node@18.19.32':
-    resolution: {integrity: sha512-2bkg93YBSDKk8DLmmHnmj/Rwr18TLx7/n+I23BigFwgexUJoMHZOd8X1OFxuF/W3NN0S2W2E5sVabI5CPinNvA==}
+  '@types/node@18.19.33':
+    resolution: {integrity: sha512-NR9+KrpSajr2qBVp/Yt5TU/rp+b5Mayi3+OlMlcg2cVCfRmcG5PWZ7S4+MG9PZ5gWBoc9Pd0BKSRViuBCRPu0A==}
 
   '@types/node@20.9.0':
     resolution: {integrity: sha512-nekiGu2NDb1BcVofVcEKMIwzlx4NjHlcjhoxxKBNLtz15Y1z7MYf549DFvkHSId02Ax6kGwWntIBPC3l/JZcmw==}
@@ -3165,8 +3165,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  caniuse-lite@1.0.30001616:
-    resolution: {integrity: sha512-RHVYKov7IcdNjVHJFNY/78RdG4oGVjbayxv8u5IO74Wv7Hlq4PnJE6mo/OjFijjVFNy5ijnCt6H3IIo4t+wfEw==}
+  caniuse-lite@1.0.30001617:
+    resolution: {integrity: sha512-mLyjzNI9I+Pix8zwcrpxEbGlfqOkF9kM3ptzmKNw5tizSyYwMe+nGLTqMK9cO+0E+Bh6TsBxNAaHWEM8xwSsmA==}
 
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
@@ -3475,8 +3475,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.4.758:
-    resolution: {integrity: sha512-/o9x6TCdrYZBMdGeTifAP3wlF/gVT+TtWJe3BSmtNh92Mw81U9hrYwW9OAGUh+sEOX/yz5e34sksqRruZbjYrw==}
+  electron-to-chromium@1.4.761:
+    resolution: {integrity: sha512-PIbxpiJGx6Bb8dQaonNc6CGTRlVntdLg/2nMa1YhnrwYOORY9a3ZgGN0UQYE6lAcj/lkyduJN7BPt/JiY+jAQQ==}
 
   embla-carousel-react@8.0.0-rc19:
     resolution: {integrity: sha512-4BBj1HvlUqhWXFyDJOL/JbQ74jtekfdH646B1wQzM9QmWn6CEcbD/SmovKqc6B5jYTKaaGEGEEw7bpUJRajA8w==}
@@ -4602,8 +4602,8 @@ packages:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
 
-  openai@4.42.0:
-    resolution: {integrity: sha512-xbiQQ2YNqdkE6cHqeWKa7lsAvdYfgp84XiNFOVkAMa6+9KpmOL4hCWCRR6e6I/clpaens/T9XeLVtyC5StXoRw==}
+  openai@4.43.0:
+    resolution: {integrity: sha512-4SMUB/XiqnO5IrEcdzEGGTcHoeXq7D/k82v36zoqSitrMUjenZXGH5JysIH7aF7Wr+gjvq0dT2mV6wLVKA7Seg==}
     hasBin: true
 
   openapi-types@12.1.3:
@@ -4703,8 +4703,8 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
 
-  plasmo@0.85.2:
-    resolution: {integrity: sha512-qf9mONnb0JV0quYMM3qi23wuAIabzlhsDmHw4HMuBXjDp0ysruzGoOiFQmAbEMK7lMMFFepPkcDftu0c8MNhBw==}
+  plasmo@0.86.2:
+    resolution: {integrity: sha512-oFC8nQmhiule876jyehfZVUBPZV9YWUyfiRBHERBOlW+ezGtyZx/wvWWKE9MHmgE2Cm48H5+U9KcN+pYZNzB5g==}
     hasBin: true
 
   postcss-import@15.1.0:
@@ -5136,8 +5136,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte@4.0.1:
-    resolution: {integrity: sha512-7n2u7A5cu8xCY6MBiXh/Mg6Lh3+Mw2qXlTDBYhzvCvmSM4L4gc4MVo540UtGcjqBiA48E1VDW+EUpBr7iuBlPg==}
+  svelte@4.2.2:
+    resolution: {integrity: sha512-My2tytF2e2NnHSpn2M7/3VdXT4JdTglYVUuSuK/mXL2XtulPYbeBfl8Dm1QiaKRn0zoULRnL+EtfZHHP0k4H3A==}
     engines: {node: '>=16'}
 
   svg-parser@2.0.4:
@@ -5417,8 +5417,8 @@ packages:
     peerDependencies:
       zod: ^3.23.3
 
-  zod@3.23.7:
-    resolution: {integrity: sha512-NBeIoqbtOiUMomACV/y+V3Qfs9+Okr18vR5c/5pHClPpufWOrsx8TENboDPe265lFdfewX2yBtNTLPvnmCxwog==}
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zustand@4.5.2:
     resolution: {integrity: sha512-2cN1tPkDVkwCy5ickKrI7vijSjPksFRfqS6237NzT0vqSsztTNnQdHw9mmN7uBdk3gceVXU0a+21jFzFzAc9+g==}
@@ -5446,7 +5446,7 @@ snapshots:
 
   '@anthropic-ai/sdk@0.17.2':
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 18.19.33
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -5460,7 +5460,7 @@ snapshots:
 
   '@anthropic-ai/sdk@0.9.1':
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 18.19.33
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -5753,14 +5753,14 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@langchain/community@0.0.17(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.42.0)':
+  '@langchain/community@0.0.17(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.43.0)':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       '@langchain/openai': 0.0.11
       flat: 5.0.2
       langsmith: 0.0.70
       uuid: 9.0.1
-      zod: 3.23.7
+      zod: 3.23.8
     optionalDependencies:
       '@mozilla/readability': 0.5.0
       lodash: 4.17.21
@@ -5768,16 +5768,16 @@ snapshots:
       - encoding
       - openai
 
-  '@langchain/community@0.0.55(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.42.0)':
+  '@langchain/community@0.0.55(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.43.0)':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       '@langchain/openai': 0.0.28
       expr-eval: 2.0.2
       flat: 5.0.2
-      langsmith: 0.1.23(openai@4.42.0)
+      langsmith: 0.1.23(openai@4.43.0)
       uuid: 9.0.1
-      zod: 3.23.7
-      zod-to-json-schema: 3.23.0(zod@3.23.7)
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.0(zod@3.23.8)
     optionalDependencies:
       '@mozilla/readability': 0.5.0
       lodash: 4.17.21
@@ -5785,26 +5785,26 @@ snapshots:
       - encoding
       - openai
 
-  '@langchain/core@0.1.62(openai@4.42.0)':
+  '@langchain/core@0.1.62(openai@4.43.0)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.11
-      langsmith: 0.1.23(openai@4.42.0)
+      langsmith: 0.1.23(openai@4.43.0)
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
       uuid: 9.0.1
-      zod: 3.23.7
-      zod-to-json-schema: 3.23.0(zod@3.23.7)
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.0(zod@3.23.8)
     transitivePeerDependencies:
       - openai
 
-  '@langchain/mistralai@0.0.6(openai@4.42.0)':
+  '@langchain/mistralai@0.0.6(openai@4.43.0)':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       '@mistralai/mistralai': 0.0.7
     transitivePeerDependencies:
       - debug
@@ -5812,27 +5812,27 @@ snapshots:
 
   '@langchain/openai@0.0.11':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       js-tiktoken: 1.0.11
-      openai: 4.42.0
-      zod: 3.23.7
-      zod-to-json-schema: 3.20.3(zod@3.23.7)
+      openai: 4.43.0
+      zod: 3.23.8
+      zod-to-json-schema: 3.20.3(zod@3.23.8)
     transitivePeerDependencies:
       - encoding
 
   '@langchain/openai@0.0.28':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       js-tiktoken: 1.0.11
-      openai: 4.42.0
-      zod: 3.23.7
-      zod-to-json-schema: 3.23.0(zod@3.23.7)
+      openai: 4.43.0
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.0(zod@3.23.8)
     transitivePeerDependencies:
       - encoding
 
-  '@langchain/textsplitters@0.0.0(openai@4.42.0)':
+  '@langchain/textsplitters@0.0.0(openai@4.43.0)':
     dependencies:
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       js-tiktoken: 1.0.11
     transitivePeerDependencies:
       - openai
@@ -6700,13 +6700,13 @@ snapshots:
       '@parcel/utils': 2.9.3
       nullthrows: 1.1.1
 
-  '@plasmohq/parcel-compressor-utf8@0.0.6(@parcel/core@2.9.3)':
+  '@plasmohq/parcel-compressor-utf8@0.1.0(@parcel/core@2.9.3)':
     dependencies:
       '@parcel/plugin': 2.9.3(@parcel/core@2.9.3)
     transitivePeerDependencies:
       - '@parcel/core'
 
-  '@plasmohq/parcel-config@0.40.5(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)':
+  '@plasmohq/parcel-config@0.40.7(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)':
     dependencies:
       '@parcel/compressor-raw': 2.9.3(@parcel/core@2.9.3)
       '@parcel/config-default': 2.9.3(@parcel/core@2.9.3)(@swc/helpers@0.5.11)(postcss@8.4.38)(typescript@5.2.2)
@@ -6730,7 +6730,7 @@ snapshots:
       '@parcel/transformer-svg-react': 2.9.3(@parcel/core@2.9.3)
       '@parcel/transformer-worklet': 2.9.3(@parcel/core@2.9.3)
       '@plasmohq/parcel-bundler': 0.5.5
-      '@plasmohq/parcel-compressor-utf8': 0.0.6(@parcel/core@2.9.3)
+      '@plasmohq/parcel-compressor-utf8': 0.1.0(@parcel/core@2.9.3)
       '@plasmohq/parcel-namer-manifest': 0.3.12
       '@plasmohq/parcel-optimizer-encapsulate': 0.0.7
       '@plasmohq/parcel-optimizer-es': 0.4.0(@swc/helpers@0.5.11)
@@ -6741,7 +6741,7 @@ snapshots:
       '@plasmohq/parcel-transformer-inject-env': 0.2.11
       '@plasmohq/parcel-transformer-inline-css': 0.3.11
       '@plasmohq/parcel-transformer-manifest': 0.18.0
-      '@plasmohq/parcel-transformer-svelte': 0.5.2
+      '@plasmohq/parcel-transformer-svelte': 0.6.0
       '@plasmohq/parcel-transformer-vue': 0.5.0(lodash@4.17.21)(mustache@4.2.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     transitivePeerDependencies:
       - '@swc/core'
@@ -6914,14 +6914,14 @@ snapshots:
       json-schema-to-ts: 2.9.2
       nullthrows: 1.1.1
 
-  '@plasmohq/parcel-transformer-svelte@0.5.2':
+  '@plasmohq/parcel-transformer-svelte@0.6.0':
     dependencies:
       '@parcel/core': 2.9.3
       '@parcel/diagnostic': 2.9.3
       '@parcel/plugin': 2.9.3(@parcel/core@2.9.3)
       '@parcel/source-map': 2.1.1
       '@parcel/utils': 2.9.3
-      svelte: 4.0.1
+      svelte: 4.2.2
 
   '@plasmohq/parcel-transformer-vue@0.5.0(lodash@4.17.21)(mustache@4.2.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -8059,7 +8059,7 @@ snapshots:
       '@types/node': 20.9.0
       form-data: 4.0.0
 
-  '@types/node@18.19.32':
+  '@types/node@18.19.33':
     dependencies:
       undici-types: 5.26.5
 
@@ -8231,7 +8231,7 @@ snapshots:
   autoprefixer@10.4.19(postcss@8.4.38):
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001616
+      caniuse-lite: 1.0.30001617
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -8320,15 +8320,15 @@ snapshots:
 
   browserslist@4.22.1:
     dependencies:
-      caniuse-lite: 1.0.30001616
-      electron-to-chromium: 1.4.758
+      caniuse-lite: 1.0.30001617
+      electron-to-chromium: 1.4.761
       node-releases: 2.0.14
       update-browserslist-db: 1.0.15(browserslist@4.22.1)
 
   browserslist@4.23.0:
     dependencies:
-      caniuse-lite: 1.0.30001616
-      electron-to-chromium: 1.4.758
+      caniuse-lite: 1.0.30001617
+      electron-to-chromium: 1.4.761
       node-releases: 2.0.14
       update-browserslist-db: 1.0.15(browserslist@4.23.0)
 
@@ -8381,7 +8381,7 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  caniuse-lite@1.0.30001616: {}
+  caniuse-lite@1.0.30001617: {}
 
   caseless@0.12.0: {}
 
@@ -8686,7 +8686,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.4.758: {}
+  electron-to-chromium@1.4.761: {}
 
   embla-carousel-react@8.0.0-rc19(react@18.2.0):
     dependencies:
@@ -8953,7 +8953,7 @@ snapshots:
 
   groq-sdk@0.3.3:
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 18.19.33
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -9182,26 +9182,26 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.1.36(@mozilla/readability@0.5.0)(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.2.4)(lodash@4.17.21)(openai@4.42.0):
+  langchain@0.1.36(@mozilla/readability@0.5.0)(axios@1.6.8)(cheerio@1.0.0-rc.12)(ignore@5.2.4)(lodash@4.17.21)(openai@4.43.0):
     dependencies:
       '@anthropic-ai/sdk': 0.9.1
-      '@langchain/community': 0.0.55(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.42.0)
-      '@langchain/core': 0.1.62(openai@4.42.0)
+      '@langchain/community': 0.0.55(@mozilla/readability@0.5.0)(lodash@4.17.21)(openai@4.43.0)
+      '@langchain/core': 0.1.62(openai@4.43.0)
       '@langchain/openai': 0.0.28
-      '@langchain/textsplitters': 0.0.0(openai@4.42.0)
+      '@langchain/textsplitters': 0.0.0(openai@4.43.0)
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.11
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.10
-      langsmith: 0.1.23(openai@4.42.0)
+      langsmith: 0.1.23(openai@4.43.0)
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 9.0.1
       yaml: 2.4.2
-      zod: 3.23.7
-      zod-to-json-schema: 3.23.0(zod@3.23.7)
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.0(zod@3.23.8)
     optionalDependencies:
       axios: 1.6.8
       cheerio: 1.0.0-rc.12
@@ -9287,7 +9287,7 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
 
-  langsmith@0.1.23(openai@4.42.0):
+  langsmith@0.1.23(openai@4.43.0):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -9295,7 +9295,7 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      openai: 4.42.0
+      openai: 4.43.0
 
   less@4.2.0:
     dependencies:
@@ -9615,7 +9615,7 @@ snapshots:
       '@next/env': 14.2.0
       '@swc/helpers': 0.5.5
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001616
+      caniuse-lite: 1.0.30001617
       graceful-fs: 4.2.11
       postcss: 8.4.31
       react: 18.2.0
@@ -9697,9 +9697,9 @@ snapshots:
     dependencies:
       mimic-fn: 2.1.0
 
-  openai@4.42.0:
+  openai@4.43.0:
     dependencies:
-      '@types/node': 18.19.32
+      '@types/node': 18.19.33
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -9805,7 +9805,7 @@ snapshots:
 
   pirates@4.0.6: {}
 
-  plasmo@0.85.2(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  plasmo@0.86.2(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@expo/spawn-async': 1.7.2
       '@parcel/core': 2.9.3
@@ -9813,7 +9813,7 @@ snapshots:
       '@parcel/package-manager': 2.9.3(@parcel/core@2.9.3)
       '@parcel/watcher': 2.2.0
       '@plasmohq/init': 0.7.0
-      '@plasmohq/parcel-config': 0.40.5(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)
+      '@plasmohq/parcel-config': 0.40.7(@swc/core@1.5.5(@swc/helpers@0.5.11))(@swc/helpers@0.5.11)(lodash@4.17.21)(mustache@4.2.0)(postcss@8.4.38)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(typescript@5.2.2)
       '@plasmohq/parcel-core': 0.1.8
       buffer: 6.0.3
       chalk: 5.3.0
@@ -10299,7 +10299,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte@4.0.1:
+  svelte@4.2.2:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -10601,15 +10601,15 @@ snapshots:
 
   yaml@2.4.2: {}
 
-  zod-to-json-schema@3.20.3(zod@3.23.7):
+  zod-to-json-schema@3.20.3(zod@3.23.8):
     dependencies:
-      zod: 3.23.7
+      zod: 3.23.8
 
-  zod-to-json-schema@3.23.0(zod@3.23.7):
+  zod-to-json-schema@3.23.0(zod@3.23.8):
     dependencies:
-      zod: 3.23.7
+      zod: 3.23.8
 
-  zod@3.23.7: {}
+  zod@3.23.8: {}
 
   zustand@4.5.2(@types/react@18.2.37)(react@18.2.0):
     dependencies:
