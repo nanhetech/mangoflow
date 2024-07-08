@@ -1,12 +1,12 @@
 {
   "extensionName": {
-    "message": "MangoFlow: AI chat sidebar"
+    "message": "MangoFlow: AI Chat Sidebar"
   },
   "extensionDescription": {
-    "message": "Smart Copilot for Internet Surfing, smart assistant for browsing the web"
+    "message": "A helpful companion for web browsing, an intelligent assistant for surfing the internet"
   },
   "textareaPlaceholder": {
-    "message": "Enter your message and press Enter to send"
+    "message": "Enter your message, press Enter to send"
   },
   "settingsTitle": {
     "message": "Settings"
@@ -18,7 +18,7 @@
     "message": "Domain"
   },
   "settingsDomainDescription": {
-    "message": "This is the complete request address of the background service, for example: https://api.openai.com/v1"
+    "message": "This is the complete request address for the backend service, e.g., https://api.openai.com/v1"
   },
   "settingsModelType": {
     "message": "Model Type"
@@ -27,28 +27,28 @@
     "message": ""
   },
   "settingsOllamaModelTypeDescription": {
-    "message": "The Ollama service needs to be started with the command: 'OLLAMA_ORIGINS=chrome-extension://* ollama serve'"
+    "message": "Requires starting Ollama service with the command: OLLAMA_ORIGINS=chrome-extension://* ollama serve"
   },
   "settingsApikey": {
-    "message": "Api Key"
+    "message": "API Key"
   },
   "settingsModel": {
     "message": "Model Name"
   },
+  "settingsApikeyDescription": {
+    "message": "This is the request key for the backend service, e.g., sk-xxxxxx, obtained from the backend service"
+  },
   "settingsModelDescription": {
-    "message": "This is the model name of the background service, for example: davinci, which needs to be obtained from the background service."
+    "message": "This is the model name for the backend service, e.g., davinci, obtained from the backend service"
   },
   "settingsModelNameOllamaDescription": {
-    "message": "not all models support the chat mode"
-  },
-  "settingsApikeyDescription": {
-    "message": "This is the request secret key of the background service, for example: sk-xxxxxx, which needs to be obtained from the background service."
+    "message": "Not all models support chat mode"
   },
   "settingsDomainError": {
-    "message": "Please enter a valid URL."
+    "message": "Please enter a valid URL"
   },
   "settingsApikeyError": {
-    "message": "Please enter a valid API Key."
+    "message": "Please enter a valid API Key"
   },
   "settingsProfileTitle": {
     "message": "Profile"
@@ -63,19 +63,19 @@
     "message": "Domain is empty"
   },
   "sidepanelDomainErrorDescription": {
-    "message": "Please enter the domain."
+    "message": "Please enter a valid request domain"
   },
   "summary": {
-    "message": "Page summary"
+    "message": "Page Summary"
   },
   "summaryDescription": {
-    "message": "Summarize the main content of the current page."
+    "message": "Summarize the main content of the current page"
   },
   "settingsSidebarModel": {
     "message": "Model Settings"
   },
   "settingsModelOpenai": {
-    "message": "Others (OpenAI similar)"
+    "message": "Other (OpenAI-like)"
   },
   "settingsGetApikey": {
     "message": "Get API Key"
@@ -84,30 +84,168 @@
     "message": "New Chat"
   },
   "settingsSubmitSuccess": {
-    "message": "Settings saved successfully"
+    "message": "Settings updated"
   },
   "settingsSystemPrompt": {
-    "message": "Chat system prompt"
+    "message": "System Prompt"
   },
   "settingsSystemPromptDescription": {
-    "message": "This prompt only works in AI conversations"
+    "message": "This prompt only works in the AI chat bar"
   },
   "settingsSummatyPrompt": {
-    "message": "Summarize system prompt"
+    "message": "Summary Function System Prompt"
   },
   "settingsSummatyPromptDescription": {
-    "message": "This prompt only works on the summary button function"
+    "message": "This prompt only works for the summary button function"
   },
   "chatErrorMessage": {
-    "message": "Not connected to the server and need to configure the model information correctly, click on the"
+    "message": "Not connected to the server. Correct model configuration is required. Please click"
+  },
+  "settingsPromptModel": {
+    "message": "Prompt Settings"
   },
   "settingsModelsTitle": {
-    "message": "Models"
+    "message": "Model Management"
+  },
+  "settingsModelsDescription": {
+    "message": "Manage all your model information. Model information is only saved locally."
+  },
+  "settingsAddModel": {
+    "message": "Add New Model"
   },
   "settingsPromptsTitle": {
-    "message": "Prompts"
+    "message": "Prompt Management"
+  },
+  "settingsPromptsDescription": {
+    "message": "Manage all your prompt information. Prompt information is only saved locally."
   },
   "settingsSuperButtonTitle": {
-    "message": "Super button"
+    "message": "Super Button Management"
+  },
+  "deletedSuccessfully": {
+    "message": "Deleted successfully"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "Are you sure you want to delete this model?"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "Are you sure you want to delete this prompt?"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "confirmed": {
+    "message": "Confirm"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "Please fill in the model title"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "The model title must be a string"
+  },
+  "minimum2characters": {
+    "message": "Minimum 2 characters"
+  },
+  "upTo16characters": {
+    "message": "Up to 16 characters"
+  },
+  "upTo512characters": {
+    "message": "Up to 512 characters"
+  },
+  "pleaseSelectModelType": {
+    "message": "Please select model type"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "The model type must be a string"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "The model request address must be a string"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "Incorrectly formatted model request address"
+  },
+  "apikeyMustBeAString": {
+    "message": "API key must be a string"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "Please fill in the model name"
+  },
+  "theModelNameMustBeAString": {
+    "message": "The model name must be a string"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "Please fill in the model information below"
+  },
+  "modelTitle": {
+    "message": "Model Title"
+  },
+  "promptTitle": {
+    "message": "Prompt Title"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "Please fill in the prompt title"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "The prompt title must be a string"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "Please fill in the body of the system prompt"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "The system prompt must be a string"
+  },
+  "modifyingPromptInformation": {
+    "message": "Modifying Prompt Information"
+  },
+  "addAPrompt": {
+    "message": "Add a New Prompt"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "Please fill in the prompt information below"
+  },
+  "systemPrompt": {
+    "message": "System Prompt Body"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "add": {
+    "message": "Add"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "actions": {
+    "message": "Actions"
+  },
+  "youHaveNoModels": {
+    "message": "You don't have any model information yet"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "After adding a model, you can chat with AI."
+  },
+  "youHaveNoPrompts": {
+    "message": "You don't have any prompt information yet"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "After adding system prompts, you can chat with AI."
+  },
+  "selectAPrompt": {
+    "message": "Select a system prompt"
+  },
+  "promptTemplate": {
+    "message": "Prompt template"
+  },
+  "networkError": {
+    "message": "Unable to access the server"
+  },
+  "networkErrorDescription": {
+    "message": "Please check your network settings and ensure the server address and port are correct."
+  },
+  "prompt": {
+    "message": "Prompt"
   }
 }

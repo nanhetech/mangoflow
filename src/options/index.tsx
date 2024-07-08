@@ -108,7 +108,7 @@ const ConfrimDeleteModal = () => {
     if (activeModel?.id && activeModel.id === deleteModel.id) {
       await storage.set("activeModel", null);
     }
-    toast.success("删除成功")
+    toast.success(chrome.i18n.getMessage("deletedSuccessfully"))
   }, [deleteModel])
 
   return (
@@ -117,7 +117,7 @@ const ConfrimDeleteModal = () => {
     }}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>确定删除这个模型？-{">"} {deleteModel?.title}</AlertDialogTitle>
+          <AlertDialogTitle>{chrome.i18n.getMessage("sureAboutDeletingThisModel")}-{">"} {deleteModel?.title}</AlertDialogTitle>
           <AlertDialogDescription>
             <pre className="mt-2 max-w-full py-4 overflow-hidden">
               <code className="max-w-full whitespace-pre-wrap">{JSON.stringify(deleteModel, null, 2)}</code>
@@ -125,8 +125,8 @@ const ConfrimDeleteModal = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>取消</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteModel}>确定</AlertDialogAction>
+          <AlertDialogCancel>{chrome.i18n.getMessage("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteModel}>{chrome.i18n.getMessage("confirmed")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -144,7 +144,7 @@ const ConfrimPromptDeleteModal = () => {
     if (activePrompt?.id && activePrompt.id === deletePrompt.id) {
       await storage.set("activePrompt", null);
     }
-    toast.success("删除成功")
+    toast.success(chrome.i18n.getMessage("deletedSuccessfully"))
   }, [deletePrompt])
 
   return (
@@ -153,7 +153,7 @@ const ConfrimPromptDeleteModal = () => {
     }}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>确定删除这个提示词吗？-{">"} {deletePrompt?.title}</AlertDialogTitle>
+          <AlertDialogTitle>{chrome.i18n.getMessage("sureAboutDeletingThisPrompt")}-{">"} {deletePrompt?.title}</AlertDialogTitle>
           <AlertDialogDescription>
             <pre className="mt-2 max-w-full py-4 overflow-hidden">
               <code className="max-w-full whitespace-pre-wrap">{JSON.stringify(deletePrompt, null, 2)}</code>
@@ -161,8 +161,8 @@ const ConfrimPromptDeleteModal = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>取消</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeletePrompt}>确定</AlertDialogAction>
+          <AlertDialogCancel>{chrome.i18n.getMessage("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeletePrompt}>{chrome.i18n.getMessage("confirmed")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -172,35 +172,35 @@ const ConfrimPromptDeleteModal = () => {
 const modelFormSchema = z.object({
   title: z
     .string({
-      required_error: "请填写模型标题",
-      invalid_type_error: "模型标题必须是字符串"
+      required_error: chrome.i18n.getMessage("pleaseFillInTheModelTitle"),
+      invalid_type_error: chrome.i18n.getMessage("theModelTitleMustBeAString")
     })
     .min(2, {
-      message: "最少 2 个字符"
+      message: chrome.i18n.getMessage("minimum2characters")
     })
     .max(16, {
-      message: "最大长度为 16 个字符"
+      message: chrome.i18n.getMessage("upTo16characters")
     }),
   type: z
     .string({
-      required_error: "请选择模型类型",
-      invalid_type_error: "模型类型必须是字符串"
+      required_error: chrome.i18n.getMessage("pleaseSelectModelType"),
+      invalid_type_error: chrome.i18n.getMessage("theModelTypeMustBeAString")
     }),
   url: z
     .string({
-      invalid_type_error: "模型请求地址必须是字符串"
+      invalid_type_error: chrome.i18n.getMessage("theModelRequestAddressMustBeAString")
     })
-    .url({ message: "模型请求地址格式不正确" })
+    .url({ message: chrome.i18n.getMessage("incorrectlyFormattedModelRequestAddress") })
     .optional(),
   apikey: z
     .string({
-      invalid_type_error: "apikey 必须是字符串"
+      invalid_type_error: chrome.i18n.getMessage("apikeyMustBeAString")
     })
     .optional(),
   name: z
     .string({
-      required_error: "请填写模型名称",
-      invalid_type_error: "模型名称必须是字符串"
+      required_error: chrome.i18n.getMessage("pleaseFillInTheModelName"),
+      invalid_type_error: chrome.i18n.getMessage("theModelNameMustBeAString")
     }),
 })
 
@@ -288,7 +288,7 @@ const EditModelDialog = () => {
         <DialogHeader>
           <DialogTitle>{activeModel?.id ? "Modifying model information" : "Add a model"}</DialogTitle>
           <DialogDescription>
-            Please fill in the model information below
+            {chrome.i18n.getMessage("pleasefillInTheModelInformationBelow")}
           </DialogDescription>
         </DialogHeader>
         <div className="">
@@ -299,7 +299,7 @@ const EditModelDialog = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>模型标题</FormLabel>
+                    <FormLabel>{chrome.i18n.getMessage("modelTitle")}</FormLabel>
                     <FormControl>
                       <Input placeholder="" {...field} />
                     </FormControl>
@@ -417,25 +417,25 @@ const EditModelDialog = () => {
 const promptFormSchema = z.object({
   title: z
     .string({
-      required_error: "请填写模型标题",
-      invalid_type_error: "模型标题必须是字符串"
+      required_error: chrome.i18n.getMessage("pleaseFillInThePromptTitle"),
+      invalid_type_error: chrome.i18n.getMessage("thePromptTitleMustBeAString")
     })
     .min(2, {
-      message: "最少 2 个字符"
+      message: chrome.i18n.getMessage("minimum2characters")
     })
     .max(16, {
-      message: "最大长度为 16 个字符"
+      message: chrome.i18n.getMessage("upTo16characters")
     }),
   system: z
     .string({
-      required_error: "请填写系统提示词",
-      invalid_type_error: "系统提示词必须是字符串"
+      required_error: chrome.i18n.getMessage("pleaseFillInTheBodyOfTheSystemPrompt"),
+      invalid_type_error: chrome.i18n.getMessage("theSystemPromptMustBeAString")
     })
     .min(2, {
-      message: "最少 2 个字符"
+      message: chrome.i18n.getMessage("minimum2characters")
     })
     .max(512, {
-      message: "最大长度为 512 个字符"
+      message: chrome.i18n.getMessage("upTo512characters")
     }),
 })
 
@@ -511,9 +511,9 @@ const EditPromptDialog = () => {
     }}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{activePrompt?.id ? "Modifying prompt information" : "Add a prompt"}</DialogTitle>
+          <DialogTitle>{activePrompt?.id ? chrome.i18n.getMessage("modifyingPromptInformation") : chrome.i18n.getMessage("addAPrompt")}</DialogTitle>
           <DialogDescription>
-            Please fill in the prompt information below
+            {chrome.i18n.getMessage("pleaseFillInThePromptInformationBelow")}
           </DialogDescription>
         </DialogHeader>
         <div className="">
@@ -524,7 +524,7 @@ const EditPromptDialog = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>系统提示词标题</FormLabel>
+                    <FormLabel>{chrome.i18n.getMessage("promptTitle")}</FormLabel>
                     <FormControl>
                       <Input placeholder="" {...field} />
                     </FormControl>
@@ -540,7 +540,7 @@ const EditPromptDialog = () => {
                 name="system"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{chrome.i18n.getMessage("settingsModelType")}</FormLabel>
+                    <FormLabel>{chrome.i18n.getMessage("systemPrompt")}</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder=""
@@ -548,9 +548,6 @@ const EditPromptDialog = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      {chrome.i18n.getMessage("settingsOllamaModelTypeDescription")}
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -558,7 +555,7 @@ const EditPromptDialog = () => {
               <DialogFooter>
                 {/* <Button onClick={close} variant="outline" className="mr-auto">Test</Button> */}
                 {/* <Button onClick={close} variant="secondary">Cancel</Button> */}
-                <Button variant="default" type="submit">{activePrompt?.id ? "Save" : "Add"}</Button>
+                <Button variant="default" type="submit">{activePrompt?.id ? chrome.i18n.getMessage("save") : chrome.i18n.getMessage("add")}</Button>
               </DialogFooter>
             </form>
           </Form>
@@ -599,9 +596,9 @@ const ModelCard = ({ data }: {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => update(data)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => openDelete(data)}>Delete</DropdownMenuItem>
+            {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
+            <DropdownMenuItem onClick={() => update(data)}>{chrome.i18n.getMessage("edit")}</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => openDelete(data)}>{chrome.i18n.getMessage("delete")}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -635,8 +632,8 @@ const PromptCard = ({ data }: {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => update(data)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => openDelete(data)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => update(data)}>{chrome.i18n.getMessage("edit")}</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => openDelete(data)}>{chrome.i18n.getMessage("delete")}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -653,26 +650,26 @@ const SettingsModelsPage = () => {
       {!!models.length ? <>
         <div className="flex items-end">
           <div className="">
-            <h1 className="text-xl font-bold tracking-tight">Models</h1>
+            <h1 className="text-xl font-bold tracking-tight">{chrome.i18n.getMessage("settingsModelsTitle")}</h1>
             <p className="text-sm text-muted-foreground">
-              管理你的所有模型信息，模型信息只保存在本地。
+              {chrome.i18n.getMessage("settingsModelsDescription")}
             </p>
           </div>
-          <Button className="ml-auto" onClick={() => open()}>Add Model</Button>
+          <Button className="ml-auto" onClick={() => open()}>{chrome.i18n.getMessage("settingsAddModel")}</Button>
         </div>
         <ScrollArea className="flex-1">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead className="hidden md:table-cell">Type</TableHead>
-                <TableHead className="hidden md:table-cell">apikey</TableHead>
+                <TableHead>{chrome.i18n.getMessage("modelTitle")}</TableHead>
+                <TableHead className="hidden md:table-cell">{chrome.i18n.getMessage("settingsModelType")}</TableHead>
+                <TableHead className="hidden md:table-cell">Api Key</TableHead>
                 <TableHead className="hidden md:table-cell">
-                  Model name
+                  {chrome.i18n.getMessage("settingsModel")}
                 </TableHead>
                 <TableHead>
-                  Actions
-                  <span className="sr-only">Actions</span>
+                  {chrome.i18n.getMessage("actions")}
+                  <span className="sr-only">{chrome.i18n.getMessage("actions")}</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -687,9 +684,9 @@ const SettingsModelsPage = () => {
             You have no models
           </h3>
           <p className="text-sm text-muted-foreground">
-            You can talk to the AI after adding a model.
+            {chrome.i18n.getMessage("youHaveNoModelsDescription")}
           </p>
-          <Button className="mt-4" onClick={() => open()}>Add Model</Button>
+          <Button className="mt-4" onClick={() => open()}>{chrome.i18n.getMessage("settingsAddModel")}</Button>
         </div>
       </div>}
       <EditModelDialog />
@@ -707,22 +704,22 @@ const SettingsPromptsPage = () => {
       {!!prompts.length ? <>
         <div className="flex items-end">
           <div className="">
-            <h1 className="text-xl font-bold tracking-tight">Prompts</h1>
+            <h1 className="text-xl font-bold tracking-tight">{chrome.i18n.getMessage("settingsPromptsTitle")}</h1>
             <p className="text-sm text-muted-foreground">
-              管理你的所有系统提示词。
+              {chrome.i18n.getMessage("settingsPromptsDescription")}
             </p>
           </div>
-          <Button className="ml-auto" onClick={() => open()}>Add Prompt</Button>
+          <Button className="ml-auto" onClick={() => open()}>{chrome.i18n.getMessage("addAPrompt")}</Button>
         </div>
         <ScrollArea className="flex-1">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead className="hidden md:table-cell">system</TableHead>
+                <TableHead>{chrome.i18n.getMessage("promptTitle")}</TableHead>
+                <TableHead className="hidden md:table-cell">{chrome.i18n.getMessage("systemPrompt")}</TableHead>
                 <TableHead>
-                  Actions
-                  <span className="sr-only">Actions</span>
+                  {chrome.i18n.getMessage("actions")}
+                  <span className="sr-only">{chrome.i18n.getMessage("actions")}</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -733,17 +730,17 @@ const SettingsPromptsPage = () => {
         </ScrollArea>
       </> : <>
         <div className="flex items-center">
-          <h1 className="text-lg font-semibold md:text-2xl">Prompts</h1>
+          <h1 className="text-lg font-semibold md:text-2xl">{chrome.i18n.getMessage("settingsPromptsTitle")}</h1>
         </div>
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-1 text-center">
             <h3 className="text-2xl font-bold tracking-tight">
-              You have no prompts
+              {chrome.i18n.getMessage("youHaveNoPrompts")}
             </h3>
             <p className="text-sm text-muted-foreground">
-              You can start selling as soon as you add a product.
+              {chrome.i18n.getMessage("youHaveNoPromptsDescription")}
             </p>
-            <Button className="mt-4" onClick={() => open()}>Add Prompt</Button>
+            <Button className="mt-4" onClick={() => open()}>{chrome.i18n.getMessage("addAPrompt")}</Button>
           </div>
         </div>
       </>}
@@ -760,17 +757,17 @@ const SettingsSuperButtonPage = () => {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Super button</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">{chrome.i18n.getMessage("settingsSuperButtonTitle")}</h1>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="flex flex-col items-center gap-1 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
-            You have no products
+            You have no super button
           </h3>
-          <p className="text-sm text-muted-foreground">
+          {/* <p className="text-sm text-muted-foreground">
             You can start selling as soon as you add a product.
-          </p>
-          <Button className="mt-4">Add Product</Button>
+          </p> */}
+          <Button className="mt-4">Add Super Button</Button>
         </div>
       </div>
     </main>
@@ -927,7 +924,7 @@ function IndexOptions() {
                 </Card>
               </div> */}
                 <div className="mt-auto p-4 text-sm text-muted-foreground text-center">
-                  Built by <a href="https://twitter.com/zhanghedev" target="_blank">Henry</a>. Feedback to <a href="https://t.me/mangoflowai" target="_blank"><i className="icon-[ri--telegram-fill] inline-block text-lg align-text-bottom" /></a>
+                  Built by <a href="https://x.com/zhanghedev" target="_blank">Henry</a>. Feedback to <a href="https://t.me/mangoflowgroup" target="_blank"><i className="icon-[ri--telegram-fill] inline-block text-lg align-text-bottom" /></a>
                 </div>
               </SheetContent>
             </Sheet>

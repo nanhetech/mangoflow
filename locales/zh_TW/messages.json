@@ -15,10 +15,10 @@
     "message": "管理您的外掛程式配置"
   },
   "settingsDomain": {
-    "message": "網域"
+    "message": "域名"
   },
   "settingsDomainDescription": {
-    "message": "這是後台服務的完整請求位址，例如：https://api.openai.com/v1"
+    "message": "這是後台服務的完整請求地址，例如：https://api.openai.com/v1"
   },
   "settingsModelType": {
     "message": "模型類型"
@@ -30,19 +30,19 @@
     "message": "需要使用 OLLAMA_ORIGINS=chrome-extension://* ollama serve 命令啟動 Ollama 服務"
   },
   "settingsApikey": {
-    "message": "金鑰"
+    "message": "密鑰"
   },
   "settingsModel": {
     "message": "模型名稱"
   },
+  "settingsApikeyDescription": {
+    "message": "這是後台服務的請求密鑰，例如：sk-xxxxxx，需要在後台服務中獲取"
+  },
   "settingsModelDescription": {
-    "message": "這是後台服務的模型名稱，例如：davinci，需要在後台服務中取得"
+    "message": "這是後台服務的模型名稱，例如：davinci，需要在後台服務中獲取"
   },
   "settingsModelNameOllamaDescription": {
-    "message": "並不是所有模型都支持聊天模式"
-  },
-  "settingsApikeyDescription": {
-    "message": "這是後台服務的請求金鑰，例如：sk-xxxxxx，需要在後台服務中取得"
+    "message": "並非所有模型都支援聊天模式"
   },
   "settingsDomainError": {
     "message": "請輸入正確的 URL"
@@ -54,19 +54,19 @@
     "message": "個人資料"
   },
   "settingsProfileDescription": {
-    "message": "管理您的個人資料資訊"
+    "message": "管理您的個人資料信息"
   },
   "settingsUpdateBtn": {
     "message": "更新"
   },
   "sidepanelDomainErrorTitle": {
-    "message": "網域為空"
+    "message": "域名為空"
   },
   "sidepanelDomainErrorDescription": {
-    "message": "請輸入一個正確的請求網域"
+    "message": "請輸入一個正確的請求域名"
   },
   "summary": {
-    "message": "頁面摘要"
+    "message": "頁面總結"
   },
   "summaryDescription": {
     "message": "總結當前頁面的主要內容"
@@ -75,39 +75,177 @@
     "message": "模型設定"
   },
   "settingsModelOpenai": {
-    "message": "其它 (OpenAI 類別)"
+    "message": "其他 (OpenAI 類)"
   },
   "settingsGetApikey": {
-    "message": "獲取 API 金鑰"
+    "message": "獲取 API 密鑰"
   },
   "newChat": {
     "message": "新對話"
   },
   "settingsSubmitSuccess": {
-    "message": "設定已成功儲存"
+    "message": "設定已更新"
   },
   "settingsSystemPrompt": {
     "message": "系統提示詞"
   },
   "settingsSystemPromptDescription": {
-    "message": "此提示詞只在 AI 對話列上起作用"
+    "message": "此提示詞只在 AI 對話欄起作用"
   },
   "settingsSummatyPrompt": {
-    "message": "總結功能係統提示詞"
+    "message": "總結功能系統提示詞"
   },
   "settingsSummatyPromptDescription": {
     "message": "此提示詞只在總結按鈕功能起作用"
   },
   "chatErrorMessage": {
-    "message": "未連接到伺服器，需要正確配置模型訊息，請點擊"
+    "message": "未連接到伺服器，需要正確配置模型信息，請點擊"
+  },
+  "settingsPromptModel": {
+    "message": "提示詞設定"
   },
   "settingsModelsTitle": {
     "message": "模型管理"
   },
+  "settingsModelsDescription": {
+    "message": "管理你的所有模型信息，模型信息只保存在本地。"
+  },
+  "settingsAddModel": {
+    "message": "添加新的模型"
+  },
   "settingsPromptsTitle": {
     "message": "提示詞管理"
   },
+  "settingsPromptsDescription": {
+    "message": "管理你的所有提示詞信息，提示詞信息只保存在本地。"
+  },
   "settingsSuperButtonTitle": {
     "message": "超級按鈕管理"
+  },
+  "deletedSuccessfully": {
+    "message": "刪除成功"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "確定刪除這個模型？"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "確定刪除這個提示詞嗎？"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "confirmed": {
+    "message": "確認"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "請填寫模型標題"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "模型標題必須是字符串"
+  },
+  "minimum2characters": {
+    "message": "最少 2 個字符"
+  },
+  "upTo16characters": {
+    "message": "最大長度為 16 個字符"
+  },
+  "upTo512characters": {
+    "message": "最大長度為 512 個字符"
+  },
+  "pleaseSelectModelType": {
+    "message": "請選擇模型類型"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "模型類型必須是字符串"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "模型請求地址必須是字符串"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "模型請求地址格式不正確"
+  },
+  "apikeyMustBeAString": {
+    "message": "apikey 必須是字符串"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "請填寫模型名稱"
+  },
+  "theModelNameMustBeAString": {
+    "message": "模型名稱必須是字符串"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "請填寫模型信息信息"
+  },
+  "modelTitle": {
+    "message": "模型標題"
+  },
+  "promptTitle": {
+    "message": "提示詞標題"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "請填寫提示詞標題"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "提示詞標題必須是字符串"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "請填寫系統提示詞正文"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "系統提示詞必須是字符串"
+  },
+  "modifyingPromptInformation": {
+    "message": "修改提示詞信息"
+  },
+  "addAPrompt": {
+    "message": "添加新的提示詞"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "請填寫提示詞信息"
+  },
+  "systemPrompt": {
+    "message": "系統提示詞正文"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "add": {
+    "message": "添加"
+  },
+  "edit": {
+    "message": "修改"
+  },
+  "delete": {
+    "message": "刪除"
+  },
+  "actions": {
+    "message": "操作"
+  },
+  "youHaveNoModels": {
+    "message": "你還沒有任何模型信息"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "添加模型後，您可以與人工智能對話。"
+  },
+  "youHaveNoPrompts": {
+    "message": "你還沒有任何提示詞信息"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "添加系統提示詞後，您可以與人工智能對話。"
+  },
+  "selectAPrompt": {
+    "message": "選擇一個系統提示詞"
+  },
+  "promptTemplate": {
+    "message": "提示詞模板"
+  },
+  "networkError": {
+    "message": "無法訪問伺服器"
+  },
+  "networkErrorDescription": {
+    "message": "請檢查您的網絡設置，並確保伺服器地址和端口正確。"
+  },
+  "prompt": {
+    "message": "提示詞"
   }
 }

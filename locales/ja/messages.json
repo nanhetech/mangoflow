@@ -1,0 +1,251 @@
+{
+  "extensionName": {
+    "message": "MangoFlow: AI チャットサイドバー"
+  },
+  "extensionDescription": {
+    "message": "ウェブ閲覧のための便利なコンパニオン、インターネットサーフィンのためのインテリジェントアシスタント"
+  },
+  "textareaPlaceholder": {
+    "message": "メッセージを入力し、Enter キーを押して送信します"
+  },
+  "settingsTitle": {
+    "message": "設定"
+  },
+  "settingsDescription": {
+    "message": "プラグイン構成を管理する"
+  },
+  "settingsDomain": {
+    "message": "ドメイン"
+  },
+  "settingsDomainDescription": {
+    "message": "これはバックエンドサービスの完全なリクエストアドレスです。例：https://api.openai.com/v1"
+  },
+  "settingsModelType": {
+    "message": "モデルタイプ"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "OLLAMA_ORIGINS=chrome-extension://* ollama serve コマンドを使用して Ollama サービスを起動する必要があります"
+  },
+  "settingsApikey": {
+    "message": "API キー"
+  },
+  "settingsModel": {
+    "message": "モデル名"
+  },
+  "settingsApikeyDescription": {
+    "message": "これはバックエンドサービスのリクエストキーです。例：sk-xxxxxx、バックエンドサービスから取得する必要があります"
+  },
+  "settingsModelDescription": {
+    "message": "これはバックエンドサービスのモデル名です。例：davinci、バックエンドサービスから取得する必要があります"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "すべてのモデルがチャットモードをサポートしているわけではありません"
+  },
+  "settingsDomainError": {
+    "message": "正しい URL を入力してください"
+  },
+  "settingsApikeyError": {
+    "message": "正しい API キーを入力してください"
+  },
+  "settingsProfileTitle": {
+    "message": "プロフィール"
+  },
+  "settingsProfileDescription": {
+    "message": "プロフィール情報を管理する"
+  },
+  "settingsUpdateBtn": {
+    "message": "更新"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "ドメインが空です"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "正しいリクエストドメインを入力してください"
+  },
+  "summary": {
+    "message": "ページ要約"
+  },
+  "summaryDescription": {
+    "message": "現在のページの主な内容を要約します"
+  },
+  "settingsSidebarModel": {
+    "message": "モデル設定"
+  },
+  "settingsModelOpenai": {
+    "message": "その他 (OpenAI 類)"
+  },
+  "settingsGetApikey": {
+    "message": "API キーを取得"
+  },
+  "newChat": {
+    "message": "新しいチャット"
+  },
+  "settingsSubmitSuccess": {
+    "message": "設定が更新されました"
+  },
+  "settingsSystemPrompt": {
+    "message": "システムプロンプト"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "このプロンプトは AI チャットバーでのみ機能します"
+  },
+  "settingsSummatyPrompt": {
+    "message": "要約機能システムプロンプト"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "このプロンプトは要約ボタン機能でのみ機能します"
+  },
+  "chatErrorMessage": {
+    "message": "サーバーに接続されていません。正しいモデル構成が必要です。クリックしてください"
+  },
+  "settingsPromptModel": {
+    "message": "プロンプト設定"
+  },
+  "settingsModelsTitle": {
+    "message": "モデル管理"
+  },
+  "settingsModelsDescription": {
+    "message": "すべてのモデル情報を管理します。モデル情報はローカルにのみ保存されます。"
+  },
+  "settingsAddModel": {
+    "message": "新しいモデルを追加"
+  },
+  "settingsPromptsTitle": {
+    "message": "プロンプト管理"
+  },
+  "settingsPromptsDescription": {
+    "message": "すべてのプロンプト情報を管理します。プロンプト情報はローカルにのみ保存されます。"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "スーパーボタン管理"
+  },
+  "deletedSuccessfully": {
+    "message": "正常に削除されました"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "このモデルを削除してもよろしいですか？"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "このプロンプトを削除してもよろしいですか？"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "confirmed": {
+    "message": "確認"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "モデルのタイトルを入力してください"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "モデルのタイトルは文字列である必要があります"
+  },
+  "minimum2characters": {
+    "message": "最小 2 文字"
+  },
+  "upTo16characters": {
+    "message": "最大 16 文字まで"
+  },
+  "upTo512characters": {
+    "message": "最大 512 文字まで"
+  },
+  "pleaseSelectModelType": {
+    "message": "モデルタイプを選択してください"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "モデルタイプは文字列である必要があります"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "モデルリクエストアドレスは文字列である必要があります"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "モデルリクエストアドレスの形式が正しくありません"
+  },
+  "apikeyMustBeAString": {
+    "message": "API キーは文字列である必要があります"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "モデル名を入力してください"
+  },
+  "theModelNameMustBeAString": {
+    "message": "モデル名は文字列である必要があります"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "以下にモデル情報を入力してください"
+  },
+  "modelTitle": {
+    "message": "モデルタイトル"
+  },
+  "promptTitle": {
+    "message": "プロンプトタイトル"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "プロンプトタイトルを入力してください"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "プロンプトタイトルは文字列である必要があります"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "システムプロンプトの本文を入力してください"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "システムプロンプトは文字列である必要があります"
+  },
+  "modifyingPromptInformation": {
+    "message": "プロンプト情報の修正"
+  },
+  "addAPrompt": {
+    "message": "新しいプロンプトを追加"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "以下にプロンプト情報を入力してください"
+  },
+  "systemPrompt": {
+    "message": "システムプロンプト本文"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "add": {
+    "message": "追加"
+  },
+  "edit": {
+    "message": "編集"
+  },
+  "delete": {
+    "message": "削除"
+  },
+  "actions": {
+    "message": "アクション"
+  },
+  "youHaveNoModels": {
+    "message": "まだモデル情報がありません"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "モデルを追加すると、AI とチャットできるようになります。"
+  },
+  "youHaveNoPrompts": {
+    "message": "まだプロンプト情報がありません"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "システムプロンプトを追加すると、AI とチャットできるようになります。"
+  },
+  "selectAPrompt": {
+    "message": "システムプロンプトを選択"
+  },
+  "promptTemplate": {
+    "message": "プロンプトテンプレート"
+  },
+  "networkError": {
+    "message": "サーバーにアクセスできません"
+  },
+  "networkErrorDescription": {
+    "message": "ネットワーク設定を確認し、サーバーアドレスとポートが正しいことを確認してください。"
+  },
+  "prompt": {
+    "message": "プロンプト"
+  }
+}

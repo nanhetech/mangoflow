@@ -1,0 +1,251 @@
+{
+  "extensionName": {
+    "message": "MangoFlow: شريط جانبي للدردشة مع الذكاء الاصطناعي"
+  },
+  "extensionDescription": {
+    "message": "رفيق مفيد لتصفح الويب، مساعد ذكي لتصفح الإنترنت"
+  },
+  "textareaPlaceholder": {
+    "message": "أدخل رسالتك، اضغط على Enter للإرسال"
+  },
+  "settingsTitle": {
+    "message": "الإعدادات"
+  },
+  "settingsDescription": {
+    "message": "إدارة إعدادات الإضافة الخاصة بك"
+  },
+  "settingsDomain": {
+    "message": "النطاق"
+  },
+  "settingsDomainDescription": {
+    "message": "هذا هو عنوان الطلب الكامل لخدمة الخلفية، مثال: https://api.openai.com/v1"
+  },
+  "settingsModelType": {
+    "message": "نوع النموذج"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "يتطلب بدء خدمة Ollama باستخدام الأمر OLLAMA_ORIGINS=chrome-extension://* ollama serve"
+  },
+  "settingsApikey": {
+    "message": "مفتاح API"
+  },
+  "settingsModel": {
+    "message": "اسم النموذج"
+  },
+  "settingsApikeyDescription": {
+    "message": "هذا هو مفتاح الطلب لخدمة الخلفية، مثال: sk-xxxxxx، يجب الحصول عليه من خدمة الخلفية"
+  },
+  "settingsModelDescription": {
+    "message": "هذا هو اسم النموذج لخدمة الخلفية، مثال: davinci، يجب الحصول عليه من خدمة الخلفية"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "ليست كل النماذج تدعم وضع الدردشة"
+  },
+  "settingsDomainError": {
+    "message": "الرجاء إدخال عنوان URL صحيح"
+  },
+  "settingsApikeyError": {
+    "message": "الرجاء إدخال مفتاح API صحيح"
+  },
+  "settingsProfileTitle": {
+    "message": "الملف الشخصي"
+  },
+  "settingsProfileDescription": {
+    "message": "إدارة معلومات ملفك الشخصي"
+  },
+  "settingsUpdateBtn": {
+    "message": "تحديث"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "النطاق فارغ"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "الرجاء إدخال نطاق طلب صحيح"
+  },
+  "summary": {
+    "message": "ملخص الصفحة"
+  },
+  "summaryDescription": {
+    "message": "تلخيص المحتوى الرئيسي للصفحة الحالية"
+  },
+  "settingsSidebarModel": {
+    "message": "إعدادات النموذج"
+  },
+  "settingsModelOpenai": {
+    "message": "أخرى (نوع OpenAI)"
+  },
+  "settingsGetApikey": {
+    "message": "الحصول على مفتاح API"
+  },
+  "newChat": {
+    "message": "دردشة جديدة"
+  },
+  "settingsSubmitSuccess": {
+    "message": "تم تحديث الإعدادات"
+  },
+  "settingsSystemPrompt": {
+    "message": "موجه النظام"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "هذا الموجه يعمل فقط في شريط دردشة الذكاء الاصطناعي"
+  },
+  "settingsSummatyPrompt": {
+    "message": "موجه النظام لوظيفة التلخيص"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "هذا الموجه يعمل فقط لوظيفة زر التلخيص"
+  },
+  "chatErrorMessage": {
+    "message": "غير متصل بالخادم، يلزم تكوين صحيح للنموذج، يرجى النقر"
+  },
+  "settingsPromptModel": {
+    "message": "إعدادات الموجهات"
+  },
+  "settingsModelsTitle": {
+    "message": "إدارة النماذج"
+  },
+  "settingsModelsDescription": {
+    "message": "إدارة جميع معلومات النماذج الخاصة بك. يتم حفظ معلومات النموذج محليًا فقط."
+  },
+  "settingsAddModel": {
+    "message": "إضافة نموذج جديد"
+  },
+  "settingsPromptsTitle": {
+    "message": "إدارة الموجهات"
+  },
+  "settingsPromptsDescription": {
+    "message": "إدارة جميع معلومات الموجهات الخاصة بك. يتم حفظ معلومات الموجهات محليًا فقط."
+  },
+  "settingsSuperButtonTitle": {
+    "message": "إدارة الأزرار الفائقة"
+  },
+  "deletedSuccessfully": {
+    "message": "تم الحذف بنجاح"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "هل أنت متأكد من حذف هذا النموذج؟"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "هل أنت متأكد من حذف هذا الموجه؟"
+  },
+  "cancel": {
+    "message": "إلغاء"
+  },
+  "confirmed": {
+    "message": "تأكيد"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "الرجاء إدخال عنوان النموذج"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "يجب أن يكون عنوان النموذج سلسلة نصية"
+  },
+  "minimum2characters": {
+    "message": "الحد الأدنى 2 حرف"
+  },
+  "upTo16characters": {
+    "message": "حتى 16 حرفًا"
+  },
+  "upTo512characters": {
+    "message": "حتى 512 حرفًا"
+  },
+  "pleaseSelectModelType": {
+    "message": "الرجاء اختيار نوع النموذج"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "يجب أن يكون نوع النموذج سلسلة نصية"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "يجب أن يكون عنوان طلب النموذج سلسلة نصية"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "عنوان طلب النموذج غير منسق بشكل صحيح"
+  },
+  "apikeyMustBeAString": {
+    "message": "يجب أن يكون مفتاح API سلسلة نصية"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "الرجاء إدخال اسم النموذج"
+  },
+  "theModelNameMustBeAString": {
+    "message": "يجب أن يكون اسم النموذج سلسلة نصية"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "الرجاء إدخال معلومات النموذج أدناه"
+  },
+  "modelTitle": {
+    "message": "عنوان النموذج"
+  },
+  "promptTitle": {
+    "message": "عنوان الموجه"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "الرجاء إدخال عنوان الموجه"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "يجب أن يكون عنوان الموجه سلسلة نصية"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "الرجاء إدخال نص موجه النظام"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "يجب أن يكون موجه النظام سلسلة نصية"
+  },
+  "modifyingPromptInformation": {
+    "message": "تعديل معلومات الموجه"
+  },
+  "addAPrompt": {
+    "message": "إضافة موجه جديد"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "الرجاء إدخال معلومات الموجه أدناه"
+  },
+  "systemPrompt": {
+    "message": "نص موجه النظام"
+  },
+  "save": {
+    "message": "حفظ"
+  },
+  "add": {
+    "message": "إضافة"
+  },
+  "edit": {
+    "message": "تعديل"
+  },
+  "delete": {
+    "message": "حذف"
+  },
+  "actions": {
+    "message": "الإجراءات"
+  },
+  "youHaveNoModels": {
+    "message": "ليس لديك أي معلومات نماذج بعد"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "بعد إضافة نموذج، ستتمكن من الدردشة مع الذكاء الاصطناعي."
+  },
+  "youHaveNoPrompts": {
+    "message": "ليس لديك أي معلومات موجهات بعد"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "بعد إضافة موجهات النظام، ستتمكن من الدردشة مع الذكاء الاصطناعي."
+  },
+  "selectAPrompt": {
+    "message": "اختر موجهًا للنظام"
+  },
+  "promptTemplate": {
+    "message": "قالب الموجه"
+  },
+  "networkError": {
+    "message": "تعذر الوصول إلى الخادم"
+  },
+  "networkErrorDescription": {
+    "message": "يرجى التحقق من إعدادات الشبكة والتأكد من صحة عنوان الخادم والمنفذ."
+  },
+  "prompt": {
+    "message": "موجه"
+  }
+}

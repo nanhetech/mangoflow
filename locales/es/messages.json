@@ -1,0 +1,251 @@
+{
+  "extensionName": {
+    "message": "MangoFlow: Barra lateral de chat con IA"
+  },
+  "extensionDescription": {
+    "message": "Un compañero útil para navegar por la web, un asistente inteligente para surfear en Internet"
+  },
+  "textareaPlaceholder": {
+    "message": "Ingresa tu mensaje, presiona Enter para enviar"
+  },
+  "settingsTitle": {
+    "message": "Configuración"
+  },
+  "settingsDescription": {
+    "message": "Administra la configuración de tu extensión"
+  },
+  "settingsDomain": {
+    "message": "Dominio"
+  },
+  "settingsDomainDescription": {
+    "message": "Esta es la dirección completa de solicitud para el servicio backend, por ejemplo: https://api.openai.com/v1"
+  },
+  "settingsModelType": {
+    "message": "Tipo de modelo"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "Requiere iniciar el servicio Ollama con el comando OLLAMA_ORIGINS=chrome-extension://* ollama serve"
+  },
+  "settingsApikey": {
+    "message": "Clave API"
+  },
+  "settingsModel": {
+    "message": "Nombre del modelo"
+  },
+  "settingsApikeyDescription": {
+    "message": "Esta es la clave de solicitud para el servicio backend, por ejemplo: sk-xxxxxx, debe obtenerse del servicio backend"
+  },
+  "settingsModelDescription": {
+    "message": "Este es el nombre del modelo para el servicio backend, por ejemplo: davinci, debe obtenerse del servicio backend"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "No todos los modelos admiten el modo de chat"
+  },
+  "settingsDomainError": {
+    "message": "Por favor, ingresa una URL válida"
+  },
+  "settingsApikeyError": {
+    "message": "Por favor, ingresa una clave API válida"
+  },
+  "settingsProfileTitle": {
+    "message": "Perfil"
+  },
+  "settingsProfileDescription": {
+    "message": "Administra tu información de perfil"
+  },
+  "settingsUpdateBtn": {
+    "message": "Actualizar"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "El dominio está vacío"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "Por favor, ingresa un dominio de solicitud válido"
+  },
+  "summary": {
+    "message": "Resumen de página"
+  },
+  "summaryDescription": {
+    "message": "Resume el contenido principal de la página actual"
+  },
+  "settingsSidebarModel": {
+    "message": "Configuración del modelo"
+  },
+  "settingsModelOpenai": {
+    "message": "Otros (tipo OpenAI)"
+  },
+  "settingsGetApikey": {
+    "message": "Obtener clave API"
+  },
+  "newChat": {
+    "message": "Nuevo chat"
+  },
+  "settingsSubmitSuccess": {
+    "message": "Configuración actualizada"
+  },
+  "settingsSystemPrompt": {
+    "message": "Prompt del sistema"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "Este prompt solo funciona en la barra de chat de IA"
+  },
+  "settingsSummatyPrompt": {
+    "message": "Prompt del sistema para la función de resumen"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "Este prompt solo funciona para la función del botón de resumen"
+  },
+  "chatErrorMessage": {
+    "message": "No conectado al servidor, se requiere una configuración correcta del modelo, por favor haz clic"
+  },
+  "settingsPromptModel": {
+    "message": "Configuración de prompts"
+  },
+  "settingsModelsTitle": {
+    "message": "Gestión de modelos"
+  },
+  "settingsModelsDescription": {
+    "message": "Administra toda tu información de modelos. La información del modelo solo se guarda localmente."
+  },
+  "settingsAddModel": {
+    "message": "Agregar nuevo modelo"
+  },
+  "settingsPromptsTitle": {
+    "message": "Gestión de prompts"
+  },
+  "settingsPromptsDescription": {
+    "message": "Administra toda tu información de prompts. La información de prompts solo se guarda localmente."
+  },
+  "settingsSuperButtonTitle": {
+    "message": "Gestión de súper botones"
+  },
+  "deletedSuccessfully": {
+    "message": "Eliminado con éxito"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "¿Estás seguro de que quieres eliminar este modelo?"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "¿Estás seguro de que quieres eliminar este prompt?"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "confirmed": {
+    "message": "Confirmar"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "Por favor, ingresa el título del modelo"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "El título del modelo debe ser una cadena de texto"
+  },
+  "minimum2characters": {
+    "message": "Mínimo 2 caracteres"
+  },
+  "upTo16characters": {
+    "message": "Hasta 16 caracteres"
+  },
+  "upTo512characters": {
+    "message": "Hasta 512 caracteres"
+  },
+  "pleaseSelectModelType": {
+    "message": "Por favor, selecciona el tipo de modelo"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "El tipo de modelo debe ser una cadena de texto"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "La dirección de solicitud del modelo debe ser una cadena de texto"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "Dirección de solicitud del modelo con formato incorrecto"
+  },
+  "apikeyMustBeAString": {
+    "message": "La clave API debe ser una cadena de texto"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "Por favor, ingresa el nombre del modelo"
+  },
+  "theModelNameMustBeAString": {
+    "message": "El nombre del modelo debe ser una cadena de texto"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "Por favor, completa la información del modelo a continuación"
+  },
+  "modelTitle": {
+    "message": "Título del modelo"
+  },
+  "promptTitle": {
+    "message": "Título del prompt"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "Por favor, ingresa el título del prompt"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "El título del prompt debe ser una cadena de texto"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "Por favor, ingresa el cuerpo del prompt del sistema"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "El prompt del sistema debe ser una cadena de texto"
+  },
+  "modifyingPromptInformation": {
+    "message": "Modificando información del prompt"
+  },
+  "addAPrompt": {
+    "message": "Agregar un nuevo prompt"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "Por favor, completa la información del prompt a continuación"
+  },
+  "systemPrompt": {
+    "message": "Cuerpo del prompt del sistema"
+  },
+  "save": {
+    "message": "Guardar"
+  },
+  "add": {
+    "message": "Agregar"
+  },
+  "edit": {
+    "message": "Editar"
+  },
+  "delete": {
+    "message": "Eliminar"
+  },
+  "actions": {
+    "message": "Acciones"
+  },
+  "youHaveNoModels": {
+    "message": "Aún no tienes información de modelos"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "Después de agregar un modelo, podrás chatear con la IA."
+  },
+  "youHaveNoPrompts": {
+    "message": "Aún no tienes información de prompts"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "Después de agregar prompts del sistema, podrás chatear con la IA."
+  },
+  "selectAPrompt": {
+    "message": "Seleccionar un prompt del sistema"
+  },
+  "promptTemplate": {
+    "message": "Plantilla de prompt"
+  },
+  "networkError": {
+    "message": "No se puede acceder al servidor"
+  },
+  "networkErrorDescription": {
+    "message": "Por favor, compruebe su configuración de red y asegúrese de que la dirección y el puerto del servidor sean correctos."
+  },
+  "prompt": {
+    "message": "Prompt"
+  }
+}

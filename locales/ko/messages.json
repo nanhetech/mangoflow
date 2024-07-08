@@ -1,12 +1,12 @@
 {
   "extensionName": {
-    "message": "MongoFlow: AI 대화 사이드바"
+    "message": "MangoFlow: AI 채팅 사이드바"
   },
   "extensionDescription": {
-    "message": "인터넷 서핑의 좋은 파트너, 웹 페이지 탐색을 위한 지능형 도우미"
+    "message": "웹 브라우징을 위한 유용한 동반자, 인터넷 서핑을 위한 지능형 도우미"
   },
   "textareaPlaceholder": {
-    "message": "메시지를 입력하고 Enter 키를 눌러 전송하세요."
+    "message": "메시지를 입력하고 Enter 키를 눌러 보내세요"
   },
   "settingsTitle": {
     "message": "설정"
@@ -27,28 +27,28 @@
     "message": ""
   },
   "settingsOllamaModelTypeDescription": {
-    "message": "OLLAMA_ORIGINS=chrome-extension://* ollama serve 명령을 사용하여 Ollama 서비스를 시작해야 합니다."
+    "message": "Ollama 서비스를 다음 명령으로 시작해야 합니다: OLLAMA_ORIGINS=chrome-extension://* ollama serve"
   },
   "settingsApikey": {
-    "message": "키"
+    "message": "API 키"
   },
   "settingsModel": {
     "message": "모델 이름"
   },
   "settingsApikeyDescription": {
-    "message": "백엔드 서비스의 요청 키입니다. 예: sk-xxxxxx. 백엔드 서비스에서 가져와야 합니다."
+    "message": "백엔드 서비스의 요청 키입니다. 예: sk-xxxxxx, 백엔드 서비스에서 얻을 수 있습니다"
   },
   "settingsModelDescription": {
-    "message": "백엔드 서비스의 모델 이름입니다. 예: davinci. 백엔드 서비스에서 가져와야 합니다."
+    "message": "백엔드 서비스의 모델 이름입니다. 예: davinci, 백엔드 서비스에서 얻을 수 있습니다"
   },
   "settingsModelNameOllamaDescription": {
-    "message": "모든 모델이 채팅 모드를 지원하는 것은 아닙니다."
+    "message": "모든 모델이 채팅 모드를 지원하는 것은 아닙니다"
   },
   "settingsDomainError": {
-    "message": "올바른 URL 을 입력하세요."
+    "message": "유효한 URL 을 입력해 주세요"
   },
   "settingsApikeyError": {
-    "message": "올바른 API 키를 입력하세요."
+    "message": "유효한 API 키를 입력해 주세요"
   },
   "settingsProfileTitle": {
     "message": "프로필"
@@ -60,46 +60,46 @@
     "message": "업데이트"
   },
   "sidepanelDomainErrorTitle": {
-    "message": "도메인이 비어 있습니다."
+    "message": "도메인이 비어 있습니다"
   },
   "sidepanelDomainErrorDescription": {
-    "message": "올바른 요청 도메인을 입력하세요."
+    "message": "유효한 요청 도메인을 입력해 주세요"
   },
   "summary": {
     "message": "페이지 요약"
   },
   "summaryDescription": {
-    "message": "현재 페이지의 주요 내용 요약"
+    "message": "현재 페이지의 주요 내용을 요약합니다"
   },
   "settingsSidebarModel": {
     "message": "모델 설정"
   },
   "settingsModelOpenai": {
-    "message": "기타 (OpenAI 유형)"
+    "message": "기타 (OpenAI 유사)"
   },
   "settingsGetApikey": {
-    "message": "API 키 가져오기"
+    "message": "API 키 얻기"
   },
   "newChat": {
-    "message": "새 대화"
+    "message": "새 채팅"
   },
   "settingsSubmitSuccess": {
-    "message": "설정이 업데이트되었습니다."
+    "message": "설정이 업데이트되었습니다"
   },
   "settingsSystemPrompt": {
     "message": "시스템 프롬프트"
   },
   "settingsSystemPromptDescription": {
-    "message": "이 프롬프트는 AI 대화 창에서만 작동합니다."
+    "message": "이 프롬프트는 AI 채팅 바에서만 작동합니다"
   },
   "settingsSummatyPrompt": {
     "message": "요약 기능 시스템 프롬프트"
   },
   "settingsSummatyPromptDescription": {
-    "message": "이 프롬프트는 요약 버튼 기능에서만 작동합니다."
+    "message": "이 프롬프트는 요약 버튼 기능에서만 작동합니다"
   },
   "chatErrorMessage": {
-    "message": "서버에 연결되지 않았습니다. 모델 정보를 올바르게 구성해야 합니다. 클릭하세요."
+    "message": "서버에 연결되지 않았습니다. 올바른 모델 구성이 필요합니다. 클릭해 주세요"
   },
   "settingsPromptModel": {
     "message": "프롬프트 설정"
@@ -107,10 +107,145 @@
   "settingsModelsTitle": {
     "message": "모델 관리"
   },
+  "settingsModelsDescription": {
+    "message": "모든 모델 정보를 관리합니다. 모델 정보는 로컬에만 저장됩니다."
+  },
+  "settingsAddModel": {
+    "message": "새 모델 추가"
+  },
   "settingsPromptsTitle": {
     "message": "프롬프트 관리"
   },
+  "settingsPromptsDescription": {
+    "message": "모든 프롬프트 정보를 관리합니다. 프롬프트 정보는 로컬에만 저장됩니다."
+  },
   "settingsSuperButtonTitle": {
     "message": "슈퍼 버튼 관리"
+  },
+  "deletedSuccessfully": {
+    "message": "성공적으로 삭제되었습니다"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "이 모델을 삭제하시겠습니까?"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "이 프롬프트를 삭제하시겠습니까?"
+  },
+  "cancel": {
+    "message": "취소"
+  },
+  "confirmed": {
+    "message": "확인"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "모델 제목을 입력해 주세요"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "모델 제목은 문자열이어야 합니다"
+  },
+  "minimum2characters": {
+    "message": "최소 2 자"
+  },
+  "upTo16characters": {
+    "message": "최대 16 자"
+  },
+  "upTo512characters": {
+    "message": "최대 512 자"
+  },
+  "pleaseSelectModelType": {
+    "message": "모델 유형을 선택해 주세요"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "모델 유형은 문자열이어야 합니다"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "모델 요청 주소는 문자열이어야 합니다"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "잘못된 형식의 모델 요청 주소"
+  },
+  "apikeyMustBeAString": {
+    "message": "API 키는 문자열이어야 합니다"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "모델 이름을 입력해 주세요"
+  },
+  "theModelNameMustBeAString": {
+    "message": "모델 이름은 문자열이어야 합니다"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "아래에 모델 정보를 입력해 주세요"
+  },
+  "modelTitle": {
+    "message": "모델 제목"
+  },
+  "promptTitle": {
+    "message": "프롬프트 제목"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "프롬프트 제목을 입력해 주세요"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "프롬프트 제목은 문자열이어야 합니다"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "시스템 프롬프트 본문을 입력해 주세요"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "시스템 프롬프트는 문자열이어야 합니다"
+  },
+  "modifyingPromptInformation": {
+    "message": "프롬프트 정보 수정"
+  },
+  "addAPrompt": {
+    "message": "새 프롬프트 추가"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "아래에 프롬프트 정보를 입력해 주세요"
+  },
+  "systemPrompt": {
+    "message": "시스템 프롬프트 본문"
+  },
+  "save": {
+    "message": "저장"
+  },
+  "add": {
+    "message": "추가"
+  },
+  "edit": {
+    "message": "편집"
+  },
+  "delete": {
+    "message": "삭제"
+  },
+  "actions": {
+    "message": "작업"
+  },
+  "youHaveNoModels": {
+    "message": "아직 모델 정보가 없습니다"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "모델을 추가한 후 AI 와 채팅할 수 있습니다."
+  },
+  "youHaveNoPrompts": {
+    "message": "아직 프롬프트 정보가 없습니다"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "시스템 프롬프트를 추가한 후 AI 와 채팅할 수 있습니다."
+  },
+  "selectAPrompt": {
+    "message": "시스템 프롬프트 선택"
+  },
+  "promptTemplate": {
+    "message": "프롬프트 템플릿"
+  },
+  "networkError": {
+    "message": "서버에 접속할 수 없습니다"
+  },
+  "networkErrorDescription": {
+    "message": "네트워크 설정을 확인하고 서버 주소와 포트가 올바른지 확인해 주세요."
+  },
+  "prompt": {
+    "message": "프롬프트"
   }
 }

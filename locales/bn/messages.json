@@ -1,0 +1,251 @@
+{
+  "extensionName": {
+    "message": "MangoFlow: এআই চ্যাট সাইডবার"
+  },
+  "extensionDescription": {
+    "message": "ওয়েব ব্রাউজিংয়ের জন্য একটি সহায়ক সঙ্গী, ইন্টারনেট সার্ফিংয়ের জন্য একটি বুদ্ধিমান সহকারী"
+  },
+  "textareaPlaceholder": {
+    "message": "আপনার বার্তা লিখুন, পাঠাতে Enter চাপুন"
+  },
+  "settingsTitle": {
+    "message": "সেটিংস"
+  },
+  "settingsDescription": {
+    "message": "আপনার প্লাগইন কনফিগারেশন পরিচালনা করুন"
+  },
+  "settingsDomain": {
+    "message": "ডোমেইন"
+  },
+  "settingsDomainDescription": {
+    "message": "এটি ব্যাকএন্ড সার্ভিসের সম্পূর্ণ অনুরোধ ঠিকানা, উদাহরণস্বরূপ: https://api.openai.com/v1"
+  },
+  "settingsModelType": {
+    "message": "মডেল টাইপ"
+  },
+  "settingsModelTypeDescription": {
+    "message": ""
+  },
+  "settingsOllamaModelTypeDescription": {
+    "message": "Ollama সার্ভিস শুরু করার জন্য OLLAMA_ORIGINS=chrome-extension://* ollama serve কমান্ড ব্যবহার করা প্রয়োজন"
+  },
+  "settingsApikey": {
+    "message": "API কী"
+  },
+  "settingsModel": {
+    "message": "মডেলের নাম"
+  },
+  "settingsApikeyDescription": {
+    "message": "এটি ব্যাকএন্ড সার্ভিসের অনুরোধ কী, উদাহরণস্বরূপ: sk-xxxxxx, ব্যাকএন্ড সার্ভিস থেকে পেতে হবে"
+  },
+  "settingsModelDescription": {
+    "message": "এটি ব্যাকএন্ড সার্ভিসের মডেল নাম, উদাহরণস্বরূপ: davinci, ব্যাকএন্ড সার্ভিস থেকে পেতে হবে"
+  },
+  "settingsModelNameOllamaDescription": {
+    "message": "সব মডেল চ্যাট মোড সমর্থন করে না"
+  },
+  "settingsDomainError": {
+    "message": "অনুগ্রহ করে একটি সঠিক URL প্রবেশ করান"
+  },
+  "settingsApikeyError": {
+    "message": "অনুগ্রহ করে একটি সঠিক API কী প্রবেশ করান"
+  },
+  "settingsProfileTitle": {
+    "message": "প্রোফাইল"
+  },
+  "settingsProfileDescription": {
+    "message": "আপনার প্রোফাইল তথ্য পরিচালনা করুন"
+  },
+  "settingsUpdateBtn": {
+    "message": "আপডেট"
+  },
+  "sidepanelDomainErrorTitle": {
+    "message": "ডোমেইন খালি"
+  },
+  "sidepanelDomainErrorDescription": {
+    "message": "অনুগ্রহ করে একটি সঠিক অনুরোধ ডোমেইন প্রবেশ করান"
+  },
+  "summary": {
+    "message": "পৃষ্ঠার সারাংশ"
+  },
+  "summaryDescription": {
+    "message": "বর্তমান পৃষ্ঠার প্রধান বিষয়বস্তু সংক্ষেপ করুন"
+  },
+  "settingsSidebarModel": {
+    "message": "মডেল সেটিংস"
+  },
+  "settingsModelOpenai": {
+    "message": "অন্যান্য (OpenAI ধরনের)"
+  },
+  "settingsGetApikey": {
+    "message": "API কী পান"
+  },
+  "newChat": {
+    "message": "নতুন চ্যাট"
+  },
+  "settingsSubmitSuccess": {
+    "message": "সেটিংস আপডেট করা হয়েছে"
+  },
+  "settingsSystemPrompt": {
+    "message": "সিস্টেম প্রম্পট"
+  },
+  "settingsSystemPromptDescription": {
+    "message": "এই প্রম্পট শুধুমাত্র AI চ্যাট বারে কাজ করে"
+  },
+  "settingsSummatyPrompt": {
+    "message": "সারাংশ ফাংশন সিস্টেম প্রম্পট"
+  },
+  "settingsSummatyPromptDescription": {
+    "message": "এই প্রম্পট শুধুমাত্র সারাংশ বাটন ফাংশনে কাজ করে"
+  },
+  "chatErrorMessage": {
+    "message": "সার্ভারের সাথে সংযোগ নেই, সঠিক মডেল কনফিগারেশন প্রয়োজন, অনুগ্রহ করে ক্লিক করুন"
+  },
+  "settingsPromptModel": {
+    "message": "প্রম্পট সেটিংস"
+  },
+  "settingsModelsTitle": {
+    "message": "মডেল পরিচালনা"
+  },
+  "settingsModelsDescription": {
+    "message": "আপনার সমস্ত মডেল তথ্য পরিচালনা করুন। মডেল তথ্য শুধুমাত্র স্থানীয়ভাবে সংরক্ষিত হয়।"
+  },
+  "settingsAddModel": {
+    "message": "নতুন মডেল যোগ করুন"
+  },
+  "settingsPromptsTitle": {
+    "message": "প্রম্পট পরিচালনা"
+  },
+  "settingsPromptsDescription": {
+    "message": "আপনার সমস্ত প্রম্পট তথ্য পরিচালনা করুন। প্রম্পট তথ্য শুধুমাত্র স্থানীয়ভাবে সংরক্ষিত হয়।"
+  },
+  "settingsSuperButtonTitle": {
+    "message": "সুপার বাটন পরিচালনা"
+  },
+  "deletedSuccessfully": {
+    "message": "সফলভাবে মুছে ফেলা হয়েছে"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "আপনি কি নিশ্চিত যে আপনি এই মডেলটি মুছে ফেলতে চান?"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "আপনি কি নিশ্চিত যে আপনি এই প্রম্পটটি মুছে ফেলতে চান?"
+  },
+  "cancel": {
+    "message": "বাতিল"
+  },
+  "confirmed": {
+    "message": "নিশ্চিত"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "অনুগ্রহ করে মডেলের শিরোনাম পূরণ করুন"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "মডেলের শিরোনাম অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "minimum2characters": {
+    "message": "ন্যূনতম ২টি অক্ষর"
+  },
+  "upTo16characters": {
+    "message": "সর্বোচ্চ ১৬টি অক্ষর"
+  },
+  "upTo512characters": {
+    "message": "সর্বোচ্চ ৫১২টি অক্ষর"
+  },
+  "pleaseSelectModelType": {
+    "message": "অনুগ্রহ করে মডেল টাইপ নির্বাচন করুন"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "মডেল টাইপ অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "মডেল অনুরোধ ঠিকানা অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "ভুলভাবে বিন্যাসকৃত মডেল অনুরোধ ঠিকানা"
+  },
+  "apikeyMustBeAString": {
+    "message": "API কী অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "অনুগ্রহ করে মডেলের নাম পূরণ করুন"
+  },
+  "theModelNameMustBeAString": {
+    "message": "মডেলের নাম অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "অনুগ্রহ করে নীচে মডেল তথ্য পূরণ করুন"
+  },
+  "modelTitle": {
+    "message": "মডেল শিরোনাম"
+  },
+  "promptTitle": {
+    "message": "প্রম্পট শিরোনাম"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "অনুগ্রহ করে প্রম্পট শিরোনাম পূরণ করুন"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "প্রম্পট শিরোনাম অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "অনুগ্রহ করে সিস্টেম প্রম্পটের মূল অংশ পূরণ করুন"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "সিস্টেম প্রম্পট অবশ্যই একটি স্ট্রিং হতে হবে"
+  },
+  "modifyingPromptInformation": {
+    "message": "প্রম্পট তথ্য পরিবর্তন করা হচ্ছে"
+  },
+  "addAPrompt": {
+    "message": "একটি নতুন প্রম্পট যোগ করুন"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "অনুগ্রহ করে নীচে প্রম্পট তথ্য পূরণ করুন"
+  },
+  "systemPrompt": {
+    "message": "সিস্টেম প্রম্পটের মূল অংশ"
+  },
+  "save": {
+    "message": "সংরক্ষণ"
+  },
+  "add": {
+    "message": "যোগ করুন"
+  },
+  "edit": {
+    "message": "সম্পাদনা"
+  },
+  "delete": {
+    "message": "মুছুন"
+  },
+  "actions": {
+    "message": "কার্যক্রম"
+  },
+  "youHaveNoModels": {
+    "message": "আপনার এখনও কোনও মডেল তথ্য নেই"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "একটি মডেল যোগ করার পরে, আপনি AI এর সাথে চ্যাট করতে পারবেন।"
+  },
+  "youHaveNoPrompts": {
+    "message": "আপনার এখনও কোনও প্রম্পট তথ্য নেই"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "সিস্টেম প্রম্পট যোগ করার পরে, আপনি AI এর সাথে চ্যাট করতে পারবেন।"
+  },
+  "selectAPrompt": {
+    "message": "একটি সিস্টেম প্রম্পট নির্বাচন করুন"
+  },
+  "promptTemplate": {
+    "message": "প্রম্পট টেমপ্লেট"
+  },
+  "networkError": {
+    "message": "সার্ভারে প্রবেশ করা যাচ্ছে না"
+  },
+  "networkErrorDescription": {
+    "message": "অনুগ্রহ করে আপনার নেটওয়ার্ক সেটিংস পরীক্ষা করুন এবং সার্ভার ঠিকানা ও পোর্ট সঠিক কিনা নিশ্চিত করুন।"
+  },
+  "prompt": {
+    "message": "প্রম্পট"
+  }
+}

@@ -291,11 +291,11 @@ const InputBox = () => {
       <div className="flex items-center gap-2">
         <Select value={activePrompt?.id} onValueChange={handleSetActivePrompt}>
           <SelectTrigger className="w-auto max-w-full space-x-1">
-            <span>Prompt:</span><SelectValue placeholder="Select a prompt" />
+            <span>{chrome.i18n.getMessage("prompt")}:</span><SelectValue placeholder={chrome.i18n.getMessage("selectAPrompt")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Prompt template</SelectLabel>
+              <SelectLabel>{chrome.i18n.getMessage("promptTemplate")}</SelectLabel>
               {prompts?.map(({ id, title }) => (
                 <SelectItem value={id} key={id}>{title}</SelectItem>
               ))}
@@ -344,10 +344,10 @@ export default function RegisterIndex() {
   useEffect(() => {
     assistantPort.listen(data => {
       if (data?.error) {
-        toast(data?.error || "无法访问服务器", {
-          description: "可能是配置不正确或者网络被阻止",
+        toast(data?.error || chrome.i18n.getMessage("networkError"), {
+          description: chrome.i18n.getMessage("networkErrorDescription"),
           action: {
-            label: '设置模型信息',
+            label: chrome.i18n.getMessage("settingsModelsTitle"),
             onClick: () => chrome.runtime.openOptionsPage()
           },
         })
@@ -380,7 +380,7 @@ export default function RegisterIndex() {
       </ScrollArea>
       {!chats.length && (
         <div className="flex flex-col justify-center items-center h-full w-full space-y-1 pointer-events-none select-none">
-          <i className="inline-block icon-[fluent-emoji--man-bowing] text-5xl" />
+          <i className="inline-block icon-[fluent-emoji--beaming-face-with-smiling-eyes] text-5xl" />
           <p>MangoFlow</p>
         </div>
       )}

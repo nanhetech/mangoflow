@@ -107,10 +107,145 @@
   "settingsModelsTitle": {
     "message": "模型管理"
   },
+  "settingsModelsDescription": {
+    "message": "管理你的所有模型信息，模型信息只保存在本地。"
+  },
+  "settingsAddModel": {
+    "message": "添加新的模型"
+  },
   "settingsPromptsTitle": {
     "message": "提示词管理"
   },
+  "settingsPromptsDescription": {
+    "message": "管理你的所有提示词信息，提示词信息只保存在本地。"
+  },
   "settingsSuperButtonTitle": {
     "message": "超级按钮管理"
+  },
+  "deletedSuccessfully": {
+    "message": "删除成功"
+  },
+  "sureAboutDeletingThisModel": {
+    "message": "确定删除这个模型？"
+  },
+  "sureAboutDeletingThisPrompt": {
+    "message": "确定删除这个提示词吗？"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "confirmed": {
+    "message": "确认"
+  },
+  "pleaseFillInTheModelTitle": {
+    "message": "请填写模型标题"
+  },
+  "theModelTitleMustBeAString": {
+    "message": "模型标题必须是字符串"
+  },
+  "minimum2characters": {
+    "message": "最少 2 个字符"
+  },
+  "upTo16characters": {
+    "message": "最大长度为 16 个字符"
+  },
+  "upTo512characters": {
+    "message": "最大长度为 512 个字符"
+  },
+  "pleaseSelectModelType": {
+    "message": "请选择模型类型"
+  },
+  "theModelTypeMustBeAString": {
+    "message": "模型类型必须是字符串"
+  },
+  "theModelRequestAddressMustBeAString": {
+    "message": "模型请求地址必须是字符串"
+  },
+  "incorrectlyFormattedModelRequestAddress": {
+    "message": "模型请求地址格式不正确"
+  },
+  "apikeyMustBeAString": {
+    "message": "apikey 必须是字符串"
+  },
+  "pleaseFillInTheModelName": {
+    "message": "请填写模型名称"
+  },
+  "theModelNameMustBeAString": {
+    "message": "模型名称必须是字符串"
+  },
+  "pleasefillInTheModelInformationBelow": {
+    "message": "请填写模型信息信息"
+  },
+  "modelTitle": {
+    "message": "模型标题"
+  },
+  "promptTitle": {
+    "message": "提示词标题"
+  },
+  "pleaseFillInThePromptTitle": {
+    "message": "请填写提示词标题"
+  },
+  "thePromptTitleMustBeAString": {
+    "message": "提示词标题必须是字符串"
+  },
+  "pleaseFillInTheBodyOfTheSystemPrompt": {
+    "message": "请填写系统提示词正文"
+  },
+  "theSystemPromptMustBeAString": {
+    "message": "系统提示词必须是字符串"
+  },
+  "modifyingPromptInformation": {
+    "message": "修改提示词信息"
+  },
+  "addAPrompt": {
+    "message": "添加新的提示词"
+  },
+  "pleaseFillInThePromptInformationBelow": {
+    "message": "请填写提示词信息"
+  },
+  "systemPrompt": {
+    "message": "系统提示词正文"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "add": {
+    "message": "添加"
+  },
+  "edit": {
+    "message": "修改"
+  },
+  "delete": {
+    "message": "删除"
+  },
+  "actions": {
+    "message": "操作"
+  },
+  "youHaveNoModels": {
+    "message": "你还没有任何模型信息"
+  },
+  "youHaveNoModelsDescription": {
+    "message": "添加模型后，您可以与人工智能对话。"
+  },
+  "youHaveNoPrompts": {
+    "message": "你还没有任何提示词信息"
+  },
+  "youHaveNoPromptsDescription": {
+    "message": "添加系统提示词后，您可以与人工智能对话。"
+  },
+  "selectAPrompt": {
+    "message": "选择一个系统提示词"
+  },
+  "promptTemplate": {
+    "message": "提示词模板"
+  },
+  "networkError": {
+    "message": "无法访问服务器"
+  },
+  "networkErrorDescription": {
+    "message": "请检查您的网络设置，并确保服务器地址和端口正确。"
+  },
+  "prompt": {
+    "message": "提示词"
   }
 }
