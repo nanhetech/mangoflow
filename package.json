@@ -1,7 +1,7 @@
 {
   "name": "mangoflow",
   "displayName": "__MSG_extensionName__",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "__MSG_extensionDescription__",
   "author": "Henry Zhang <hello@zhanghe.dev>",
   "scripts": {
